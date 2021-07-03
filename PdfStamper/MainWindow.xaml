@@ -1,0 +1,14 @@
+﻿<Window x:Class="PdfStamper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PdfStamper"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Button x:Name="executeBtn" Content="GO!" HorizontalAlignment="Left" Height="62" Margin="39,29,0,0" VerticalAlignment="Top" Width="104" Click="executeBtn_Click"/>
+        <TextBlock x:Name="outputTxt" HorizontalAlignment="Left" Height="247" Margin="39,120,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="701"/>
+
+    </Grid>
+</Window>

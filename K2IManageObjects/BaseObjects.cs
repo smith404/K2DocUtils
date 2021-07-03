@@ -159,7 +159,8 @@ namespace K2IManageObjects
 
     public class IMDocument : IMDBObject
     {
-        public int document_number { get; set; }
+        [JsonProperty(PropertyName = "document_number")]
+        public int DocumentNumber { get; set; }
 
         public int version { get; set; }
 
@@ -195,7 +196,8 @@ namespace K2IManageObjects
 
         public string default_security { get; set; }
 
-        public string last_user { get; set; }
+        [JsonProperty(PropertyName = "last_user")]
+        public string LastUser { get; set; }
 
         public string in_use_by { get; set; }
 

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "K2IManageObjects", "K2IMana
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "K2IMInterface", "K2IMInterface\K2IMInterface.csproj", "{0839F575-D124-4B7A-A7FC-4EA1322A348D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfStamper", "PdfStamper\PdfStamper.csproj", "{BD9A5DD8-A27A-4101-8033-959E365A5F53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0839F575-D124-4B7A-A7FC-4EA1322A348D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0839F575-D124-4B7A-A7FC-4EA1322A348D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0839F575-D124-4B7A-A7FC-4EA1322A348D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD9A5DD8-A27A-4101-8033-959E365A5F53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD9A5DD8-A27A-4101-8033-959E365A5F53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD9A5DD8-A27A-4101-8033-959E365A5F53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD9A5DD8-A27A-4101-8033-959E365A5F53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
