@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31410.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "K2IManageObjects", "K2IManageObjects\K2IManageObjects.csproj", "{0913590D-5EBC-4536-ABA7-C2D3868711C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "K2IMInterface", "K2IMInterface\K2IMInterface.csproj", "{0839F575-D124-4B7A-A7FC-4EA1322A348D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0913590D-5EBC-4536-ABA7-C2D3868711C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0913590D-5EBC-4536-ABA7-C2D3868711C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0913590D-5EBC-4536-ABA7-C2D3868711C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0913590D-5EBC-4536-ABA7-C2D3868711C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0839F575-D124-4B7A-A7FC-4EA1322A348D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0839F575-D124-4B7A-A7FC-4EA1322A348D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0839F575-D124-4B7A-A7FC-4EA1322A348D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0839F575-D124-4B7A-A7FC-4EA1322A348D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B8F176BC-3075-46B8-92A4-4BC3DBC0D39E}
+	EndGlobalSection
+EndGlobal
