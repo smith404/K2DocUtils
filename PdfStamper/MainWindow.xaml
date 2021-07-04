@@ -7,8 +7,24 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button x:Name="executeBtn" Content="GO!" HorizontalAlignment="Left" Height="62" Margin="39,29,0,0" VerticalAlignment="Top" Width="104" Click="executeBtn_Click"/>
-        <TextBlock x:Name="outputTxt" HorizontalAlignment="Left" Height="247" Margin="39,120,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="701"/>
+        <DockPanel Margin="10,120,10,10">
+            <WrapPanel HorizontalAlignment="Center" DockPanel.Dock="Top" Margin="0,0,0,10">
+                <Button Name="btnOpenFile" Click="btnOpenFile_Click">Open file</Button>
+            </WrapPanel>
+            <TextBox Name="txtEditor" />
+        </DockPanel>
+
+        <Button x:Name="executeBtn" Content="GO!" HorizontalAlignment="Left" Height="25" Margin="19,18,0,0" VerticalAlignment="Top" Width="53" Click="executeBtn_Click"/>
+        <TextBlock x:Name="outputTxt" HorizontalAlignment="Left" Height="87" Margin="82,10,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="683" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleY="-0.529"/>
+                    <RotateTransform/>
+                    <TranslateTransform Y="2.263"/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
 
     </Grid>
 </Window>

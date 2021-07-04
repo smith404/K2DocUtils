@@ -45,17 +45,17 @@ namespace K2IMInterface
 
         public string APIVersion { get; set; }
 
-        public string constructDocDownload(string id)
+        public string ConstructDocDownload(string id)
         {
             return BaseURI + APIVersion + "documents/" + id + "/download";
         }
 
-        public string constructDocSearch(string term, int offset)
+        public string ConstructDocSearch(string term, int offset)
         {
             return BaseURI + APIVersion + "documents/search?anywhere=" + term + "&offset=" + offset;
         }
 
-        public string getREST(string uri)
+        public string MakeGetCall(string uri)
         {
             HttpWebRequest req = (HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
 

@@ -1,5 +1,9 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.IO;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,11 +31,37 @@ namespace PdfStamper
 
         private void executeBtn_Click(object sender, RoutedEventArgs e)
         {
-            //SecurityInfo si = new SecurityInfo();
+            // Create a new PDF document
+            PdfDocument document = new PdfDocument();
 
-            //si.resetPasswords();
+            SecurityInfo si = new SecurityInfo(document.SecuritySettings);
 
-            //this.outputTxt.Text = "Admin PWD: " + si.AdminPassword;
+            si.ResetPasswords();
+
+            this.outputTxt.Text = "Admin PWD: " + si.AdminPassword;
         }
+
+        private void btnOpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Pdf Files (*.pdf)|*.pdf";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                // Open the output document
+                PdfDocument outputDocument = new PdfDocument();
+
+                // Open the document to import pages from it.
+                PdfDocument inputDocument = PdfReader.Open(openFileDialog.FileName, PdfDocumentOpenMode.Import);
+
+                Watermark wm = new Watermark("Bollocks");
+
+                wm.WatermarkDocument(inputDocument, outputDocument);
+
+                string filename = "ConcatenatedDocument1.pdf";
+                outputDocument.Save(filename);
+            }
+        }
+
     }
 }

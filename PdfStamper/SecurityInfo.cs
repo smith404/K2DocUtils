@@ -59,16 +59,16 @@ namespace PdfStamper
         {
             this.pss = pss;
 
-            resetPasswords();
+            ResetPasswords();
         }
 
-        public void resetPasswords()
+        public void ResetPasswords()
         {
             UserPassword = KeyGenerator.GetUniqueKey(16);
             AdminPassword = KeyGenerator.GetUniqueKey(24);
         }
 
-        public void setPermitOption(int options)
+        public void SetPermitOption(int options)
         {
             pss.PermitAccessibilityExtractContent = (options & PermitAccessibilityExtractContent) > 0;
             pss.PermitAnnotations = (options & PermitAnnotations) > 0;
