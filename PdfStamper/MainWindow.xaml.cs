@@ -27,11 +27,11 @@ namespace PdfStamper
 
         private void executeBtn_Click(object sender, RoutedEventArgs e)
         {
-            SecurityInfo si = new SecurityInfo();
+            //SecurityInfo si = new SecurityInfo();
 
-            si.restPasswords();
+            //si.resetPasswords();
 
-            this.outputTxt.Text = "Admin PWD: " + si.AdminPassword;
+            //this.outputTxt.Text = "Admin PWD: " + si.AdminPassword;
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.Security;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -10,6 +13,7 @@ namespace PdfStamper
     // #SO https://stackoverflow.com/questions/1344221/how-can-i-generate-random-alphanumeric-strings
     public class KeyGenerator
     {
+
         internal static readonly char[] chars =
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
 
@@ -31,35 +35,50 @@ namespace PdfStamper
 
             return result.ToString();
         }
-
-        public static string GetUniqueKeyOriginal_BIASED(int size)
-        {
-            char[] chars =
-                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
-            byte[] data = new byte[size];
-            using (RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider())
-            {
-                crypto.GetBytes(data);
-            }
-            StringBuilder result = new StringBuilder(size);
-            foreach (byte b in data)
-            {
-                result.Append(chars[b % (chars.Length)]);
-            }
-            return result.ToString();
-        }
     }
 
-    class SecurityInfo
+    public class SecurityInfo
     {
+        PdfSecuritySettings pss = null;
+
+        public static byte PermitAccessibilityExtractContent =  0b00000001;
+        public static byte PermitAnnotations =                  0b00000010;
+        public static byte PermitAssembleDocument =             0b00000100;
+        public static byte PermitExtractContent =               0b00001000;
+        public static byte PermitFormsFill =                    0b00010000;
+        public static byte PermitFullQualityPrint =             0b00100000;
+        public static byte PermitModifyDocument =               0b01000000;
+        public static byte PermitPrint =                        0b10000000;
+        public static byte PermitAllPrint =                     (byte)(PermitPrint | PermitFullQualityPrint);
+
         public string UserPassword { get; set; }
 
         public string AdminPassword { get; set; }
 
-        public void restPasswords()
+        public SecurityInfo(PdfSecuritySettings pss)
+        {
+            this.pss = pss;
+
+            resetPasswords();
+        }
+
+        public void resetPasswords()
         {
             UserPassword = KeyGenerator.GetUniqueKey(16);
             AdminPassword = KeyGenerator.GetUniqueKey(24);
         }
+
+        public void setPermitOption(int options)
+        {
+            pss.PermitAccessibilityExtractContent = (options & PermitAccessibilityExtractContent) > 0;
+            pss.PermitAnnotations = (options & PermitAnnotations) > 0;
+            pss.PermitAssembleDocument = (options & PermitAssembleDocument) > 0;
+            pss.PermitExtractContent = (options & PermitExtractContent) > 0;
+            pss.PermitFormsFill = (options & PermitFormsFill) > 0;
+            pss.PermitFullQualityPrint = (options & PermitFullQualityPrint) > 0;
+            pss.PermitModifyDocument = (options & PermitModifyDocument) > 0;
+            pss.PermitPrint = (options & PermitPrint) > 0;
+        }
+
     }
 }
