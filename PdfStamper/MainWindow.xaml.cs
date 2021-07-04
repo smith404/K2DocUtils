@@ -24,21 +24,26 @@ namespace PdfStamper
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Explorer workspaceExplorer = null;
+
         public MainWindow()
         {
             InitializeComponent();
+            workspaceExplorer = new Explorer(treeView);
         }
+
 
         private void executeBtn_Click(object sender, RoutedEventArgs e)
         {
             // Create a new PDF document
-            PdfDocument document = new PdfDocument();
+            //PdfDocument document = new PdfDocument();
 
-            SecurityInfo si = new SecurityInfo(document.SecuritySettings);
+            //SecurityInfo si = new SecurityInfo(document.SecuritySettings);
 
-            si.ResetPasswords();
+            //si.ResetPasswords();
 
-            this.outputTxt.Text = "Admin PWD: " + si.AdminPassword;
+            //this.outputTxt.Text = "Admin PWD: " + si.AdminPassword;
+            this.outputTxt.Text = "Admin PWD: " + workspaceExplorer.FindSelected();
         }
 
         private void btnOpenFile_Click(object sender, RoutedEventArgs e)
