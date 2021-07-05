@@ -18,79 +18,48 @@ namespace PdfStamper
         Document
     }
 
-    // http://codesdirectory.blogspot.com/2013/01/c-wpf-treeview-file-explorer.html
-    class Explorer
+    public class TreeViewItemHolder : TreeViewItem
     {
-        private TreeView treeView;
-
-        public Explorer(TreeView treeView)
+        public TreeViewItemHolder()
+            : base()
         {
-            this.treeView = treeView;
-            LoadDirectories();
+            base.Header = "Place Holder";
+            base.Tag = "Place Holder";
         }
+    }
 
-        public void LoadDirectories()
+    class ExplorerItem : TreeViewItem
+    {
+        private StackPanel stack = new StackPanel();
+        private readonly Label lbl;
+        private readonly CheckBox cb;
+        private readonly Image image;
+
+        public ExplorerItem(EntryType type, string text, object context)
         {
-            var drives = DriveInfo.GetDrives();
-            foreach (var drive in drives)
-            {
-                this.treeView.Items.Add(this.GetItem(drive));
-            }
-        }
-
-        private TreeViewItem GetItem(DriveInfo drive)
-        {
-            var item = CreateItem(EntryType.Workspace, drive.Name, drive, "workspace");
-
-            this.AddHolder(item);
-            item.Expanded += new RoutedEventHandler(item_Expanded);
-            return item;
-        }
-
-        private TreeViewItem GetItem(DirectoryInfo directory)
-        {
-            var item = CreateItem(EntryType.Folder, directory.Name, directory, "folder");
-
-            this.AddHolder(item);
-            item.Expanded += new RoutedEventHandler(item_Expanded);
-
-            return item;
-        }
-
-        private TreeViewItem GetItem(FileInfo file)
-        {
-            var item = CreateItem(EntryType.Document, file.Name, file, "document");
-
-            return item;
-        }
-
-        private TreeViewItem CreateItem(EntryType type, string text, object context, string tag)
-        {
-            var item = new TreeViewItem
-            {
-                DataContext = tag,
-                Tag = context
-            };
+            DataContext = context;
+            Tag = type;
 
             // Create stack panel
-            StackPanel stack = new StackPanel();
             stack.Orientation = Orientation.Horizontal;
 
-            Label lbl = new Label();
+            // Add the label information
+            lbl = new Label();
             lbl.Content = text;
             lbl.HorizontalAlignment = HorizontalAlignment.Center;
             lbl.VerticalAlignment = VerticalAlignment.Center;
 
-            // Add into stack
+            // If it's a document add a check box
             if (type == EntryType.Document)
             {
-                CheckBox cb = new CheckBox();
+                cb = new CheckBox();
                 cb.HorizontalAlignment = HorizontalAlignment.Center;
                 cb.VerticalAlignment = VerticalAlignment.Center;
                 stack.Children.Add(cb);
             }
 
-            Image image = new Image();
+            // Add an Icon
+            image = new Image();
             switch (type)
             {
                 case EntryType.Workspace:
@@ -113,31 +82,91 @@ namespace PdfStamper
             stack.Children.Add(image);
             stack.Children.Add(lbl);
 
-            item.Header = stack;
+            Header = stack;
+        }
+
+        public bool isSelected()
+        {
+            if (!Tag.Equals(EntryType.Document)) return false;
+
+            return cb.IsChecked ?? false;
+        }
+
+    }
+
+    // http://codesdirectory.blogspot.com/2013/01/c-wpf-treeview-file-explorer.html
+    class Explorer
+    {
+        private TreeView treeView;
+
+        public Explorer(TreeView treeView)
+        {
+            this.treeView = treeView;
+            LoadDirectories();
+        }
+
+        public void LoadDirectories()
+        {
+            var drives = DriveInfo.GetDrives();
+            foreach (var drive in drives)
+            {
+                this.treeView.Items.Add(this.GetItem(drive));
+            }
+        }
+
+        private TreeViewItem GetItem(DriveInfo drive)
+        {
+            //var item = CreateItem(EntryType.Workspace, drive.Name, drive);
+            var item = new ExplorerItem(EntryType.Workspace, drive.Name, drive);
+
+            this.AddHolder(item);
+            item.Expanded += new RoutedEventHandler(item_Expanded);
+            return item;
+        }
+
+        private TreeViewItem GetItem(DirectoryInfo directory)
+        {
+            //var item = CreateItem(EntryType.Folder, directory.Name, directory);
+            var item = new ExplorerItem(EntryType.Folder, directory.Name, directory);
+
+            this.AddHolder(item);
+            item.Expanded += new RoutedEventHandler(item_Expanded);
+
+            return item;
+        }
+
+        private TreeViewItem GetItem(FileInfo file)
+        {
+            //var item = CreateItem(EntryType.Document, file.Name, file);
+            var item = new ExplorerItem(EntryType.Document, file.Name, file);
 
             return item;
         }
 
         private void ExploreDirectories(TreeViewItem item)
         {
-            var directoryInfo = (DirectoryInfo)null;
-            if (item.Tag is DriveInfo)
+            var directoryInfo = (DirectoryInfo) null;
+
+            if (item.Tag.Equals(EntryType.Workspace))
             {
-                directoryInfo = ((DriveInfo)item.Tag).RootDirectory;
+                directoryInfo = ((DriveInfo)item.DataContext).RootDirectory;
             }
-            else if (item.Tag is DirectoryInfo)
+            else if (item.Tag.Equals(EntryType.Folder))
             {
-                directoryInfo = (DirectoryInfo)item.Tag;
+                directoryInfo = (DirectoryInfo)item.DataContext;
             }
-            else if (item.Tag is FileInfo)
+            else if (item.Tag.Equals(EntryType.Document))
             {
-                directoryInfo = ((FileInfo)item.Tag).Directory;
+                directoryInfo = ((FileInfo)item.DataContext).Directory;
             }
+
             if (object.ReferenceEquals(directoryInfo, null)) return;
+
             foreach (var directory in directoryInfo.GetDirectories())
             {
                 var isHidden = (directory.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
                 var isSystem = (directory.Attributes & FileAttributes.System) == FileAttributes.System;
+
                 if (!isHidden && !isSystem)
                 {
                     item.Items.Add(this.GetItem(directory));
@@ -147,20 +176,23 @@ namespace PdfStamper
 
         private void ExploreFiles(TreeViewItem item)
         {
-            var directoryInfo = (DirectoryInfo)null;
-            if (item.Tag is DriveInfo)
+            var directoryInfo = (DirectoryInfo) null;
+
+            if (item.Tag.Equals(EntryType.Workspace))
             {
-                directoryInfo = ((DriveInfo)item.Tag).RootDirectory;
+                directoryInfo = ((DriveInfo)item.DataContext).RootDirectory;
             }
-            else if (item.Tag is DirectoryInfo)
+            else if (item.Tag.Equals(EntryType.Folder))
             {
-                directoryInfo = (DirectoryInfo)item.Tag;
+                directoryInfo = (DirectoryInfo)item.DataContext;
             }
-            else if (item.Tag is FileInfo)
+            else if (item.Tag.Equals(EntryType.Document))
             {
-                directoryInfo = ((FileInfo)item.Tag).Directory;
+                directoryInfo = ((FileInfo)item.DataContext).Directory;
             }
+
             if (object.ReferenceEquals(directoryInfo, null)) return;
+
             foreach (var file in directoryInfo.GetFiles())
             {
                 var isHidden = (file.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
@@ -174,7 +206,8 @@ namespace PdfStamper
 
         void item_Expanded(object sender, RoutedEventArgs e)
         {
-            var item = (TreeViewItem)sender;
+            var item = (TreeViewItem) sender;
+
             if (this.HasHolder(item))
             {
                 treeView.Cursor = Cursors.Wait;
@@ -204,39 +237,28 @@ namespace PdfStamper
             }
         }
 
-        public class TreeViewItemHolder : TreeViewItem
-        {
-            public TreeViewItemHolder()
-                : base()
-            {
-                base.Header = "Place Holder";
-                base.Tag = "Place Holder";
-            }
-        }
-
         public string FindSelected()
         {
             StringBuilder builder = new StringBuilder();
 
             foreach (TreeViewItem item in treeView.Items)
             {
-                ProcessNodes(item, builder, 0);
+                ProcessNodes((ExplorerItem) item, builder, 0);
             }
 
             return builder.ToString();
         }
 
-        private void ProcessNodes(TreeViewItem node, StringBuilder builder, int level)
+        private void ProcessNodes(ExplorerItem node, StringBuilder builder, int level)
         {
-            if (node.DataContext.ToString().Equals("document"))
+            if (node.isSelected())
             {
-                if (node.Header.)
-                builder.Append(new string('\t', level) + node.Tag.ToString() + Environment.NewLine);
+                builder.Append(new string('\t', level) + node.DataContext.ToString() + Environment.NewLine);
             }
 
-            foreach (TreeViewItem l_innerNode in node.Items)
+            foreach (TreeViewItem innerNode in node.Items)
             {
-                ProcessNodes(l_innerNode, builder, level + 1);
+                if (!(innerNode is TreeViewItemHolder)) ProcessNodes((ExplorerItem) innerNode, builder, level + 1);
             }
         }
 
