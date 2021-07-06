@@ -63,7 +63,7 @@ namespace K2IManageObjects
         }
     }
 
-    public class IMAppSetupItem :  IMDBObject
+    public class IMAppSetupItem : IMDBObject
     {
         public string name { get; set; }
 

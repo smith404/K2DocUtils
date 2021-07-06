@@ -41,15 +41,15 @@ namespace PdfStamper
     {
         PdfSecuritySettings pss = null;
 
-        public static byte PermitAccessibilityExtractContent =  0b00000001;
-        public static byte PermitAnnotations =                  0b00000010;
-        public static byte PermitAssembleDocument =             0b00000100;
-        public static byte PermitExtractContent =               0b00001000;
-        public static byte PermitFormsFill =                    0b00010000;
-        public static byte PermitFullQualityPrint =             0b00100000;
-        public static byte PermitModifyDocument =               0b01000000;
-        public static byte PermitPrint =                        0b10000000;
-        public static byte PermitAllPrint =                     (byte)(PermitPrint | PermitFullQualityPrint);
+        public static byte PermitAccessibilityExtractContent = 0b00000001;
+        public static byte PermitAnnotations = 0b00000010;
+        public static byte PermitAssembleDocument = 0b00000100;
+        public static byte PermitExtractContent = 0b00001000;
+        public static byte PermitFormsFill = 0b00010000;
+        public static byte PermitFullQualityPrint = 0b00100000;
+        public static byte PermitModifyDocument = 0b01000000;
+        public static byte PermitPrint = 0b10000000;
+        public static byte PermitAllPrint = (byte)(PermitPrint | PermitFullQualityPrint);
 
         public string UserPassword { get; set; }
 

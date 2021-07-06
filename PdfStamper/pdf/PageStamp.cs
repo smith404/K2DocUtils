@@ -119,7 +119,7 @@ namespace PdfStamper
             switch (Location)
             {
                 case PageLocation.North:
-                    result.X = (pageWidth-elementWidth) / 2;
+                    result.X = (pageWidth - elementWidth) / 2;
                     break;
                 default:
                     Console.WriteLine("Default");

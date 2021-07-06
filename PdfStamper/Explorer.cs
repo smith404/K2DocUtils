@@ -30,17 +30,24 @@ namespace PdfStamper
 
     class ExplorerItem : TreeViewItem
     {
-        private StackPanel stack = new StackPanel();
+        // The main graphical element
+        private StackPanel stack;
+
+        // Panel sub elements
         private readonly Label lbl;
         private readonly CheckBox cb;
         private readonly Image image;
 
         public ExplorerItem(EntryType type, string text, object context)
         {
-            DataContext = context;
+            // Use the Tag to store the node type
             Tag = type;
 
+            // Store the object in the DataContext
+            DataContext = context;
+
             // Create stack panel
+            stack = new StackPanel();
             stack.Orientation = Orientation.Horizontal;
 
             // Add the label information
@@ -120,7 +127,7 @@ namespace PdfStamper
             var item = new ExplorerItem(EntryType.Workspace, drive.Name, drive);
 
             this.AddHolder(item);
-            item.Expanded += new RoutedEventHandler(item_Expanded);
+            item.Expanded += new RoutedEventHandler(itemExpanded);
             return item;
         }
 
@@ -130,7 +137,7 @@ namespace PdfStamper
             var item = new ExplorerItem(EntryType.Folder, directory.Name, directory);
 
             this.AddHolder(item);
-            item.Expanded += new RoutedEventHandler(item_Expanded);
+            item.Expanded += new RoutedEventHandler(itemExpanded);
 
             return item;
         }
@@ -145,7 +152,7 @@ namespace PdfStamper
 
         private void ExploreDirectories(TreeViewItem item)
         {
-            var directoryInfo = (DirectoryInfo) null;
+            var directoryInfo = (DirectoryInfo)null;
 
             if (item.Tag.Equals(EntryType.Workspace))
             {
@@ -176,7 +183,7 @@ namespace PdfStamper
 
         private void ExploreFiles(TreeViewItem item)
         {
-            var directoryInfo = (DirectoryInfo) null;
+            var directoryInfo = (DirectoryInfo)null;
 
             if (item.Tag.Equals(EntryType.Workspace))
             {
@@ -204,9 +211,9 @@ namespace PdfStamper
             }
         }
 
-        void item_Expanded(object sender, RoutedEventArgs e)
+        void itemExpanded(object sender, RoutedEventArgs e)
         {
-            var item = (TreeViewItem) sender;
+            var item = (TreeViewItem)sender;
 
             if (this.HasHolder(item))
             {
@@ -237,28 +244,28 @@ namespace PdfStamper
             }
         }
 
-        public string FindSelected()
+        public List<ExplorerItem> FindSelected()
         {
-            StringBuilder builder = new StringBuilder();
+            var results = new List<ExplorerItem>();
 
             foreach (TreeViewItem item in treeView.Items)
             {
-                ProcessNodes((ExplorerItem) item, builder, 0);
+                ProcessNodes((ExplorerItem)item, results, 0);
             }
 
-            return builder.ToString();
+            return results;
         }
 
-        private void ProcessNodes(ExplorerItem node, StringBuilder builder, int level)
+        private void ProcessNodes(ExplorerItem node, List<ExplorerItem> results, int level)
         {
             if (node.isSelected())
             {
-                builder.Append(new string('\t', level) + node.DataContext.ToString() + Environment.NewLine);
+                results.Add(node);
             }
 
             foreach (TreeViewItem innerNode in node.Items)
             {
-                if (!(innerNode is TreeViewItemHolder)) ProcessNodes((ExplorerItem) innerNode, builder, level + 1);
+                if (!(innerNode is TreeViewItemHolder)) ProcessNodes((ExplorerItem)innerNode, results, level + 1);
             }
         }
 
