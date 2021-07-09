@@ -9,7 +9,17 @@ namespace K2IManageObjects
     {
         public string id { get; set; }
 
+        public string name { get; set; }
+
+        public string wstype { get; set; }
+
         private PropertyInfo[] _PropertyInfos = null;
+
+        public IMObject()
+        {
+            wstype = "UNKNOWN";
+            name = "UNKNOWN";
+        }
 
         public override string ToString()
         {
@@ -153,8 +163,6 @@ namespace K2IManageObjects
 
     public class IMAppSetupItem : IMDBObject
     {
-        public string name { get; set; }
-
         public bool primary { get; set; }
 
         public string location { get; set; }
@@ -222,8 +230,6 @@ namespace K2IManageObjects
         public string description { get; set; }
 
         public bool enabled { get; set; }
-
-        public string wstype { get; set; }
 
         public string activity_date { get; set; }
     }
@@ -377,8 +383,6 @@ namespace K2IManageObjects
 
         public string nvp_value { get; set; }
 
-        public string wstype { get; set; }
-
         public string iwl { get; set; }
 
         public string workspace_id { get; set; }
@@ -499,34 +503,32 @@ namespace K2IManageObjects
 
         public string workspace_name { get; set; }
 
-        public string wstype { get; set; }
-
-        public IMItemList<IMDocument> Docunments(K2IMInterface.IMSession session)
+        public List<IMDocument> Docunments(K2IMInterface.IMSession session)
         {
-            string url = "/folders/" + id + "/documents";
+            string url = "folders/" + id + "/documents";
 
-            return JsonConvert.DeserializeObject<IMItemList<IMDocument>>(session.MakeGetCall(url)); ;
+            return JsonConvert.DeserializeObject<IMItemList<IMDocument>>(session.MakeGetCall(url)).data;
         }
 
-        public IMItemList<IMFolder> Children(K2IMInterface.IMSession session)
+        public List<IMFolder> Children(K2IMInterface.IMSession session)
         {
-            string url = "/folders/" + id + "/children";
+            string url = "folders/" + id + "/children";
 
-            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)); ;
+            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)).data;
         }
 
-        public IMItemList<IMDocument> SearchFolders(K2IMInterface.IMSession session)
+        public List<IMDocument> SearchFolders(K2IMInterface.IMSession session)
         {
-            string url = "/folders/" + id + "/folders/search";
+            string url = "folders/" + id + "/folders/search";
 
-            return JsonConvert.DeserializeObject<IMItemList<IMDocument>>(session.MakeGetCall(url)); ;
+            return JsonConvert.DeserializeObject<IMItemList<IMDocument>>(session.MakeGetCall(url)).data;
         }
 
-        public IMItemList<IMFolder> SubFolders(K2IMInterface.IMSession session)
+        public List<IMFolder> SubFolders(K2IMInterface.IMSession session)
         {
-            string url = "/folders/" + id + "/subfolders";
+            string url = "folders/" + id + "/subfolders";
 
-            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)); ;
+            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)).data;
         }
     }
 
@@ -844,8 +846,6 @@ namespace K2IManageObjects
 
         public string workspace_name { get; set; }
 
-        public string wstype { get; set; }
-
         public int document_number { get; set; }
 
         public string author { get; set; }
@@ -906,85 +906,118 @@ namespace K2IManageObjects
 
         public int retain_days { get; set; }
 
-        public IMItemList<IMFolder> Folders(K2IMInterface.IMSession session)
+        public List<IMFolder> Folders(K2IMInterface.IMSession session)
         {
-            string url = "/workspace/" + id + "/children";
+            string url = "workspaces/" + id + "/children";
 
-            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)); ;
+            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)).data;
         }
 
-        public IMItemList<IMFolder> Recent(K2IMInterface.IMSession session)
+        public List<IMFolder> Recent(K2IMInterface.IMSession session)
         {
-            string url = "/workspace/recent";
+            string url = "workspaces/recent";
 
-            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)); ;
+            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)).data;
         }
     }
 
     public class IMTemplate : IMDBObject
     {
         public string activity_date { get; set; }
+
         public string comment { get; set; }
+
         public string default_security { get; set; }
 
         public string description { get; set; }
+
         public string effective_security { get; set; }
 
         public string edit_date { get; set; }
+
         public string email { get; set; }
+
         public string folder_type { get; set; }
+
         public bool has_documents { get; set; }
 
         public bool has_subfolders { get; set; }
 
         public bool is_container_saved_search { get; set; }
+
         public bool is_content_saved_search { get; set; }
+
         public bool is_external_as_normal { get; set; }
+
         public string last_user_description { get; set; }
+
         public string name { get; set; }
+
         public string owner { get; set; }
 
         public string owner_description { get; set; }
 
-public string sub_class { get; set; }
+        public string sub_class { get; set; }
+
         public string subtype { get; set; }
+
         public string view_type { get; set; }
+
         public string workspace_id { get; set; }
+
         public string workspace_name { get; set; }
-        public string wstype { get; set; }
 
         public int document_number { get; set; }
+
         public string author { get; set; }
+
         public string author_description { get; set; }
 
         [JsonProperty(PropertyName = "class")]
         public string Clazz { get; set; }
-    public string content_type { get; set; }
-    public string create_date { get; set; }
-    public string edit_profile_date { get; set; }
 
-    public string extension { get; set; }
-    public string file_create_date { get; set; }
-    public string file_edit_date { get; set; }
-    public bool has_attachment { get; set; }
-    public bool in_use { get; set; }
-    public bool is_checked_out { get; set; }
-    public bool is_hipaa { get; set; }
-    public bool is_restorable { get; set; }
-    public string iwl { get; set; }
-    public string last_user { get; set; }
+        public string content_type { get; set; }
 
-    [JsonProperty(PropertyName = "operator")]
-    public string Operator { get; set; }
+        public string create_date { get; set; }
 
-    public int size { get; set; }
-public string type { get; set; }
-public int version { get; set; }
-public string conversation_id { get; set; }
-public string conversation_name { get; set; }
-public string subject { get; set; }
+        public string edit_profile_date { get; set; }
 
-public bool indexable { get; set; }
+        public string extension { get; set; }
+
+        public string file_create_date { get; set; }
+
+        public string file_edit_date { get; set; }
+
+        public bool has_attachment { get; set; }
+
+        public bool in_use { get; set; }
+
+        public bool is_checked_out { get; set; }
+
+        public bool is_hipaa { get; set; }
+
+        public bool is_restorable { get; set; }
+
+        public string iwl { get; set; }
+
+        public string last_user { get; set; }
+
+        [JsonProperty(PropertyName = "operator")]
+        public string Operator { get; set; }
+
+        public int size { get; set; }
+
+        public string type { get; set; }
+
+        public int version { get; set; }
+
+        public string conversation_id { get; set; }
+
+        public string conversation_name { get; set; }
+
+        public string subject { get; set; }
+
+        public bool indexable { get; set; }
 
         public bool is_external { get; set; }
 

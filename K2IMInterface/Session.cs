@@ -57,11 +57,12 @@ namespace K2IMInterface
 
         public string MakeGetCall(string uri)
         {
+            uri = BaseURI + APIVersion + uri;
             HttpWebRequest req = (HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
 
             req.PreAuthenticate = true;
             req.Headers.Add("Athorization", "Bearer " + IMToken);
-            req.Accept = "appliaction/json";
+            req.Accept = "application/json";
             req.Method = "GET";
             req.Timeout = 60000;
 
