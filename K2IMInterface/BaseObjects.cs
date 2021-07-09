@@ -5,6 +5,13 @@ using System.Text;
 
 namespace K2IManageObjects
 {
+    public enum EntryType
+    {
+        Workspace,
+        Folder,
+        Document
+    }
+
     public abstract class IMObject
     {
         [JsonProperty(PropertyName = "id")]
@@ -35,6 +42,41 @@ namespace K2IManageObjects
 
             return sb.ToString();
         }
+
+        public bool IsEmail
+        {
+            get { return string.Equals(WsType, "folder", System.StringComparison.OrdinalIgnoreCase); }
+        }
+
+        public bool IsDocument
+        {
+            get { return string.Equals(WsType, "document", System.StringComparison.OrdinalIgnoreCase); }
+        }
+
+        public bool IsDocumentShortcut
+        {
+            get { return string.Equals(WsType, "document_shortcut", System.StringComparison.OrdinalIgnoreCase); }
+        }
+
+        public bool IsFolder
+        {
+            get { return string.Equals(WsType, "folder", System.StringComparison.OrdinalIgnoreCase); }
+        }
+
+        public bool IsFolderShortcut
+        {
+            get { return string.Equals(WsType, "folder_shortcut", System.StringComparison.OrdinalIgnoreCase); }
+        }
+
+        public bool IsWorkspace
+        {
+            get { return string.Equals(WsType, "folder", System.StringComparison.OrdinalIgnoreCase); }
+        }
+
+        public bool IsWorkspaceShortcut
+        {
+            get { return string.Equals(WsType, "folder_shortcut", System.StringComparison.OrdinalIgnoreCase); }
+        }
     }
 
     public abstract class IMDBObject : IMObject
@@ -44,6 +86,12 @@ namespace K2IManageObjects
 
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
+
+        [JsonProperty(PropertyName = "default_security")]
+        public string DefaultSecurity { get; set; }
+
+        [JsonProperty(PropertyName = "description")]
+        public string Description { get; set; }
 
         public IMDBObject()
         {
@@ -207,8 +255,6 @@ namespace K2IManageObjects
 
     public class IMClass : IMDBObject
     {
-        public string description { get; set; }
-
         public bool indexable { get; set; }
 
         public bool shadow { get; set; }
@@ -216,8 +262,6 @@ namespace K2IManageObjects
         public int retain { get; set; }
 
         public int field_required { get; set; }
-
-        public string default_security { get; set; }
 
         public bool hipaa { get; set; }
 
@@ -235,8 +279,6 @@ namespace K2IManageObjects
 
     public class IMCustomField : IMObject
     {
-        public string description { get; set; }
-
         public bool enabled { get; set; }
 
         public string activity_date { get; set; }
@@ -446,10 +488,6 @@ namespace K2IManageObjects
         public string container_saved_search_id { get; set; }
 
         public string content_saved_search_id { get; set; }
-
-        public string default_security { get; set; }
-
-        public string description { get; set; }
 
         public string edit_date { get; set; }
 
@@ -712,8 +750,6 @@ namespace K2IManageObjects
 
     public class IMRole : IMDBObject
     {
-        public string description { get; set; }
-
         public int m1 { get; set; }
 
         public int m2 { get; set; }
@@ -802,11 +838,6 @@ namespace K2IManageObjects
         public string activity_date { get; set; }
 
         public string comment { get; set; }
-
-        public string default_security { get; set; }
-
-
-        public string description { get; set; }
 
         public string effective_security { get; set; }
 
@@ -928,10 +959,6 @@ namespace K2IManageObjects
         public string activity_date { get; set; }
 
         public string comment { get; set; }
-
-        public string default_security { get; set; }
-
-        public string description { get; set; }
 
         public string effective_security { get; set; }
 

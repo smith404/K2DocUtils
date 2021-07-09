@@ -74,6 +74,9 @@
     <Reference Include="Microsoft.Recognizers.Text.Sequence, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Recognizers.Text.Sequence.1.7.0\lib\net462\Microsoft.Recognizers.Text.Sequence.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PdfSharp, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
       <HintPath>..\packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.dll</HintPath>
     </Reference>
@@ -179,10 +182,6 @@
     <Resource Include="images\im_workspace.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\K2IManageObjects\K2IManageObjects.csproj">
-      <Project>{0913590d-5ebc-4536-aba7-c2d3868711c1}</Project>
-      <Name>K2IManageObjects</Name>
-    </ProjectReference>
     <ProjectReference Include="..\K2IMInterface\K2IMInterface.csproj">
       <Project>{0839f575-d124-4b7a-a7fc-4ea1322a348d}</Project>
       <Name>K2IMInterface</Name>
