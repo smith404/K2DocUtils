@@ -1,10 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace K2IManageObjects
 {
@@ -34,6 +31,97 @@ namespace K2IManageObjects
     public abstract class IMDBObject : IMObject
     {
         public string database { get; set; }
+    }
+
+    public abstract class IMCutomFieldsObject : IMDBObject
+    {
+        public string custom1 { get; set; }
+
+        public string custom2 { get; set; }
+
+        public string custom3 { get; set; }
+
+        public string custom4 { get; set; }
+
+        public string custom5 { get; set; }
+
+        public string custom6 { get; set; }
+
+        public string custom7 { get; set; }
+
+        public string custom8 { get; set; }
+
+        public string custom9 { get; set; }
+
+        public string custom10 { get; set; }
+
+        public string custom11 { get; set; }
+
+        public string custom12 { get; set; }
+
+        public string custom13 { get; set; }
+
+        public string custom14 { get; set; }
+
+        public string custom15 { get; set; }
+
+        public string custom16 { get; set; }
+
+        public int custom17 { get; set; }
+
+        public int custom18 { get; set; }
+
+        public int custom19 { get; set; }
+
+        public int custom20 { get; set; }
+
+        public string custom21 { get; set; }
+
+        public string custom22 { get; set; }
+
+        public string custom23 { get; set; }
+
+        public string custom24 { get; set; }
+
+        public bool custom25 { get; set; }
+
+        public bool custom26 { get; set; }
+
+        public bool custom27 { get; set; }
+
+        public bool custom28 { get; set; }
+
+        public string custom29 { get; set; }
+
+        public string custom30 { get; set; }
+
+        public string custom1_description { get; set; }
+
+        public string custom2_description { get; set; }
+
+        public string custom3_description { get; set; }
+
+        public string custom4_description { get; set; }
+
+        public string custom5_description { get; set; }
+
+        public string custom6_description { get; set; }
+
+        public string custom7_description { get; set; }
+
+        public string custom8_description { get; set; }
+
+        public string custom9_description { get; set; }
+
+        public string custom10_description { get; set; }
+
+        public string custom11_description { get; set; }
+
+        public string custom12_description { get; set; }
+
+        public string custom29_description { get; set; }
+
+        public string custom30_description { get; set; }
     }
 
     public class IMItem<IMObject>
@@ -157,7 +245,7 @@ namespace K2IManageObjects
         public int size { get; set; }
     }
 
-    public class IMDocument : IMDBObject
+    public class IMDocument : IMCutomFieldsObject
     {
         [JsonProperty(PropertyName = "document_number")]
         public int DocumentNumber { get; set; }
@@ -171,12 +259,12 @@ namespace K2IManageObjects
         public string author { get; set; }
 
         [JsonProperty(PropertyName = "operator")]
-        public string opcode { get; set; }
+        public string Operator { get; set; }
 
         public string type { get; set; }
 
         [JsonProperty(PropertyName = "class")]
-        public string clazz { get; set; }
+        public string Clazz { get; set; }
 
         public string sub_class { get; set; }
 
@@ -209,66 +297,6 @@ namespace K2IManageObjects
 
         public string comment { get; set; }
 
-        public string custom1 { get; set; }
-
-        public string custom2 { get; set; }
-
-        public string custom3 { get; set; }
-
-        public string custom4 { get; set; }
-
-        public string custom5 { get; set; }
-
-        public string custom6 { get; set; }
-
-        public string custom7 { get; set; }
-
-        public string custom8 { get; set; }
-
-        public string custom9 { get; set; }
-
-        public string custom10 { get; set; }
-
-        public string custom11 { get; set; }
-
-        public string custom12 { get; set; }
-
-        public string custom13 { get; set; }
-
-        public string custom14 { get; set; }
-
-        public string custom15 { get; set; }
-
-        public string custom16 { get; set; }
-
-        public int custom17 { get; set; }
-
-        public int custom18 { get; set; }
-
-        public int custom19 { get; set; }
-
-        public int custom20 { get; set; }
-
-        public string custom21 { get; set; }
-
-        public string custom22 { get; set; }
-
-        public string custom23 { get; set; }
-
-        public string custom24 { get; set; }
-
-        public bool custom25 { get; set; }
-
-        public bool custom26 { get; set; }
-
-        public bool custom27 { get; set; }
-
-        public bool custom28 { get; set; }
-
-        public string custom29 { get; set; }
-
-        public string custom30 { get; set; }
-
         public string access { get; set; }
 
         public string checkout_path { get; set; }
@@ -276,34 +304,6 @@ namespace K2IManageObjects
         public string checkout_due_date { get; set; }
 
         public string checkout_comment { get; set; }
-
-        public string custom1_description { get; set; }
-
-        public string custom2_description { get; set; }
-
-        public string custom3_description { get; set; }
-
-        public string custom4_description { get; set; }
-
-        public string custom5_description { get; set; }
-
-        public string custom6_description { get; set; }
-
-        public string custom7_description { get; set; }
-
-        public string custom8_description { get; set; }
-
-        public string custom9_description { get; set; }
-
-        public string custom10_description { get; set; }
-
-        public string custom11_description { get; set; }
-
-        public string custom12_description { get; set; }
-
-        public string custom29_description { get; set; }
-
-        public string custom30_description { get; set; }
 
         public string author_description { get; set; }
 
@@ -384,6 +384,21 @@ namespace K2IManageObjects
         public string workspace_id { get; set; }
 
         public IMWarning[] warnings { get; set; }
+
+        public string Recent()
+        {
+            return "/documents/recent";
+        }
+
+        public string Download()
+        {
+            return "/documents/" + id + "/download";
+        }
+
+        public string Versions()
+        {
+            return "/documents/" + id + "/download";
+        }
     }
 
     public class IMEmailParticipant
@@ -485,6 +500,34 @@ namespace K2IManageObjects
         public string workspace_name { get; set; }
 
         public string wstype { get; set; }
+
+        public IMItemList<IMDocument> Docunments(K2IMInterface.IMSession session)
+        {
+            string url = "/folders/" + id + "/documents";
+
+            return JsonConvert.DeserializeObject<IMItemList<IMDocument>>(session.MakeGetCall(url)); ;
+        }
+
+        public IMItemList<IMFolder> Children(K2IMInterface.IMSession session)
+        {
+            string url = "/folders/" + id + "/children";
+
+            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)); ;
+        }
+
+        public IMItemList<IMDocument> SearchFolders(K2IMInterface.IMSession session)
+        {
+            string url = "/folders/" + id + "/folders/search";
+
+            return JsonConvert.DeserializeObject<IMItemList<IMDocument>>(session.MakeGetCall(url)); ;
+        }
+
+        public IMItemList<IMFolder> SubFolders(K2IMInterface.IMSession session)
+        {
+            string url = "/folders/" + id + "/subfolders";
+
+            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)); ;
+        }
     }
 
     public class IMGroup : IMDBObject
@@ -748,7 +791,7 @@ namespace K2IManageObjects
         public string edit_date { get; set; }
     }
 
-    public class IMWorkspace : IMDBObject
+    public class IMWorkspace : IMCutomFieldsObject
     {
         public string activity_date { get; set; }
 
@@ -810,7 +853,7 @@ namespace K2IManageObjects
         public string author_description { get; set; }
 
         [JsonProperty(PropertyName = "class")]
-        public string clazz { get; set; }
+        public string Clazz { get; set; }
 
         public string content_type { get; set; }
 
@@ -839,7 +882,7 @@ namespace K2IManageObjects
         public string last_user { get; set; }
 
         [JsonProperty(PropertyName = "operator")]
-        public string opcode { get; set; }
+        public string Operator { get; set; }
 
         public string operator_description { get; set; }
 
@@ -855,94 +898,93 @@ namespace K2IManageObjects
 
         public string subject { get; set; }
 
-        public string custom1 { get; set; }
-
-        public string custom1_description { get; set; }
-
-        public string custom2 { get; set; }
-
-        public string custom2_description { get; set; }
-
-        public string custom3 { get; set; }
-
-        public string custom3_description { get; set; }
-
-        public string custom4 { get; set; }
-
-        public string custom4_description { get; set; }
-
-        public string custom5 { get; set; }
-
-        public string custom5_description { get; set; }
-
-        public string custom6 { get; set; }
-        public string custom6_description { get; set; }
-
-        public string custom7 { get; set; }
-
-        public string custom7_description { get; set; }
-
-        public string custom8 { get; set; }
-
-        public string custom8_description { get; set; }
-
-        public string custom9 { get; set; }
-
-        public string custom9_description { get; set; }
-
-        public string custom10 { get; set; }
-
-        public string custom10_description { get; set; }
-
-        public string custom11 { get; set; }
-
-        public string custom11_description { get; set; }
-
-        public string custom12 { get; set; }
-
-        public string custom12_description { get; set; }
-
-        public string custom13 { get; set; }
-
-        public string custom14 { get; set; }
-
-        public string custom15 { get; set; }
-
-        public string custom16 { get; set; }
-
-        public string custom17 { get; set; }
-
-        public string custom18 { get; set; }
-
-        public string custom19 { get; set; }
-
-        public string custom20 { get; set; }
-
-        public string custom21 { get; set; }
-
-        public string custom22 { get; set; }
-
-        public string custom23 { get; set; }
-
-        public string custom24 { get; set; }
-
-        public string custom25 { get; set; }
-
-        public string custom26 { get; set; }
-
-        public string custom27 { get; set; }
-
-        public string custom28 { get; set; }
-
-        public string custom29 { get; set; }
-
-        public string custom29_description { get; set; }
-
-        public string custom30 { get; set; }
-
-        public string custom30_description { get; set; }
-
         public bool indexable { get; set; }
+
+        public bool is_external { get; set; }
+
+        public string location { get; set; }
+
+        public int retain_days { get; set; }
+
+        public IMItemList<IMFolder> Folders(K2IMInterface.IMSession session)
+        {
+            string url = "/workspace/" + id + "/children";
+
+            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)); ;
+        }
+
+        public IMItemList<IMFolder> Recent(K2IMInterface.IMSession session)
+        {
+            string url = "/workspace/recent";
+
+            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)); ;
+        }
+    }
+
+    public class IMTemplate : IMDBObject
+    {
+        public string activity_date { get; set; }
+        public string comment { get; set; }
+        public string default_security { get; set; }
+
+        public string description { get; set; }
+        public string effective_security { get; set; }
+
+        public string edit_date { get; set; }
+        public string email { get; set; }
+        public string folder_type { get; set; }
+        public bool has_documents { get; set; }
+
+        public bool has_subfolders { get; set; }
+
+        public bool is_container_saved_search { get; set; }
+        public bool is_content_saved_search { get; set; }
+        public bool is_external_as_normal { get; set; }
+        public string last_user_description { get; set; }
+        public string name { get; set; }
+        public string owner { get; set; }
+
+        public string owner_description { get; set; }
+
+public string sub_class { get; set; }
+        public string subtype { get; set; }
+        public string view_type { get; set; }
+        public string workspace_id { get; set; }
+        public string workspace_name { get; set; }
+        public string wstype { get; set; }
+
+        public int document_number { get; set; }
+        public string author { get; set; }
+        public string author_description { get; set; }
+
+        [JsonProperty(PropertyName = "class")]
+        public string Clazz { get; set; }
+    public string content_type { get; set; }
+    public string create_date { get; set; }
+    public string edit_profile_date { get; set; }
+
+    public string extension { get; set; }
+    public string file_create_date { get; set; }
+    public string file_edit_date { get; set; }
+    public bool has_attachment { get; set; }
+    public bool in_use { get; set; }
+    public bool is_checked_out { get; set; }
+    public bool is_hipaa { get; set; }
+    public bool is_restorable { get; set; }
+    public string iwl { get; set; }
+    public string last_user { get; set; }
+
+    [JsonProperty(PropertyName = "operator")]
+    public string Operator { get; set; }
+
+    public int size { get; set; }
+public string type { get; set; }
+public int version { get; set; }
+public string conversation_id { get; set; }
+public string conversation_name { get; set; }
+public string subject { get; set; }
+
+public bool indexable { get; set; }
 
         public bool is_external { get; set; }
 

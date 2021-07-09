@@ -51,5 +51,11 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\K2IMInterface\K2IMInterface.csproj">
+      <Project>{0839f575-d124-4b7a-a7fc-4ea1322a348d}</Project>
+      <Name>K2IMInterface</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

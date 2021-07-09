@@ -12,19 +12,27 @@ namespace PdfStamper
 
             items.ForEach(delegate (ExplorerItem result)
             {
-                list.Add(new SelectedDocument(result.DataContext.ToString(), ""));
+                list.Add(new SelectedDocument(result));
             });
 
             return list;
         }
 
-        public string Name { get; }
-        public string Description { get; }
+        private ExplorerItem result;
 
-        public SelectedDocument(string name, string description)
+        public string Name
         {
-            this.Name = name;
-            this.Description = description;
+            get { return result.ToString(); } 
+        }
+
+        public string Description
+        {
+            get { return "a description"; }
+        }
+
+        public SelectedDocument(ExplorerItem result)
+        {
+            this.result = result;
         }
     }
 }
