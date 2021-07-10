@@ -101,93 +101,137 @@ namespace K2IManageObjects
 
     public abstract class IMCutomFieldsObject : IMDBObject
     {
-        public string custom1 { get; set; }
+        [JsonProperty(PropertyName = "custom1")]
+        public string Custom1 { get; set; }
 
-        public string custom2 { get; set; }
+        [JsonProperty(PropertyName = "custom2")]
+        public string Custom2 { get; set; }
 
-        public string custom3 { get; set; }
+        [JsonProperty(PropertyName = "custom3")]
+        public string Custom3 { get; set; }
 
-        public string custom4 { get; set; }
+        [JsonProperty(PropertyName = "custom4")]
+        public string Custom4 { get; set; }
 
-        public string custom5 { get; set; }
+        [JsonProperty(PropertyName = "custom5")]
+        public string Custom5 { get; set; }
 
-        public string custom6 { get; set; }
+        [JsonProperty(PropertyName = "custom6")]
+        public string Custom6 { get; set; }
 
-        public string custom7 { get; set; }
+        [JsonProperty(PropertyName = "custom7")]
+        public string Custom7 { get; set; }
 
-        public string custom8 { get; set; }
+        [JsonProperty(PropertyName = "custom8")]
+        public string Custom8 { get; set; }
 
-        public string custom9 { get; set; }
+        [JsonProperty(PropertyName = "custom9")]
+        public string Custom9 { get; set; }
 
-        public string custom10 { get; set; }
+        [JsonProperty(PropertyName = "custom10")]
+        public string Custom10 { get; set; }
 
-        public string custom11 { get; set; }
+        [JsonProperty(PropertyName = "custom11")]
+        public string Custom11 { get; set; }
 
-        public string custom12 { get; set; }
+        [JsonProperty(PropertyName = "custom12")]
+        public string Custom12 { get; set; }
 
-        public string custom13 { get; set; }
+        [JsonProperty(PropertyName = "custom13")]
+        public string Custom13 { get; set; }
 
-        public string custom14 { get; set; }
+        [JsonProperty(PropertyName = "custom14")]
+        public string Custom14 { get; set; }
 
-        public string custom15 { get; set; }
+        [JsonProperty(PropertyName = "custom15")]
+        public string Custom15 { get; set; }
 
-        public string custom16 { get; set; }
+        [JsonProperty(PropertyName = "custom16")]
+        public string Custom16 { get; set; }
 
-        public int custom17 { get; set; }
+        [JsonProperty(PropertyName = "custom17")]
+        public int Custom17 { get; set; }
 
-        public int custom18 { get; set; }
+        [JsonProperty(PropertyName = "custom18")]
+        public int Custom18 { get; set; }
 
-        public int custom19 { get; set; }
+        [JsonProperty(PropertyName = "custom19")]
+        public int Custom19 { get; set; }
 
-        public int custom20 { get; set; }
+        [JsonProperty(PropertyName = "custom20")]
+        public int Custom20 { get; set; }
 
-        public string custom21 { get; set; }
+        [JsonProperty(PropertyName = "custom21")]
+        public string Custom21 { get; set; }
 
-        public string custom22 { get; set; }
+        [JsonProperty(PropertyName = "custom22")]
+        public string Custom22 { get; set; }
 
-        public string custom23 { get; set; }
+        [JsonProperty(PropertyName = "custom23")]
+        public string Custom23 { get; set; }
 
-        public string custom24 { get; set; }
+        [JsonProperty(PropertyName = "custom24")]
+        public string Custom24 { get; set; }
 
-        public bool custom25 { get; set; }
+        [JsonProperty(PropertyName = "custom25")]
+        public bool Custom25 { get; set; }
 
-        public bool custom26 { get; set; }
+        [JsonProperty(PropertyName = "custom26")]
+        public bool Custom26 { get; set; }
 
-        public bool custom27 { get; set; }
+        [JsonProperty(PropertyName = "custom27")]
+        public bool Custom27 { get; set; }
 
-        public bool custom28 { get; set; }
+        [JsonProperty(PropertyName = "custom28")]
+        public bool Custom28 { get; set; }
 
-        public string custom29 { get; set; }
+        [JsonProperty(PropertyName = "custom29")]
+        public string Custom29 { get; set; }
 
-        public string custom30 { get; set; }
+        [JsonProperty(PropertyName = "custom30")]
+        public string Custom30 { get; set; }
 
-        public string custom1_description { get; set; }
+        [JsonProperty(PropertyName = "custom1_description")]
+        public string Custom1Description { get; set; }
 
-        public string custom2_description { get; set; }
+        [JsonProperty(PropertyName = "custom2_description")]
+        public string Custom2Description { get; set; }
 
-        public string custom3_description { get; set; }
+        [JsonProperty(PropertyName = "custom3_description")]
+        public string Custom3Description { get; set; }
 
-        public string custom4_description { get; set; }
+        [JsonProperty(PropertyName = "custom4_description")]
+        public string Custom4Description { get; set; }
 
-        public string custom5_description { get; set; }
+        [JsonProperty(PropertyName = "custom5_description")]
+        public string Custom5Description { get; set; }
 
-        public string custom6_description { get; set; }
+        [JsonProperty(PropertyName = "custom6_description")]
+        public string Custom6Description { get; set; }
 
-        public string custom7_description { get; set; }
+        [JsonProperty(PropertyName = "custom7_description")]
+        public string Custom7Description { get; set; }
 
-        public string custom8_description { get; set; }
+        [JsonProperty(PropertyName = "custom8_description")]
+        public string Custom8Description { get; set; }
 
-        public string custom9_description { get; set; }
+        [JsonProperty(PropertyName = "custom9_description")]
+        public string Custom9Description { get; set; }
 
-        public string custom10_description { get; set; }
+        [JsonProperty(PropertyName = "custom10_description")]
+        public string Custom10Description { get; set; }
 
-        public string custom11_description { get; set; }
+        [JsonProperty(PropertyName = "custom11_description")]
+        public string Custom11Description { get; set; }
 
-        public string custom12_description { get; set; }
+        [JsonProperty(PropertyName = "custom12_description")]
+        public string Custom12Description { get; set; }
 
-        public string custom29_description { get; set; }
+        [JsonProperty(PropertyName = "custom29_description")]
+        public string Custom29Description { get; set; }
 
-        public string custom30_description { get; set; }
+        [JsonProperty(PropertyName = "custom30_description")]
+        public string Custom30Description { get; set; }
     }
 
     public class IMItem<IMObject>
@@ -203,6 +247,9 @@ namespace K2IManageObjects
     public class IMItemList<IMObject>
     {
         public List<IMObject> data { get; set; }
+
+        [JsonProperty(PropertyName = "total_count")]
+        public int TotalCount { get; set; }
 
         public override string ToString()
         {
@@ -336,22 +383,25 @@ namespace K2IManageObjects
 
         public string location { get; set; }
 
-        public string default_security { get; set; }
-
         [JsonProperty(PropertyName = "last_user")]
         public string LastUser { get; set; }
 
-        public string in_use_by { get; set; }
+        [JsonProperty(PropertyName = "in_use")]
+        public bool InUse { get; set; }
 
-        public bool in_use { get; set; }
+        [JsonProperty(PropertyName = "in_use_by")]
+        public string InUseBy { get; set; }
 
         public bool is_checked_out { get; set; }
 
-        public bool archived { get; set; }
+        [JsonProperty(PropertyName = "archived")]
+        public bool Archived { get; set; }
 
-        public string comment { get; set; }
+        [JsonProperty(PropertyName = "comment")]
+        public string Comment { get; set; }
 
-        public string access { get; set; }
+        [JsonProperty(PropertyName = "access")]
+        public string Access { get; set; }
 
         public string checkout_path { get; set; }
 

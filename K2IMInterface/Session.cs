@@ -50,9 +50,30 @@ namespace K2IMInterface
             return BaseURI + APIVersion + "documents/" + id + "/download";
         }
 
-        public string ConstructDocSearch(string term, int offset)
+        public string ConstructDocSearch(string term, int offset, int limit, bool total)
         {
-            return BaseURI + APIVersion + "documents/search?anywhere=" + term + "&offset=" + offset;
+            var uri = new StringBuilder();
+
+            uri.Append(BaseURI);
+            uri.Append(APIVersion);
+            uri.Append("documents/search?anywhere=");
+            uri.Append(term);
+
+            if (offset > 0)
+            {
+                uri.Append("&offset=");
+                uri.Append(offset);
+            }
+
+            if (offset != 25)
+            {
+                uri.Append("&limit=");
+                uri.Append(limit);
+            }
+
+            if (total) uri.Append("&total=true");
+
+            return uri.ToString();
         }
 
         public string MakeGetCall(string uri)
