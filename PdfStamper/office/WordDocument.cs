@@ -58,5 +58,41 @@ namespace PdfStamper.office
             ((_Document)sourceDocument).Close();
             ((_Application)wordApp).Quit();
         }
+
+        public void openProtected(string path, string pwd)
+        {
+            Application wordApp = null;
+            Document sourceDocument = null;
+
+            object fileName = path;
+            object isVisible = false;
+            object readOnly = true;
+            object password = pwd;
+
+            try
+            {
+                wordApp = new Application();
+
+                sourceDocument = wordApp.Documents.Open(ref fileName, ref missing, ref readOnly,
+                ref missing, ref password, ref missing, ref missing, ref missing,
+                ref missing, ref missing, ref missing, ref isVisible, ref missing,
+                ref missing, ref missing, ref missing);
+
+            }
+            finally
+            {
+                if (sourceDocument != null)
+                {
+                    sourceDocument.Close(ref missing, ref missing, ref missing);
+                    sourceDocument = null;
+                }
+
+                if (wordApp != null)
+                {
+                    wordApp.Quit(ref missing, ref missing, ref missing);
+                    wordApp = null;
+                }
+            }
+        }
     }
 }

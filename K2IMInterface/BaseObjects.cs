@@ -236,17 +236,19 @@ namespace K2IManageObjects
 
     public class IMItem<IMObject>
     {
-        public IMObject data { get; set; }
+        [JsonProperty(PropertyName = "data")]
+        public IMObject Data { get; set; }
 
         public override string ToString()
         {
-            return data.ToString();
+            return Data.ToString();
         }
     }
 
     public class IMItemList<IMObject>
     {
-        public List<IMObject> data { get; set; }
+        [JsonProperty(PropertyName = "data")]
+        public List<IMObject> Data { get; set; }
 
         [JsonProperty(PropertyName = "total_count")]
         public int TotalCount { get; set; }
@@ -255,7 +257,7 @@ namespace K2IManageObjects
         {
             var sb = new StringBuilder();
 
-            data.ForEach(delegate (IMObject obj)
+            Data.ForEach(delegate (IMObject obj)
             {
                 sb.AppendLine(obj.ToString());
             });
@@ -266,86 +268,117 @@ namespace K2IManageObjects
 
     public class IMAppSetupItem : IMDBObject
     {
-        public bool primary { get; set; }
+        [JsonProperty(PropertyName = "primary")]
+        public bool Primary { get; set; }
 
-        public string location { get; set; }
+        [JsonProperty(PropertyName = "location")]
+        public string Location { get; set; }
 
-        public bool dde { get; set; }
+        [JsonProperty(PropertyName = "dde")]
+        public bool DDE { get; set; }
 
-        public string dde_app_name { get; set; }
+        [JsonProperty(PropertyName = "dde_app_name")]
+        public string DDEAppName { get; set; }
 
-        public string dde_topic { get; set; }
+        [JsonProperty(PropertyName = "dde_topic")]
+        public string DDETopic { get; set; }
 
-        public string dde_open { get; set; }
+        [JsonProperty(PropertyName = "dde_open")]
+        public string DDEOpen { get; set; }
 
-        public string dde_read_open { get; set; }
+        [JsonProperty(PropertyName = "dde_read_open")]
+        public string DDEReadOpen { get; set; }
 
-        public string dde_print { get; set; }
+        [JsonProperty(PropertyName = "dde_print")]
+        public string DDEPrint { get; set; }
 
-        public string dde_print_1 { get; set; }
+        [JsonProperty(PropertyName = "dde_print_1")]
+        public string DDEPrint1 { get; set; }
 
-        public string integration_mode { get; set; }
+        [JsonProperty(PropertyName = "integration_mode")]
+        public string IntegrationMode { get; set; }
     }
 
     public class IMCaption : IMDBObject
     {
-        public string label { get; set; }
+        [JsonProperty(PropertyName = "label")]
+        public string Label { get; set; }
 
-        public int locale { get; set; }
+        [JsonProperty(PropertyName = "locale")]
+        public int Locale { get; set; }
 
-        public int num { get; set; }
+        [JsonProperty(PropertyName = "num")]
+        public int Num { get; set; }
 
-        public int ss_num { get; set; }
+        [JsonProperty(PropertyName = "ss_num")]
+        public int SSNum { get; set; }
 
-        public string type { get; set; }
+        [JsonProperty(PropertyName = "type")]
+        public string Type { get; set; }
     }
 
     public class IMClass : IMDBObject
     {
-        public bool indexable { get; set; }
+        [JsonProperty(PropertyName = "indexable")]
+        public bool Indexable { get; set; }
 
-        public bool shadow { get; set; }
+        [JsonProperty(PropertyName = "shadow")]
+        public bool Shadow { get; set; }
 
-        public int retain { get; set; }
+        [JsonProperty(PropertyName = "retain")]
+        public int Retain { get; set; }
 
-        public int field_required { get; set; }
+        [JsonProperty(PropertyName = "field_required")]
+        public int FieldRequired { get; set; }
 
-        public bool hipaa { get; set; }
+        [JsonProperty(PropertyName = "hipaa")]
+        public bool Hipaa { get; set; }
 
-        public string[] field_required_details { get; set; }
+        [JsonProperty(PropertyName = "field_required_details")]
+        public string[] FieldRequiredDetails { get; set; }
 
-        public bool subclass_required { get; set; }
+        [JsonProperty(PropertyName = "sub_class_required")]
+        public bool SubclassRequired { get; set; }
 
-        public bool sub_class_required { get; set; }
+        [JsonProperty(PropertyName = "sub_class_required")]
+        public bool SubClassRequired { get; set; }
     }
 
     public class IMDatabase : IMObject
     {
-        public string type { get; set; }
+        [JsonProperty(PropertyName = "type")]
+        public string Type { get; set; }
     }
 
     public class IMCustomField : IMObject
     {
-        public bool enabled { get; set; }
+        [JsonProperty(PropertyName = "enabled")]
+        public bool Enabled { get; set; }
 
-        public string activity_date { get; set; }
+        [JsonProperty(PropertyName = "activity_date")]
+        public string ActivityDate { get; set; }
     }
 
     public class IMWarning
     {
-        public string field { get; set; }
+        [JsonProperty(PropertyName = "field")]
+        public string Field { get; set; }
 
-        public string error { get; set; }
+        [JsonProperty(PropertyName = "error")]
+        public string Error { get; set; }
 
     }
 
     public class IMItem : IMObject
     {
-        public string attachment_id { get; set; }
+        [JsonProperty(PropertyName = "attachment_id")]
+        public string AttachmentId { get; set; }
 
-        public string name { get; set; }
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; }
 
-        public int size { get; set; }
+        [JsonProperty(PropertyName = "size")]
+        public int Size { get; set; }
     }
 
     public class IMDocument : IMCutomFieldsObject
@@ -353,16 +386,20 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "document_number")]
         public int DocumentNumber { get; set; }
 
+        [JsonProperty(PropertyName = "version")]
         public int version { get; set; }
 
-        public string alias { get; set; }
+        [JsonProperty(PropertyName = "alias")]
+        public string Alias { get; set; }
 
-        public string author { get; set; }
+        [JsonProperty(PropertyName = "author")]
+        public string Author { get; set; }
 
         [JsonProperty(PropertyName = "operator")]
         public string Operator { get; set; }
 
-        public string type { get; set; }
+        [JsonProperty(PropertyName = "type")]
+        public string Type { get; set; }
 
         [JsonProperty(PropertyName = "class")]
         public string Clazz { get; set; }
@@ -599,28 +636,28 @@ namespace K2IManageObjects
         {
             string url = "folders/" + Id + "/documents";
 
-            return JsonConvert.DeserializeObject<IMItemList<IMDocument>>(session.MakeGetCall(url)).data;
+            return JsonConvert.DeserializeObject<IMItemList<IMDocument>>(session.MakeGetCall(url)).Data;
         }
 
         public List<IMFolder> Children(K2IMInterface.IMSession session)
         {
             string url = "folders/" + Id + "/children";
 
-            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)).data;
+            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)).Data;
         }
 
         public List<IMDocument> SearchFolders(K2IMInterface.IMSession session)
         {
             string url = "folders/" + Id + "/folders/search";
 
-            return JsonConvert.DeserializeObject<IMItemList<IMDocument>>(session.MakeGetCall(url)).data;
+            return JsonConvert.DeserializeObject<IMItemList<IMDocument>>(session.MakeGetCall(url)).Data;
         }
 
         public List<IMFolder> SubFolders(K2IMInterface.IMSession session)
         {
             string url = "folders/" + Id + "/subfolders";
 
-            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)).data;
+            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)).Data;
         }
     }
 
@@ -993,14 +1030,14 @@ namespace K2IManageObjects
         {
             string url = "workspaces/" + Id + "/children";
 
-            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)).data;
+            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)).Data;
         }
 
         public List<IMFolder> Recent(K2IMInterface.IMSession session)
         {
             string url = "workspaces/recent";
 
-            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)).data;
+            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)).Data;
         }
     }
 
