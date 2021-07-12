@@ -135,6 +135,7 @@
     <Compile Include="draganddrop\ListViewDragDropManager.cs" />
     <Compile Include="draganddrop\MouseUtilities.cs" />
     <Compile Include="office\WordDocument.cs" />
+    <Compile Include="pdf\ConsolidatedDocument.cs" />
     <Compile Include="pdf\SecurityInfo.cs" />
     <Compile Include="SelectedDocument.cs" />
     <Compile Include="pdf\Watermark.cs" />
