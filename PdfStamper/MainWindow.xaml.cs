@@ -102,9 +102,11 @@ namespace PdfStamper
                 // Open the document to import pages from it.
                 PdfDocument inputDocument = PdfReader.Open(openFileDialog.FileName, PdfDocumentOpenMode.Import);
 
-                Watermark wm = new Watermark("Bollocks");
+                //Watermark wm = new Watermark("Bollocks");
+                PageStamp ps = new PageStamp("Hello, {name}. It's a pleasure to meet you!");
 
-                wm.WatermarkDocument(inputDocument, outputDocument);
+                //wm.WatermarkDocument(inputDocument, outputDocument);
+                ps.StampDocument(inputDocument, outputDocument);
 
                 string fileName = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".pdf";
                 Console.WriteLine(fileName);

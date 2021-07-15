@@ -5,6 +5,7 @@ using PdfSharp.Pdf.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,8 +34,6 @@ namespace PdfStamper
 
     public abstract class OverlayElement
     {
-        protected Dictionary<string, string> variables = new Dictionary<string, string>();
-
         protected XFont font = null;
 
         public string DateFormat { get; set; }
@@ -45,30 +44,13 @@ namespace PdfStamper
 
         public OverlayElement()
         {
+            InitSystemVariables();
             font = new XFont("Verdana", 24, XFontStyle.Regular);
 
         }
 
-        public void AddVariable(string name, string value)
+        public void InitSystemVariables()
         {
-            variables.Add(name, value);
-        }
-
-        public string ApplyDictionary(string inStr)
-        {
-            foreach (KeyValuePair<string, string> entry in variables)
-            {
-                inStr = inStr.Replace(entry.Key, entry.Value);
-            }
-
-            return inStr;
-        }
-
-        public void InitSystemVariables(string name, string value)
-        {
-            variables.Add("[T]", DateTime.Now.ToString(TimeFormat));
-            variables.Add("[D]", DateTime.Now.ToString(DateFormat));
-            variables.Add("[TS]", DateTime.Now.ToString(TimeStampFormat));
         }
 
     }
@@ -82,33 +64,33 @@ namespace PdfStamper
         public double TopOffset { get; set; }
         public double BottomOffset { get; set; }
 
-        private string stampFormat = "CMP/DIV:{0:D4}";
+        public int DN { get; set; }
+        public int PN { get; set; }
+
+        private FormattableString stampFormat;
 
         public PageStamp(string stampFormat)
         {
-            this.stampFormat = stampFormat;
+            this.stampFormat = FormattableStringFactory.Create(stampFormat);
 
             TimeFormat = "HH:mm:ss";
             DateFormat = "MM/dd/yyyy";
             TimeStampFormat = "MM/dd/yyyy HH:mm";
-
-
         }
 
         public void SetDocumentNumber(int documentNumber)
         {
-            variables.Add("[DN]", Convert.ToString(documentNumber));
+            DN = documentNumber;
         }
 
         public void SetPageNumber(int pageNumber)
         {
-            variables.Add("[PN]", Convert.ToString(pageNumber));
+            PN = pageNumber;
         }
 
         public XPoint GetPageLocation(PdfPage targetPage, XSize elementSize)
         {
             XPoint result = new XPoint(LeftOffset, TopOffset);
-
 
             double pageWidth = targetPage.Width.Point;
             double pageHeight = targetPage.Height.Point;
@@ -132,13 +114,6 @@ namespace PdfStamper
             return result;
         }
 
-        public string GenerateStamp()
-        {
-            string stamp = String.Format(stampFormat, 1);
-
-            return stamp;
-        }
-
         public void StampDocument(PdfDocument source, PdfDocument target)
         {
             int count = source.PageCount;
@@ -153,9 +128,13 @@ namespace PdfStamper
 
                 XGraphics gfx = XGraphics.FromPdfPage(targetPage, XGraphicsPdfPageOptions.Append);
 
-                gfx.MeasureString(stampFormat, font, XStringFormats.Default);
+                var ddd = DN;
+                var ppp = PN;
+                var name = "Mark";
 
-                gfx.DrawString(stampFormat, font, XBrushes.Chocolate, 20, 50, XStringFormats.Default);
+                gfx.MeasureString(stampFormat.ToString(), font, XStringFormats.Default);
+
+                gfx.DrawString(stampFormat.ToString(), font, XBrushes.Chocolate, 20, 50, XStringFormats.Default);
             }
         }
     }

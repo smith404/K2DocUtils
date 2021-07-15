@@ -1,4 +1,6 @@
-﻿using System;
+﻿using K2IManageObjects;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -45,18 +47,21 @@ namespace K2IMInterface
 
         public string APIVersion { get; set; }
 
-        public string ConstructDocDownload(string id)
+        public string ConstructDocumentDownload(string id)
         {
             return BaseURI + APIVersion + "documents/" + id + "/download";
         }
 
-        public string ConstructDocSearch(string term, int offset, int limit, bool total)
+        public string ConstructSearchTerm(string query, string term)
         {
-            var uri = new StringBuilder();
+            return ConstructSearchTerm(query, term, 0, 25, false);
+        }
 
-            uri.Append(BaseURI);
-            uri.Append(APIVersion);
-            uri.Append("documents/search?anywhere=");
+            public string ConstructSearchTerm(string query, string term, int offset, int limit, bool total)
+        {
+            var uri = new StringBuilder(query);
+
+            uri.Append("?anywhere=");
             uri.Append(term);
 
             if (offset > 0)
@@ -82,7 +87,7 @@ namespace K2IMInterface
             HttpWebRequest req = (HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
 
             req.PreAuthenticate = true;
-            req.Headers.Add("Athorization", "Bearer " + IMToken);
+            req.Headers.Add("Authorization", "Bearer " + IMToken);
             req.Accept = "application/json";
             req.Method = "GET";
             req.Timeout = 60000;
@@ -94,6 +99,13 @@ namespace K2IMInterface
             System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
 
             return sr.ReadToEnd().Trim();
+        }
+
+        public List<IMWorkspace> Workspaces()
+        {
+            string url = "workspaces/search";
+
+            return JsonConvert.DeserializeObject<IMItemList<IMWorkspace>>(MakeGetCall(url)).Data; 
         }
     }
 }
