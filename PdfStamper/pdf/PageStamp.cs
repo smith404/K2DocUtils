@@ -34,6 +34,8 @@ namespace PdfStamper
 
     public abstract class OverlayElement
     {
+        protected Dictionary<string, object> variables = new Dictionary<string, object>();
+
         protected XFont font = null;
 
         public string DateFormat { get; set; }
@@ -51,6 +53,8 @@ namespace PdfStamper
 
         public void InitSystemVariables()
         {
+            variables.Add("{DN}", 0);
+            variables.Add("{PN}", 0);
         }
 
     }
@@ -64,14 +68,11 @@ namespace PdfStamper
         public double TopOffset { get; set; }
         public double BottomOffset { get; set; }
 
-        public int DN { get; set; }
-        public int PN { get; set; }
-
-        private FormattableString stampFormat;
+        private string stamp;
 
         public PageStamp(string stampFormat)
         {
-            this.stampFormat = FormattableStringFactory.Create(stampFormat);
+            this.stamp = stampFormat;
 
             TimeFormat = "HH:mm:ss";
             DateFormat = "MM/dd/yyyy";
@@ -80,12 +81,12 @@ namespace PdfStamper
 
         public void SetDocumentNumber(int documentNumber)
         {
-            DN = documentNumber;
+            variables["{DN}"] = documentNumber;
         }
 
         public void SetPageNumber(int pageNumber)
         {
-            PN = pageNumber;
+            variables["{PN}"] = pageNumber;
         }
 
         public XPoint GetPageLocation(PdfPage targetPage, XSize elementSize)
@@ -114,6 +115,40 @@ namespace PdfStamper
             return result;
         }
 
+        private string makeStamp(string source)
+        {
+            string target = source;
+
+            foreach (KeyValuePair<string, object> entry in variables)
+            {
+                target = target.Replace(entry.Key, entry.Value.ToString());
+            }
+
+            return target;
+        }
+
+        private void addRectangle(XSize size, XGraphics gfx)
+        {
+
+            XRect rect = new XRect(10, 10, 100, 40);
+
+            XFont font = new XFont("Verdana", 10);
+            XBrush brush = XBrushes.Purple;
+            XStringFormat format = new XStringFormat();
+
+            gfx.DrawRectangle(XPens.YellowGreen, rect);
+            //gfx.DrawLine(XPens.YellowGreen, rect.Width / 2, 0, rect.Width / 2, rect.Height);
+            //gfx.DrawLine(XPens.YellowGreen, 0, rect.Height / 2, rect.Width, rect.Height / 2);
+
+            //gfx.DrawString("TopLeft", font, brush, rect, format);
+            //XRect background = new XRect(20, 50- size.Height, size.Width, size.Height);
+
+            format.Alignment = XStringAlignment.Center;
+            gfx.DrawString("Center", font, brush, rect, format);
+
+
+        }
+
         public void StampDocument(PdfDocument source, PdfDocument target)
         {
             int count = source.PageCount;
@@ -121,20 +156,19 @@ namespace PdfStamper
             for (int idx = 0; idx < count; ++idx)
             {
                 SetPageNumber(idx);
+                string theStamp = makeStamp(stamp);
 
                 PdfPage sourcePage = source.Pages[idx];
 
                 PdfPage targetPage = target.AddPage(sourcePage);
 
                 XGraphics gfx = XGraphics.FromPdfPage(targetPage, XGraphicsPdfPageOptions.Append);
+ 
+                XSize size = gfx.MeasureString(theStamp, font, XStringFormats.Default);
 
-                var ddd = DN;
-                var ppp = PN;
-                var name = "Mark";
+                addRectangle(size, gfx);
 
-                gfx.MeasureString(stampFormat.ToString(), font, XStringFormats.Default);
-
-                gfx.DrawString(stampFormat.ToString(), font, XBrushes.Chocolate, 20, 50, XStringFormats.Default);
+                //gfx.DrawString(theStamp, font, XBrushes.Chocolate, 20, 50, XStringFormats.Default);
             }
         }
     }

@@ -103,7 +103,7 @@ namespace PdfStamper
                 PdfDocument inputDocument = PdfReader.Open(openFileDialog.FileName, PdfDocumentOpenMode.Import);
 
                 //Watermark wm = new Watermark("Bollocks");
-                PageStamp ps = new PageStamp("Hello, {name}. It's a pleasure to meet you!");
+                PageStamp ps = new PageStamp("Bates {DN} / {PN}");
 
                 //wm.WatermarkDocument(inputDocument, outputDocument);
                 ps.StampDocument(inputDocument, outputDocument);
