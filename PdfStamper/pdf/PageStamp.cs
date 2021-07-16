@@ -127,24 +127,45 @@ namespace PdfStamper
             return target;
         }
 
-        private void addRectangle(XSize size, XGraphics gfx)
+        private void addRectangle(XRect rect, XGraphics gfx)
         {
+            XBrush brush = XBrushes.WhiteSmoke;
+            XPen pen = XPens.Purple;
 
-            XRect rect = new XRect(10, 10, 100, 40);
+            //XStringFormat format = new XStringFormat();
 
-            XFont font = new XFont("Verdana", 10);
-            XBrush brush = XBrushes.Purple;
-            XStringFormat format = new XStringFormat();
+            gfx.DrawRectangle(pen, brush, rect);
 
-            gfx.DrawRectangle(XPens.YellowGreen, rect);
             //gfx.DrawLine(XPens.YellowGreen, rect.Width / 2, 0, rect.Width / 2, rect.Height);
             //gfx.DrawLine(XPens.YellowGreen, 0, rect.Height / 2, rect.Width, rect.Height / 2);
 
             //gfx.DrawString("TopLeft", font, brush, rect, format);
             //XRect background = new XRect(20, 50- size.Height, size.Width, size.Height);
 
+            //format.Alignment = XStringAlignment.Center;
+            //gfx.DrawString("Center", font, brush, rect, format);
+
+
+        }
+
+        private void addRectangleWithText(XPoint position, string text, XGraphics gfx)
+        {
+            XBrush brush = XBrushes.WhiteSmoke;
+            XPen pen = XPens.Purple;
+
+            XSize size = gfx.MeasureString(text, font, XStringFormats.Default);
+
+            XRect rect = new XRect(position.X, position.Y, size.Width, size.Height);
+
+            gfx.DrawRectangle(pen, brush, rect);
+
+            XStringFormat format = new XStringFormat();
             format.Alignment = XStringAlignment.Center;
-            gfx.DrawString("Center", font, brush, rect, format);
+            format.LineAlignment = XLineAlignment.Center;
+
+            brush = XBrushes.Yellow;
+            pen = XPens.Yellow;
+            gfx.DrawString(text, font, brush, rect, format);
 
 
         }
@@ -166,7 +187,12 @@ namespace PdfStamper
  
                 XSize size = gfx.MeasureString(theStamp, font, XStringFormats.Default);
 
-                addRectangle(size, gfx);
+                XRect rect = new XRect(10, 10, size.Width, size.Height);
+                XPoint point = new XPoint(10, 10);
+
+                addRectangleWithText(point, theStamp, gfx);
+
+                //addRectangle(rect, gfx);
 
                 //gfx.DrawString(theStamp, font, XBrushes.Chocolate, 20, 50, XStringFormats.Default);
             }

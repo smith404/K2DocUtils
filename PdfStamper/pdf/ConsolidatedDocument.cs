@@ -11,6 +11,10 @@ namespace PdfStamper.pdf
 {
     class ConsolidatedDocument
     {
+        public bool WithSpacerPage { get; set; }
+
+        public bool WithBookmarks { get; set; }
+
         // Stored list of documents to be added
         private readonly List<PdfDocument> inputDocuments = new List<PdfDocument>();
 
@@ -21,6 +25,8 @@ namespace PdfStamper.pdf
 
         public ConsolidatedDocument()
         {
+            WithSpacerPage = false;
+            WithBookmarks = true;
         }
 
         public int addDocument(PdfDocument inputDocument)
@@ -50,7 +56,7 @@ namespace PdfStamper.pdf
                     PdfPage page = inputDocument.Pages[idx];
 
                     // Create the root bookmark. You can set the style and the color.
-                    if (idx==0) outline = outputDocument.Outlines.Add(inputDocument.FullPath, page, true, PdfOutlineStyle.Bold, XColors.Black);
+                    if (WithBookmarks && idx == 0) outline = outputDocument.Outlines.Add(inputDocument.FullPath, page, true, PdfOutlineStyle.Bold, XColors.Black);
 
                     // Add to target document
                     outputDocument.AddPage(page);
