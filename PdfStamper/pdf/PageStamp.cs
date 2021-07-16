@@ -23,7 +23,7 @@ namespace PdfStamper
         SouthWest
     }
 
-    public class FontName
+    public class FontFace
     {
         public static string Arial = "Arial";
 
@@ -44,11 +44,27 @@ namespace PdfStamper
 
         public string TimeStampFormat { get; set; }
 
+        public string FontName { get; set; }
+        public double FontSize { get; set; }
+        public XFontStyle FontStyle { get; set; }
+        public XBrush FontBrush { get; set; }
+
         public OverlayElement()
         {
             InitSystemVariables();
-            font = new XFont("Verdana", 24, XFontStyle.Regular);
 
+            FontSize = 24;
+            FontName = "Verdana";
+            FontStyle = XFontStyle.Regular;
+
+            FontBrush = XBrushes.DeepSkyBlue;
+
+            constructFont();
+        }
+
+        private void constructFont()
+        {
+            font = new XFont(FontName, FontSize, FontStyle);
         }
 
         public void InitSystemVariables()
@@ -61,6 +77,10 @@ namespace PdfStamper
 
     public class PageStamp : OverlayElement
     {
+        public XPen BoarderPen { get; set; }
+
+        public XBrush BackgroundBrush { get; set; }
+
         public PageLocation Location { get; set; }
 
         public double LeftOffset { get; set; }
@@ -73,6 +93,9 @@ namespace PdfStamper
         public PageStamp(string stampFormat)
         {
             this.stamp = stampFormat;
+
+            BoarderPen = XPens.Black;
+            BackgroundBrush = XBrushes.BlanchedAlmond;
 
             TimeFormat = "HH:mm:ss";
             DateFormat = "MM/dd/yyyy";
@@ -129,12 +152,9 @@ namespace PdfStamper
 
         private void addRectangle(XRect rect, XGraphics gfx)
         {
-            XBrush brush = XBrushes.WhiteSmoke;
-            XPen pen = XPens.Purple;
-
             //XStringFormat format = new XStringFormat();
 
-            gfx.DrawRectangle(pen, brush, rect);
+            gfx.DrawRectangle(BoarderPen, BackgroundBrush, rect);
 
             //gfx.DrawLine(XPens.YellowGreen, rect.Width / 2, 0, rect.Width / 2, rect.Height);
             //gfx.DrawLine(XPens.YellowGreen, 0, rect.Height / 2, rect.Width, rect.Height / 2);
@@ -150,24 +170,17 @@ namespace PdfStamper
 
         private void addRectangleWithText(XPoint position, string text, XGraphics gfx)
         {
-            XBrush brush = XBrushes.WhiteSmoke;
-            XPen pen = XPens.Purple;
-
             XSize size = gfx.MeasureString(text, font, XStringFormats.Default);
 
             XRect rect = new XRect(position.X, position.Y, size.Width, size.Height);
 
-            gfx.DrawRectangle(pen, brush, rect);
+            gfx.DrawRectangle(BoarderPen, BackgroundBrush, rect);
 
             XStringFormat format = new XStringFormat();
             format.Alignment = XStringAlignment.Center;
             format.LineAlignment = XLineAlignment.Center;
 
-            brush = XBrushes.Yellow;
-            pen = XPens.Yellow;
-            gfx.DrawString(text, font, brush, rect, format);
-
-
+            gfx.DrawString(text, font, FontBrush, rect, format);
         }
 
         public void StampDocument(PdfDocument source, PdfDocument target)

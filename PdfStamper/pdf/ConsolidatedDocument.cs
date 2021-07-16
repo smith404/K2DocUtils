@@ -1,5 +1,6 @@
 ﻿using PdfSharp.Drawing;
 using PdfSharp.Pdf;
+using PdfSharp.Pdf.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +12,15 @@ namespace PdfStamper.pdf
 {
     class ConsolidatedDocument
     {
+        public static PdfDocument makeDocument(byte[] data)
+        {
+            MemoryStream stream = new MemoryStream(data);
+
+            PdfDocument document = PdfReader.Open(stream, PdfDocumentOpenMode.Import); 
+
+            return document;
+        }
+
         public bool WithSpacerPage { get; set; }
 
         public bool WithBookmarks { get; set; }

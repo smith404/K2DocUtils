@@ -16,7 +16,7 @@ namespace PdfStamper
         {
             WaterMark = watermark;
 
-            font = new XFont(FontName.TimesNewRoman, 48, XFontStyle.Italic);
+            font = new XFont(FontFace.TimesNewRoman, 48, XFontStyle.Italic);
         }
 
         // http://www.pdfsharp.com/PDFsharp/index.php?option=com_content&task=view&id=40&Itemid=51
