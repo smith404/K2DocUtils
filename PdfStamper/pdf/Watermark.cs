@@ -19,8 +19,11 @@ namespace PdfStamper
             font = new XFont(FontFace.TimesNewRoman, 48, XFontStyle.Italic);
         }
 
-        // http://www.pdfsharp.com/PDFsharp/index.php?option=com_content&task=view&id=40&Itemid=51
-        public void WatermarkDocument(PdfDocument source, PdfDocument target)
+        public override void OverlayPage(PdfPage thePage)
+        {
+        }
+
+        public override void OverlayDocuemnt(PdfDocument source, PdfDocument target)
         {
             int count = source.PageCount;
 

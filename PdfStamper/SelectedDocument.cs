@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace PdfStamper
 {
@@ -10,29 +11,19 @@ namespace PdfStamper
         {
             ObservableCollection<SelectedDocument> list = new ObservableCollection<SelectedDocument>();
 
-            items.ForEach(delegate (ExplorerItem result)
+            items.ForEach(delegate (ExplorerItem item)
             {
-                list.Add(new SelectedDocument(result));
+                list.Add(new SelectedDocument(item));
             });
 
             return list;
         }
 
-        private ExplorerItem result;
+        public ExplorerItem Item { get; set; }
 
-        public string Name
+        public SelectedDocument(ExplorerItem item)
         {
-            get { return result.ToString(); } 
-        }
-
-        public string Description
-        {
-            get { return "a description"; }
-        }
-
-        public SelectedDocument(ExplorerItem result)
-        {
-            this.result = result;
+            Item = item;
         }
     }
 }

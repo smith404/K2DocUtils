@@ -4,6 +4,7 @@ using Microsoft.Recognizers.Text.Sequence;
 using Microsoft.Win32;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
+using PdfStamper.pdf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -53,6 +54,7 @@ namespace PdfStamper
             return sb.ToString();
         }
 
+        private ObservableCollection<SelectedDocument> documents = null;
         private void executeBtn_Click(object sender, RoutedEventArgs e)
         {
             // Create a new PDF document
@@ -64,15 +66,15 @@ namespace PdfStamper
 
             //this.outputTxt.Text = "Admin PWD: " + si.AdminPassword;
             List<ExplorerItem> items = workspaceExplorer.FindSelected();
-            ObservableCollection<SelectedDocument> tasks = SelectedDocument.CreateTasks(items);
-            this.listView.ItemsSource = tasks;
+            documents = SelectedDocument.CreateTasks(items);
+            this.listView.ItemsSource = documents;
 
 
-            var culture = Culture.English;
+            //var culture = Culture.English;
             //var results = SequenceRecognizer.RecognizeIpAddress(inputTxt.Text, culture);
             //var results = SequenceRecognizer.RecognizePhoneNumber(inputTxt.Text, culture);
-            var results = DateTimeRecognizer.RecognizeDateTime(inputTxt.Text, culture);
-
+            //var results = DateTimeRecognizer.RecognizeDateTime(inputTxt.Text, culture);
+            /*
             var sb = new StringBuilder();
             results.ForEach(delegate (ModelResult result)
             {
@@ -87,6 +89,7 @@ namespace PdfStamper
             sb.AppendLine(Redacte(inputTxt.Text, results));
 
             outputTxt.Text = sb.ToString();
+            */
         }
 
         private void btnOpenFile_Click(object sender, RoutedEventArgs e)
@@ -106,7 +109,7 @@ namespace PdfStamper
                 PageStamp ps = new PageStamp("Bates {DN} / {PN}");
 
                 //wm.WatermarkDocument(inputDocument, outputDocument);
-                ps.StampDocument(inputDocument, outputDocument);
+                ps.OverlayDocuemnt(inputDocument, outputDocument);
 
                 string fileName = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".pdf";
                 Console.WriteLine(fileName);
@@ -127,35 +130,28 @@ namespace PdfStamper
         // Performs custom drop logic for the top ListView.
         void dragMgr_ProcessDrop(object sender, ProcessDropEventArgs<SelectedDocument> e)
         {
-            // This shows how to customize the behavior of a drop.
-            // Here we perform a swap, instead of just moving the dropped item.
-
+            // Perform a swap, instead of just moving the dropped item.
             int higherIdx = Math.Max(e.OldIndex, e.NewIndex);
             int lowerIdx = Math.Min(e.OldIndex, e.NewIndex);
 
             if (lowerIdx < 0)
             {
-                // The item came from the lower ListView
-                // so just insert it.
+                // The item came from the lower ListView, so just insert it.
                 e.ItemsSource.Insert(higherIdx, e.DataItem);
             }
             else
             {
-                // null values will cause an error when calling Move.
-                // It looks like a bug in ObservableCollection to me.
+                // Null values will cause an error when calling Move.
                 if (e.ItemsSource[lowerIdx] == null ||
                     e.ItemsSource[higherIdx] == null)
                     return;
 
-                // The item came from the ListView into which
-                // it was dropped, so swap it with the item
-                // at the target index.
+                // The item came from the ListView into which it was dropped, so swap it with the item at the target index.
                 e.ItemsSource.Move(lowerIdx, higherIdx);
                 e.ItemsSource.Move(higherIdx - 1, lowerIdx);
             }
 
-            // Set this to 'Move' so that the OnListViewDrop knows to 
-            // remove the item from the other ListView.
+            // Set this to 'Move' so that the OnListViewDrop knows to remove the item from the other ListView.
             e.Effects = DragDropEffects.Move;
         }
 
@@ -165,5 +161,31 @@ namespace PdfStamper
             e.Effects = DragDropEffects.Move;
         }
 
+        private void makeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ConsolidatedDocument cd = new ConsolidatedDocument();
+
+            if (documents != null)
+            {
+                foreach (SelectedDocument document in documents)
+                {
+                    Console.WriteLine(document.Item.Title);
+
+                    byte[] fileData = File.ReadAllBytes(document.Item.Id);
+
+                    cd.addDocument(ConsolidatedDocument.makeDocument(fileData, document.Item.Title));
+                }
+
+                byte[] consolidatedDocument = cd.consolidate(null);
+
+                PdfDocument outputDocument = ConsolidatedDocument.makeDocument(consolidatedDocument, "Consolidated Document");
+
+                string fileName = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".pdf";
+                outputDocument.Save(fileName);
+
+                pdfWebViewer.Navigate(fileName);
+            }
+
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace PdfStamper
             base.Tag = "Place Holder";
         }
     }
-
+    
     class ExplorerItem : TreeViewItem
     {
         // The main graphical element
@@ -29,6 +29,15 @@ namespace PdfStamper
         private readonly Label lbl;
         private readonly CheckBox cb;
         private readonly Image image;
+
+        // Display Properties
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public string Owner { get; set; }
+
+        public string Id { get; set; }
 
         public ExplorerItem(EntryType type, string text, object context)
         {
@@ -55,6 +64,11 @@ namespace PdfStamper
                 cb.HorizontalAlignment = HorizontalAlignment.Center;
                 cb.VerticalAlignment = VerticalAlignment.Center;
                 stack.Children.Add(cb);
+
+                Title = ((FileInfo)context).Name;
+                Description = ((FileInfo)context).DirectoryName;
+                Owner = ((FileInfo)context).CreationTime.ToLongDateString();
+                Id = ((FileInfo)context).FullName;
             }
 
             // Add an Icon
@@ -62,13 +76,16 @@ namespace PdfStamper
             switch (type)
             {
                 case EntryType.Workspace:
-                    image.Source = new BitmapImage(new Uri(@"pack://application:,,,/images/im_workspace.ico"));
+                    image.Source = new BitmapImage(new Uri(@"pack://application:,,,/images/workspace.ico"));
                     break;
                 case EntryType.Folder:
-                    image.Source = new BitmapImage(new Uri(@"pack://application:,,,/images/im_folder.ico"));
+                    image.Source = new BitmapImage(new Uri(@"pack://application:,,,/images/folder.ico"));
                     break;
                 case EntryType.Document:
-                    image.Source = new BitmapImage(new Uri(@"pack://application:,,,/images/im_document.ico"));
+                    image.Source = new BitmapImage(new Uri(@"pack://application:,,,/images/document.ico"));
+                    break;
+                case EntryType.Email:
+                    image.Source = new BitmapImage(new Uri(@"pack://application:,,,/images/email.ico"));
                     break;
             }
 
@@ -90,7 +107,6 @@ namespace PdfStamper
 
             return cb.IsChecked ?? false;
         }
-
     }
 
     // http://codesdirectory.blogspot.com/2013/01/c-wpf-treeview-file-explorer.html
@@ -115,7 +131,6 @@ namespace PdfStamper
 
         private TreeViewItem GetItem(DriveInfo drive)
         {
-            //var item = CreateItem(EntryType.Workspace, drive.Name, drive);
             var item = new ExplorerItem(EntryType.Workspace, drive.Name, drive);
 
             this.AddHolder(item);
@@ -125,7 +140,6 @@ namespace PdfStamper
 
         private TreeViewItem GetItem(DirectoryInfo directory)
         {
-            //var item = CreateItem(EntryType.Folder, directory.Name, directory);
             var item = new ExplorerItem(EntryType.Folder, directory.Name, directory);
 
             this.AddHolder(item);
@@ -136,7 +150,6 @@ namespace PdfStamper
 
         private TreeViewItem GetItem(FileInfo file)
         {
-            //var item = CreateItem(EntryType.Document, file.Name, file);
             var item = new ExplorerItem(EntryType.Document, file.Name, file);
 
             return item;

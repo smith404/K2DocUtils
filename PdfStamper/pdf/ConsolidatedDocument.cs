@@ -12,11 +12,12 @@ namespace PdfStamper.pdf
 {
     class ConsolidatedDocument
     {
-        public static PdfDocument makeDocument(byte[] data)
+        public static PdfDocument makeDocument(byte[] data, string tagInfo)
         {
             MemoryStream stream = new MemoryStream(data);
 
-            PdfDocument document = PdfReader.Open(stream, PdfDocumentOpenMode.Import); 
+            PdfDocument document = PdfReader.Open(stream, PdfDocumentOpenMode.Import);
+            document.Tag = tagInfo;
 
             return document;
         }
@@ -46,10 +47,8 @@ namespace PdfStamper.pdf
             return inputDocuments.Count;
         }
 
-        public byte[] consolidate()
+        public byte[] consolidate(List<OverlayElement> stamps)
         {
-            MemoryStream memStream = new MemoryStream();
-
             // Create the output document
             PdfDocument outputDocument = new PdfDocument();
 
@@ -65,22 +64,17 @@ namespace PdfStamper.pdf
                     // Load source page document
                     PdfPage page = inputDocument.Pages[idx];
 
-                    // Create the root bookmark. You can set the style and the color.
-                    if (WithBookmarks && idx == 0) outline = outputDocument.Outlines.Add(inputDocument.FullPath, page, true, PdfOutlineStyle.Bold, XColors.Black);
-
                     // Add to target document
-                    outputDocument.AddPage(page);
+                    PdfPage newPage = outputDocument.AddPage(page);
+
+                    // Create the root bookmark. You can set the style and the color.
+                    if (WithBookmarks && idx == 0) outline = outputDocument.Outlines.Add(inputDocument.Tag.ToString(), newPage, true, PdfOutlineStyle.Bold, XColors.Black);
                 }
             }
 
+            MemoryStream memStream = new MemoryStream();
             outputDocument.Save(memStream);
-
             return memStream.GetBuffer();
-        }
-
-        public void consolidate(string fileName)
-        {
-            File.WriteAllBytes(fileName, consolidate());
         }
     }
 }

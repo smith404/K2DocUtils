@@ -7,8 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="562.397" Width="1036.301" Icon="/images/App.ico" Loaded="Window_Loaded">
     <Grid>
-        <Button Name="btnOpenFile" Click="btnOpenFile_Click" Content="Open" HorizontalAlignment="Left" Height="25" Margin="10,146,0,0" VerticalAlignment="Top" Width="69"/>
-        <Button x:Name="executeBtn" Content="GO!" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" VerticalAlignment="Top" Width="69" Click="executeBtn_Click"/>
+        <Button x:Name="executeBtn" Click="executeBtn_Click" Content="GO!" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" VerticalAlignment="Top" Width="69"/>
+        <Button Name="openBtn" Click="btnOpenFile_Click" Content="Open" HorizontalAlignment="Left" Height="25" Margin="10,146,0,0" VerticalAlignment="Top" Width="69"/>
+        <Button Name="makeBtn" Click="makeBtn_Click" Content="Make" HorizontalAlignment="Left" Height="25" Margin="10,176,0,0" VerticalAlignment="Top" Width="69"/>
 
         <TextBox x:Name="inputTxt" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5" Height="151" Margin="92,147,0,0" Text="Input..." VerticalAlignment="Top" Width="492"/>
         <TextBox x:Name="outputTxt" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" HorizontalAlignment="Left" Margin="92,10,0,0" TextWrapping="Wrap" Text="Output..." VerticalAlignment="Top" Width="492" RenderTransformOrigin="0.5,0.5" Height="132"/>
@@ -16,16 +17,17 @@
         <TreeView Name="treeView" Margin="5,303,444,5"></TreeView>
 
         <StackPanel>
-            <Grid x:Name="browserHost" Height="300" Width="525" Margin="0,0,0,0">
-                <WebBrowser x:Name="pdfWebViewer" Margin="341,10,-244,0"></WebBrowser>
+            <Grid x:Name="browserHost" Height="300" Margin="586,0,10,0">
+                <WebBrowser x:Name="pdfWebViewer" Margin="10,10,0,0"></WebBrowser>
             </Grid>
         </StackPanel>
 
         <ListView Name="listView" Margin="593,305,6,8" Padding="2" SelectionMode="Single">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="175" />
-                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}" Width="340" />
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Item.Title}" Width="75" />
+                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Item.Description}" Width="100" />
+                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Item.Owner}" Width="75" />
                 </GridView>
             </ListView.View>
         </ListView>

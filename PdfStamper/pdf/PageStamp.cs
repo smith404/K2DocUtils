@@ -73,6 +73,9 @@ namespace PdfStamper
             variables.Add("{PN}", 0);
         }
 
+        public abstract void OverlayPage(PdfPage thePage);
+
+        public abstract void OverlayDocuemnt(PdfDocument source, PdfDocument target);
     }
 
     public class PageStamp : OverlayElement
@@ -183,7 +186,11 @@ namespace PdfStamper
             gfx.DrawString(text, font, FontBrush, rect, format);
         }
 
-        public void StampDocument(PdfDocument source, PdfDocument target)
+        public override void OverlayPage(PdfPage thePage)
+        {
+        }
+
+        public override void OverlayDocuemnt(PdfDocument source, PdfDocument target)
         {
             int count = source.PageCount;
 
