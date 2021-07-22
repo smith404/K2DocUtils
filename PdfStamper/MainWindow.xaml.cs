@@ -54,7 +54,7 @@ namespace PdfStamper
             return sb.ToString();
         }
 
-        private ObservableCollection<SelectedDocument> documents = null;
+        private ObservableCollection<ExplorerItem> documents = null;
         private void executeBtn_Click(object sender, RoutedEventArgs e)
         {
             // Create a new PDF document
@@ -66,7 +66,7 @@ namespace PdfStamper
 
             //this.outputTxt.Text = "Admin PWD: " + si.AdminPassword;
             List<ExplorerItem> items = workspaceExplorer.FindSelected();
-            documents = SelectedDocument.CreateTasks(items);
+            documents = ExplorerItem.CreateItems(items);
             this.listView.ItemsSource = documents;
 
 
@@ -119,16 +119,16 @@ namespace PdfStamper
             }
         }
 
-        ListViewDragDropManager<SelectedDocument> dragMgr;
+        ListViewDragDropManager<ExplorerItem> dragMgr;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // This is all that you need to do, in order to use the ListViewDragManager.
-            this.dragMgr = new ListViewDragDropManager<SelectedDocument>(this.listView);
+            this.dragMgr = new ListViewDragDropManager<ExplorerItem>(this.listView);
         }
 
         // Performs custom drop logic for the top ListView.
-        void dragMgr_ProcessDrop(object sender, ProcessDropEventArgs<SelectedDocument> e)
+        void dragMgr_ProcessDrop(object sender, ProcessDropEventArgs<ExplorerItem> e)
         {
             // Perform a swap, instead of just moving the dropped item.
             int higherIdx = Math.Max(e.OldIndex, e.NewIndex);
@@ -163,29 +163,57 @@ namespace PdfStamper
 
         private void makeBtn_Click(object sender, RoutedEventArgs e)
         {
+            var dialog = new ConsolidateDialog(documents);
+
+            // Display the dialog box and read the response
+            bool? result = dialog.ShowDialog();
+
+            if (result == true)
+            {
+                // User accepted the dialog box
+                string fileName = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".pdf";
+                Console.WriteLine(fileName);
+                dialog.OutputDocument.Save(fileName);
+                pdfWebViewer.Navigate(fileName);
+            }
+            else
+            {
+                // User cancelled the dialog box
+                MessageBox.Show("Sorry it didn't work out, we'll try again later.");
+            }
+/*
             ConsolidatedDocument cd = new ConsolidatedDocument();
 
             if (documents != null)
             {
-                foreach (SelectedDocument document in documents)
+                foreach (ExplorerItem document in documents)
                 {
-                    Console.WriteLine(document.Item.Title);
+                    Console.WriteLine(document.Title);
 
-                    byte[] fileData = File.ReadAllBytes(document.Item.Id);
+                    byte[] fileData = File.ReadAllBytes(document.Id);
 
-                    cd.addDocument(ConsolidatedDocument.makeDocument(fileData, document.Item.Title));
+                    cd.addDocument(ConsolidatedDocument.makeDocument(fileData, document.Title));
                 }
 
-                byte[] consolidatedDocument = cd.consolidate(null);
+                Watermark wm = new Watermark("Bollocks");
+                PageStamp ps = new PageStamp("Bates {DN} / {PN}");
+                var stamps = new List<OverlayElement>();
+
+                stamps.Add(ps);
+                stamps.Add(wm);
+
+                byte[] consolidatedDocument = cd.consolidate(stamps);
 
                 PdfDocument outputDocument = ConsolidatedDocument.makeDocument(consolidatedDocument, "Consolidated Document");
+                Console.WriteLine("Pages: " + outputDocument.PageCount);
 
                 string fileName = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".pdf";
+                Console.WriteLine(fileName);
                 outputDocument.Save(fileName);
 
                 pdfWebViewer.Navigate(fileName);
             }
-
+*/
         }
     }
 }

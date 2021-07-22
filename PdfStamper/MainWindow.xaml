@@ -25,9 +25,9 @@
         <ListView Name="listView" Margin="593,305,6,8" Padding="2" SelectionMode="Single">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Item.Title}" Width="75" />
-                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Item.Description}" Width="100" />
-                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Item.Owner}" Width="75" />
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Title}" Width="75" />
+                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}" Width="100" />
+                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Owner}" Width="75" />
                 </GridView>
             </ListView.View>
         </ListView>

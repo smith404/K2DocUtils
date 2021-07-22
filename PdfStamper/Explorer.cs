@@ -1,6 +1,7 @@
 ﻿using K2IManageObjects;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -12,16 +13,27 @@ namespace PdfStamper
 {
     public class TreeViewItemHolder : TreeViewItem
     {
-        public TreeViewItemHolder()
-            : base()
+        public TreeViewItemHolder() : base()
         {
             base.Header = "Place Holder";
             base.Tag = "Place Holder";
         }
     }
     
-    class ExplorerItem : TreeViewItem
+    public class ExplorerItem : TreeViewItem
     {
+        public static ObservableCollection<ExplorerItem> CreateItems(List<ExplorerItem> items)
+        {
+            ObservableCollection<ExplorerItem> list = new ObservableCollection<ExplorerItem>();
+
+            items.ForEach(delegate (ExplorerItem item)
+            {
+                list.Add(item);
+            });
+
+            return list;
+        }
+
         // The main graphical element
         private StackPanel stack;
 
@@ -31,13 +43,13 @@ namespace PdfStamper
         private readonly Image image;
 
         // Display Properties
+        public string Id { get; set; }
+
         public string Title { get; set; }
 
         public string Description { get; set; }
 
         public string Owner { get; set; }
-
-        public string Id { get; set; }
 
         public ExplorerItem(EntryType type, string text, object context)
         {
@@ -110,7 +122,7 @@ namespace PdfStamper
     }
 
     // http://codesdirectory.blogspot.com/2013/01/c-wpf-treeview-file-explorer.html
-    class Explorer
+    public class Explorer
     {
         private TreeView treeView;
 

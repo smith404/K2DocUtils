@@ -37,6 +37,9 @@
   <PropertyGroup>
     <ApplicationIcon>images\main.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>PdfStamper.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.5.0.0\lib\net461\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
@@ -133,15 +136,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConsolidateDialog.xaml.cs">
+      <DependentUpon>ConsolidateDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="draganddrop\DragAdorner.cs" />
     <Compile Include="Explorer.cs" />
     <Compile Include="draganddrop\ListViewDragDropManager.cs" />
     <Compile Include="draganddrop\MouseUtilities.cs" />
     <Compile Include="office\WordDocument.cs" />
+    <Compile Include="pdf\OverlayElement.cs" />
     <Compile Include="pdf\ConsolidatedDocument.cs" />
     <Compile Include="pdf\SecurityInfo.cs" />
-    <Compile Include="SelectedDocument.cs" />
     <Compile Include="pdf\Watermark.cs" />
+    <Page Include="ConsolidateDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
