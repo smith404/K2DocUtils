@@ -65,7 +65,24 @@ namespace PdfStamper
         public void ResetPasswords()
         {
             UserPassword = KeyGenerator.GetUniqueKey(16);
+            pss.UserPassword = UserPassword;
             AdminPassword = KeyGenerator.GetUniqueKey(24);
+            pss.OwnerPassword = AdminPassword;
+        }
+
+        public void AllowPrint(bool allow)
+        {
+            pss.PermitPrint = allow;
+            pss.PermitFullQualityPrint = allow;
+        }
+
+        public void ProtectDocument(bool allow)
+        {
+            pss.PermitAccessibilityExtractContent = !allow;
+            pss.PermitAnnotations = !allow;
+            pss.PermitAssembleDocument = !allow;
+            pss.PermitExtractContent = !allow;
+            pss.PermitModifyDocument = !allow;
         }
 
         public void SetPermitOption(int options)

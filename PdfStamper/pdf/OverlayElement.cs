@@ -54,10 +54,11 @@ namespace PdfStamper
             FontName = "Verdana";
             FontStyle = XFontStyle.Regular;
             FontBrush = XBrushes.DeepSkyBlue;
+
             constructFont();
         }
 
-        private void constructFont()
+        public void constructFont()
         {
             font = new XFont(FontName, FontSize, FontStyle);
         }

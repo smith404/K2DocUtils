@@ -172,8 +172,21 @@ namespace PdfStamper
             {
                 // User accepted the dialog box
                 string fileName = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".pdf";
+
+                if (dialog.passwordCbb.IsChecked ?? true)
+                {
+                    SecurityInfo si = new SecurityInfo(dialog.OutputDocument.SecuritySettings);
+
+                    si.ResetPasswords();
+                    adminPasswordTxt.Text = si.AdminPassword;
+                    userPassowrdTxt.Text = si.UserPassword;
+
+                }
+
                 Console.WriteLine(fileName);
+
                 dialog.OutputDocument.Save(fileName);
+
                 pdfWebViewer.Navigate(fileName);
             }
             else

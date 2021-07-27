@@ -1,4 +1,5 @@
-﻿using PdfSharp.Pdf;
+﻿using PdfSharp.Drawing;
+using PdfSharp.Pdf;
 using PdfSharp.Pdf.Annotations;
 using PdfStamper.pdf;
 using System;
@@ -54,15 +55,21 @@ namespace PdfStamper
                     cd.addDocument(ConsolidatedDocument.makeDocument(fileData, document.Title));
                 }
 
-                Watermark wm = new Watermark("Bollocks");
+                //Watermark wm = new Watermark("Watermark");
+                
                 PageStamp ps = new PageStamp(stampTxt.Text);
 
-                RubberStamp rs = new RubberStamp(PdfRubberStampAnnotationIcon.Approved);
+                ps.FontSize = Convert.ToDouble(fontSizeTxt.Text);
+                ps.FontBrush = XBrushes.Red;
+
+                ps.constructFont();
+
+                //RubberStamp rs = new RubberStamp(PdfRubberStampAnnotationIcon.Approved);
 
                 var stamps = new List<OverlayElement>();
 
-                stamps.Add(rs);
-                //stamps.Add(ps);
+                //stamps.Add(rs);
+                stamps.Add(ps);
                 //stamps.Add(wm);
 
                 byte[] consolidatedDocument = cd.consolidate(stamps);

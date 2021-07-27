@@ -144,8 +144,10 @@
     <Compile Include="draganddrop\ListViewDragDropManager.cs" />
     <Compile Include="draganddrop\MouseUtilities.cs" />
     <Compile Include="office\WordDocument.cs" />
+    <Compile Include="pdf\Annotation.cs" />
     <Compile Include="pdf\OverlayElement.cs" />
     <Compile Include="pdf\ConsolidatedDocument.cs" />
+    <Compile Include="pdf\RubberStamp.cs" />
     <Compile Include="pdf\SecurityInfo.cs" />
     <Compile Include="pdf\Watermark.cs" />
     <Page Include="ConsolidateDialog.xaml">

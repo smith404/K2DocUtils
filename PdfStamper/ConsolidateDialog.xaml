@@ -6,16 +6,18 @@
         xmlns:local="clr-namespace:PdfStamper"
         mc:Ignorable="d"
         Title="Generate Document" 
-        Height="450" 
-        Width="800" 
+        Height="161.141" 
+        Width="709.284" 
         ResizeMode="NoResize"
         ShowInTaskbar="False"
         WindowStartupLocation="CenterOwner">
     <Grid>
-        <CheckBox x:Name="stampCbb" Content="Create Page Stamp" HorizontalAlignment="Left" Height="24" Margin="29,23,0,0" VerticalAlignment="Top" Width="173"/>
-        <Label Content="Stamp Text" HorizontalAlignment="Left" Height="25" Margin="246,17,0,0" VerticalAlignment="Top" Width="90"/>
-        <TextBox x:Name="stampTxt" HorizontalAlignment="Left" Height="24" Margin="341,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="427"/>
-        <Button x:Name="createBtn" Content="Create" HorizontalAlignment="Left" Height="26" Margin="653,385,0,0" VerticalAlignment="Top" Width="131" Click="createBtn_Click"/>
+        <Label Content="Stamp Text" HorizontalAlignment="Left" Height="25" Margin="75,17,0,0" VerticalAlignment="Top" Width="90" Grid.Column="2"/>
+        <TextBox x:Name="stampTxt" HorizontalAlignment="Left" Height="24" Margin="170,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="427" Grid.Column="2"/>
+        <Button x:Name="createBtn" Content="Create" HorizontalAlignment="Left" Height="26" Margin="466,80,0,0" VerticalAlignment="Top" Width="131" Click="createBtn_Click"/>
+        <CheckBox x:Name="passwordCbb" Content="With Password" HorizontalAlignment="Left" Height="33" Margin="85,85,0,0" VerticalAlignment="Top" Width="163" Grid.Column="2"/>
+        <Label Content="Font Size" Grid.Column="2" HorizontalAlignment="Left" Height="27" Margin="75,47,0,0" VerticalAlignment="Top" Width="90"/>
+        <TextBox x:Name="fontSizeTxt" Grid.Column="2" HorizontalAlignment="Left" Height="24" Margin="170,47,0,0" TextWrapping="Wrap" Text="14" VerticalAlignment="Top" Width="127"/>
 
     </Grid>
 </Window>
