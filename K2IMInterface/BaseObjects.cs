@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
@@ -30,8 +31,11 @@ namespace K2IManageObjects
             get
             {
                 if (string.Equals(WsType, "workspace", System.StringComparison.OrdinalIgnoreCase)) return EntryType.Workspace;
+                else if (string.Equals(WsType, "workspace_shortcut", System.StringComparison.OrdinalIgnoreCase)) return EntryType.Workspace;
                 else if (string.Equals(WsType, "folder", System.StringComparison.OrdinalIgnoreCase)) return EntryType.Folder;
+                else if (string.Equals(WsType, "folder_shortcut", System.StringComparison.OrdinalIgnoreCase)) return EntryType.Folder;
                 else if (string.Equals(WsType, "document", System.StringComparison.OrdinalIgnoreCase)) return EntryType.Document;
+                else if (string.Equals(WsType, "document_shortcut", System.StringComparison.OrdinalIgnoreCase)) return EntryType.Document;
                 else if (string.Equals(WsType, "email", System.StringComparison.OrdinalIgnoreCase)) return EntryType.Email;
                 else return EntryType.Unknown;
             }
@@ -91,6 +95,27 @@ namespace K2IManageObjects
         {
             get { return string.Equals(WsType, "folder_shortcut", System.StringComparison.OrdinalIgnoreCase); }
         }
+    }
+
+    public class IMProfile
+    {
+        [JsonProperty(PropertyName = "doc_profile")]
+        public IMDocProfile DocProfile { get; set; }
+    }
+
+    public class IMDocProfile
+    {
+        [JsonProperty(PropertyName = "author")]
+        public string Author { get; set; }
+
+        [JsonProperty(PropertyName = "class")]
+        public string Clazz { get; set; }
+
+        [JsonProperty(PropertyName = "extension")]
+        public string Extension { get; set; }
+
+        [JsonProperty(PropertyName = "type")]
+        public string Type { get; set; }
     }
 
     public class IMJournal
@@ -1111,6 +1136,15 @@ namespace K2IManageObjects
         }
     }
 
+    public class IMConversation
+    {
+        public string consersation_id { get; set; }
+
+        public string consersation_name { get; set; }
+
+        public IMDocument[] items { get; set; }
+    }
+
     public class IMEmailParticipant
     {
         public string address { get; set; }
@@ -1136,23 +1170,54 @@ namespace K2IManageObjects
             DefaultSecurity = baseObject.DefaultSecurity;
         }
 
-        public string conversation_id { get; set; }
+        [JsonProperty(PropertyName = "conversation_id")]
+        public string ConversationId { get; set; }
 
-        public string conversation_name { get; set; }
+        [JsonProperty(PropertyName = "conversation_name")]
+        public string ConversationName { get; set; }
 
-        public string received_date { get; set; }
+        [JsonProperty(PropertyName = "received_date")]
+        public string ReceivedDate { get; set; }
 
-        public string sent_date { get; set; }
+        [JsonProperty(PropertyName = "sent_date")]
+        public string SentDate { get; set; }
 
-        public string subject { get; set; }
+        [JsonProperty(PropertyName = "subject")]
+        public string Subject { get; set; }
 
-        public string bcc { get; set; }
+        [JsonProperty(PropertyName = "bcc")]
+        public IMEmailParticipant[] BCC { get; set; }
 
-        public string cc { get; set; }
+        [JsonProperty(PropertyName = "cc")]
+        public IMEmailParticipant[] CC { get; set; }
 
-        public string from { get; set; }
+        [JsonProperty(PropertyName = "from")]
+        public IMEmailParticipant[] From { get; set; }
 
-        public string to { get; set; }
+        [JsonProperty(PropertyName = "to")]
+        public IMEmailParticipant[] To { get; set; }
+
+        public IMConversation Conversation(K2IMInterface.IMSession session)
+        {
+            var uri = new StringBuilder();
+
+            uri.Append("email/conversation/");
+            uri.Append(ConversationId);
+
+            string json = session.MakeGetCall(session.DecorateRESTCall(uri.ToString()));
+            if (json.Length > 0)
+            {
+                return JsonConvert.DeserializeObject<IMConversation>(json);
+            }
+
+            return new IMConversation();
+        }
+
+        [OnError]
+        internal void OnError(System.Runtime.Serialization.StreamingContext context, ErrorContext errorContext)
+        {
+            errorContext.Handled = true;
+        }
     }
 
     public class IMFolder : IMDBObject

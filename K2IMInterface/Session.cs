@@ -47,9 +47,78 @@ namespace K2IMInterface
 
         public string APIVersion { get; set; }
 
-        public string ConstructDocumentDownload(string id)
+        public string DecorateRESTCall(string url)
         {
-            return BaseURI + APIVersion + "documents/" + id + "/download";
+            return BaseURI + APIVersion + url;
+        }
+
+        public List<IMWorkspace> Workspaces()
+        {
+            string url = "workspaces/search";
+            List<IMWorkspace> workspaces = null;
+
+            try
+            {
+                string json = MakeGetCall(DecorateRESTCall(url));
+                if (json.Length > 0)
+                {
+                    workspaces = JsonConvert.DeserializeObject<IMItemList<IMWorkspace>>(json).Data;
+                }
+            }
+            catch(Exception)
+            {
+                // Not much to be done
+            }
+
+            return workspaces;
+        }
+
+        public string ConstructDocumentDownload(IMDBObject doc)
+        {
+            string url = "";
+
+            if (doc != null)
+            {
+                url = "documents/" + doc.Id + "/download";
+            }
+
+            return DecorateRESTCall(url);
+        }
+
+        public string ConstructNewVersion(IMDBObject doc)
+        {
+            string url = "";
+
+            if (doc != null)
+            {
+                url = "documents/" + doc.Id + "/versions";
+            }
+
+            return DecorateRESTCall(url);
+        }
+
+        public string ConstructDocumentGet(IMDBObject doc)
+        {
+            string url = "";
+
+            if (doc != null)
+            {
+                url = "documents/" + doc.Id;
+            }
+
+            return DecorateRESTCall(url);
+        }
+
+        public string ConstructEmailGet(IMDBObject doc)
+        {
+            string url = "";
+
+            if (doc != null)
+            {
+                url = "email/" + doc.Id;
+            }
+
+            return DecorateRESTCall(url);
         }
 
         public string ConstructSearchTerm(string query, string term)
@@ -81,6 +150,37 @@ namespace K2IMInterface
             return uri.ToString();
         }
 
+        public IMUser WhoAmI()
+        {
+            string uri = DecorateRESTCall("users/me");
+            try
+            {
+                HttpWebRequest req = (HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
+
+                req.PreAuthenticate = true;
+                req.Headers.Add("Authorization", "Bearer " + IMToken);
+                req.Accept = "application/json";
+                req.Method = "GET";
+                req.Timeout = 60000;
+
+                System.Net.WebResponse resp = req.GetResponse();
+
+                if (resp == null) return null;
+
+                System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
+
+                string json = sr.ReadToEnd().Trim();
+
+                return JsonConvert.DeserializeObject<IMItem<IMUser>>(json).Data;
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+            return null;
+        }
+
         public string MakeGetCall(string uri)
         {
             uri = BaseURI + APIVersion + uri;
@@ -99,13 +199,6 @@ namespace K2IMInterface
             System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
 
             return sr.ReadToEnd().Trim();
-        }
-
-        public List<IMWorkspace> Workspaces()
-        {
-            string url = "workspaces/search";
-
-            return JsonConvert.DeserializeObject<IMItemList<IMWorkspace>>(MakeGetCall(url)).Data; 
         }
     }
 }
