@@ -30,13 +30,25 @@ namespace K2EmailDecrypter
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
+            this.executeBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // executeBtn
+            // 
+            this.executeBtn.Location = new System.Drawing.Point(28, 21);
+            this.executeBtn.Name = "executeBtn";
+            this.executeBtn.Size = new System.Drawing.Size(75, 28);
+            this.executeBtn.TabIndex = 0;
+            this.executeBtn.Text = "GO!";
+            this.executeBtn.UseVisualStyleBackColor = true;
+            this.executeBtn.Click += new System.EventHandler(this.executeBtn_Click);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(784, 211);
+            this.Controls.Add(this.executeBtn);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
             this.Text = "Form1";
@@ -45,6 +57,8 @@ namespace K2EmailDecrypter
         }
 
         #endregion
+
+        private System.Windows.Forms.Button executeBtn;
     }
 }
 

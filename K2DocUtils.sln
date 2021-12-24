@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfStamper", "PdfStamper\PdfStamper.csproj", "{BD9A5DD8-A27A-4101-8033-959E365A5F53}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "K2EmailDecrypter", "K2EmailDecrypter\K2EmailDecrypter.csproj", "{5996AFB0-9CC8-4577-844D-A8CCD9A91222}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0839F575-D124-4B7A-A7FC-4EA1322A348D} = {0839F575-D124-4B7A-A7FC-4EA1322A348D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

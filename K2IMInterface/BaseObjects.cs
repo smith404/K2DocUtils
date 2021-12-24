@@ -666,8 +666,30 @@ namespace K2IManageObjects
 
     public class IMDatabase : IMObject
     {
+        public IMDatabase()
+        {
+
+        }
+
+        public IMDatabase(string name, string url)
+        {
+            Name = name;
+            URL = url;
+        }
+
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
+
+        // None json properties for connection enumeration
+        public string Name { get; set; }
+
+        public string URL { get; set; }
+
+        // Return the name as the friendly ToString value
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 
     public class IMCustomField : IMObject

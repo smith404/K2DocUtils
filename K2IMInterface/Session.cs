@@ -18,12 +18,22 @@ namespace K2IMInterface
 {
     public sealed class IMSession
     {
+        private static readonly object padlock = new object();
         private static IMSession instance = null;
 
-        private static readonly object padlock = new object();
+        public delegate bool ErrorCallback(Exception ex);
+        public ErrorCallback ErrorHandler { get; set; }
+
+        public string BaseURI { get; set; }
+
+        public string IMToken { get; set; }
+
+        public string APIVersion { get; set; }
+
 
         private IMSession()
         {
+            ErrorHandler = null;
             APIVersion = "api/v1/";
             IMToken = "";
             BaseURI = "https://localhost/";
@@ -47,12 +57,6 @@ namespace K2IMInterface
                 return instance;
             }
         }
-
-        public string BaseURI { get; set; }
-
-        public string IMToken { get; set; }
-
-        public string APIVersion { get; set; }
 
         public string DecorateRESTCall(string url)
         {
@@ -182,7 +186,18 @@ namespace K2IMInterface
             }
             catch(Exception ex)
             {
-
+                if (ErrorHandler != null)
+                {
+                    bool handled = ErrorHandler(ex);
+                    if (!handled)
+                    {
+                        throw ex;
+                    }
+                }
+                else
+                {
+                    throw ex;
+                }
             }
 
             return null;
@@ -190,22 +205,43 @@ namespace K2IMInterface
 
         public string MakeGetCall(string uri)
         {
-            uri = BaseURI + APIVersion + uri;
-            HttpWebRequest req = (HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
+            uri = DecorateRESTCall(uri);
 
-            req.PreAuthenticate = true;
-            req.Headers.Add("Authorization", "Bearer " + IMToken);
-            req.Accept = "application/json";
-            req.Method = "GET";
-            req.Timeout = 60000;
+            try
+            {
+                HttpWebRequest req = (HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
 
-            System.Net.WebResponse resp = req.GetResponse();
+                req.PreAuthenticate = true;
+                req.Headers.Add("Authorization", "Bearer " + IMToken);
+                req.Accept = "application/json";
+                req.Method = "GET";
+                req.Timeout = 60000;
 
-            if (resp == null) return null;
+                System.Net.WebResponse resp = req.GetResponse();
 
-            System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
+                if (resp == null) return null;
 
-            return sr.ReadToEnd().Trim();
+                System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
+
+                return sr.ReadToEnd().Trim();
+            }
+            catch (Exception ex)
+            {
+                if (ErrorHandler != null)
+                {
+                    bool handled = ErrorHandler(ex);
+                    if (!handled)
+                    {
+                        throw ex;
+                    }
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
+
+            return "";
         }
     }
 }
