@@ -14,11 +14,15 @@ namespace K2EmailDecrypter
         private NotifyIcon notifyIcon;
         private ContextMenu contextMenu;
         private MenuItem exitMenuItem;
+        private MenuItem propertiesMenuItem;
 
         private bool wasExitAction = false;
 
         public MainWindow()
         {
+            Utilities.Application = appName;
+            Utilities.Version = appVersion;
+
             log.Debug("Application started");
 
             log.Debug("Error Handler Assigned");
@@ -34,7 +38,14 @@ namespace K2EmailDecrypter
             this.exitMenuItem.Text = "E&xit";
             this.exitMenuItem.Click += new EventHandler(this.exitMenuItem_Click);
 
+            // Initialize context menu
+            this.propertiesMenuItem = new MenuItem();
+            this.propertiesMenuItem.Index = 0;
+            this.propertiesMenuItem.Text = "P&references";
+            this.propertiesMenuItem.Click += new EventHandler(this.propertiesMenuItem_Click);
+
             this.contextMenu = new ContextMenu();
+            this.contextMenu.MenuItems.AddRange(new MenuItem[] { this.propertiesMenuItem });
             this.contextMenu.MenuItems.AddRange(new MenuItem[] { this.exitMenuItem });
 
 
@@ -55,6 +66,8 @@ namespace K2EmailDecrypter
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.Fixed3D;
             this.FormClosing += mainWindow_Close;
+
+            keyTxt.Text = Utilities.ReadUserKey("IMToken");
         }
 
         private void mainWindow_Resize(object Sender, EventArgs e)
@@ -75,6 +88,7 @@ namespace K2EmailDecrypter
             else
             {
                 notifyIcon.Icon = null;
+                Utilities.WriteUserKey("IMToken", keyTxt.Text);
             }
         }
 
@@ -96,6 +110,14 @@ namespace K2EmailDecrypter
             log.Debug("Application exiting");
             wasExitAction = true;
             this.Close();
+        }
+
+        private void propertiesMenuItem_Click(object Sender, EventArgs e)
+        {
+            // Close the form, as the user has selected exit
+            PropertiesForm propsFrm = new PropertiesForm();
+
+            propsFrm.Show();
         }
 
         private void executeBtn_Click(object sender, EventArgs e)

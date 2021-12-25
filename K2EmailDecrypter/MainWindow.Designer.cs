@@ -31,6 +31,7 @@ namespace K2EmailDecrypter
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.executeBtn = new System.Windows.Forms.Button();
+            this.keyTxt = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // executeBtn
@@ -43,22 +44,32 @@ namespace K2EmailDecrypter
             this.executeBtn.UseVisualStyleBackColor = true;
             this.executeBtn.Click += new System.EventHandler(this.executeBtn_Click);
             // 
+            // keyTxt
+            // 
+            this.keyTxt.Location = new System.Drawing.Point(123, 26);
+            this.keyTxt.Name = "keyTxt";
+            this.keyTxt.Size = new System.Drawing.Size(235, 20);
+            this.keyTxt.TabIndex = 1;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 211);
+            this.Controls.Add(this.keyTxt);
             this.Controls.Add(this.executeBtn);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
             this.Text = "Form1";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Button executeBtn;
+        private System.Windows.Forms.TextBox keyTxt;
     }
 }
 

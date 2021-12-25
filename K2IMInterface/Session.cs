@@ -16,6 +16,26 @@ using System.Text;
 
 namespace K2IMInterface
 {
+    [Serializable]
+    public class IMException : Exception
+    {
+        public static int GENERAL_ERROR = 0;
+        public static int BAD_USER_INFO = 1000;
+        public static int BAD_GET_CALL = 1001;
+
+        public int ErrorCode { get; set; }
+
+        public IMException() : base() { }
+        public IMException(string message) : base(message) { }
+        public IMException(string message, Exception inner) : base(message, inner) { }
+        public IMException(string message, Exception inner, int code) : base(message, inner) { ErrorCode = code; }
+
+        // A constructor is needed for serialization when an
+        // exception propagates from a remoting server to the client.
+        protected IMException(System.Runtime.Serialization.SerializationInfo info,
+            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+    }
+
     public sealed class IMSession
     {
         private static readonly object padlock = new object();
@@ -75,13 +95,21 @@ namespace K2IMInterface
                 {
                     workspaces = JsonConvert.DeserializeObject<IMItemList<IMWorkspace>>(json).Data;
                 }
+                return new List<IMWorkspace>();
             }
-            catch(Exception)
+            catch(Exception ex)
             {
-                // Not much to be done
-            }
+                if (ErrorHandler != null)
+                {
+                    bool handled = ErrorHandler(ex);
+                    if (handled)
+                    {
+                        return null;
+                    }
+                }
 
-            return workspaces;
+                throw new IMException("Exception in: Workspaces, unable to read user workspaces", ex, IMException.GENERAL_ERROR);
+            }
         }
 
         public string ConstructDocumentDownload(IMDBObject doc)
@@ -189,18 +217,13 @@ namespace K2IMInterface
                 if (ErrorHandler != null)
                 {
                     bool handled = ErrorHandler(ex);
-                    if (!handled)
+                    if (handled)
                     {
-                        throw ex;
+                        return null;
                     }
                 }
-                else
-                {
-                    throw ex;
-                }
+                throw new IMException("Exception in: WhoAmI, unable to read user details", ex, IMException.BAD_USER_INFO);
             }
-
-            return null;
         }
 
         public string MakeGetCall(string uri)
@@ -230,18 +253,13 @@ namespace K2IMInterface
                 if (ErrorHandler != null)
                 {
                     bool handled = ErrorHandler(ex);
-                    if (!handled)
+                    if (handled)
                     {
-                        throw ex;
+                        return null;
                     }
                 }
-                else
-                {
-                    throw ex;
-                }
+                throw new IMException(String.Format("Exception in: MakeGetCall []", uri), ex, IMException.BAD_GET_CALL);
             }
-
-            return "";
         }
     }
 }
