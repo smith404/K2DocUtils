@@ -64,6 +64,7 @@ namespace K2EmailDecrypter
             this.MinimizeBox = false;
             this.Name = "PropertiesForm";
             this.Text = "Preferences";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.PropertiesForm_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -18,5 +18,13 @@ namespace K2EmailDecrypter
             versionNumberLbl.Text = MainWindow.appVersion;
         }
 
+        private void PropertiesForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                // Save the properties
+            }
+
+        }
     }
 }
