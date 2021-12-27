@@ -18,8 +18,11 @@ namespace K2EmailDecrypter
 
         private bool wasExitAction = false;
 
+        private PropertiesForm properties;
+
         public MainWindow()
         {
+            // Set some global values
             Utilities.Application = appName;
             Utilities.Version = appVersion;
 
@@ -67,7 +70,7 @@ namespace K2EmailDecrypter
             this.FormBorderStyle = FormBorderStyle.Fixed3D;
             this.FormClosing += mainWindow_Close;
 
-            keyTxt.Text = Utilities.ReadUserKey("IMToken");
+            //keyTxt.Text = preferences.IMKey;
         }
 
         private void mainWindow_Resize(object Sender, EventArgs e)
@@ -88,7 +91,7 @@ namespace K2EmailDecrypter
             else
             {
                 notifyIcon.Icon = null;
-                Utilities.WriteUserKey("IMToken", keyTxt.Text);
+                //preferences.IMKey = keyTxt.Text;
             }
         }
 
@@ -115,9 +118,19 @@ namespace K2EmailDecrypter
         private void propertiesMenuItem_Click(object Sender, EventArgs e)
         {
             // Close the form, as the user has selected exit
-            PropertiesForm propsFrm = new PropertiesForm();
+            if (properties == null)
+            {
+                properties = new PropertiesForm();
+            }
 
-            propsFrm.Show();
+            if (properties.Visible)
+            {
+                properties.Focus();
+            }
+            else
+            {
+                properties.Show();
+            }
         }
 
         private void executeBtn_Click(object sender, EventArgs e)
