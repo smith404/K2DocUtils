@@ -7,18 +7,18 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="562.397" Width="1036.301" Icon="/images/App.ico" Loaded="Window_Loaded">
     <Grid>
-        <Button x:Name="executeBtn" Click="executeBtn_Click" Content="Transfer" HorizontalAlignment="Left" Height="25" Margin="5,146,0,0" VerticalAlignment="Top" Width="98"/>
-        <Button Name="openBtn" Click="btnOpenFile_Click" Content="Open" HorizontalAlignment="Left" Height="25" Margin="5,5,0,0" VerticalAlignment="Top" Width="98"/>
-        <Button Name="makeBtn" Click="makeBtn_Click" Content="Make Stamp" HorizontalAlignment="Left" Height="25" Margin="5,176,0,0" VerticalAlignment="Top" Width="98"/>
+        <Button x:Name="ExecuteBtn" Click="ExecuteBtn_Click" Content="Transfer" HorizontalAlignment="Left" Height="25" Margin="5,146,0,0" VerticalAlignment="Top" Width="98"/>
+        <Button Name="OpenBtn" Click="OpenFileBtn_Click" Content="Open" HorizontalAlignment="Left" Height="25" Margin="5,5,0,0" VerticalAlignment="Top" Width="98"/>
+        <Button Name="MakeBtn" Click="MakeBtn_Click" Content="Make Stamp" HorizontalAlignment="Left" Height="25" Margin="5,176,0,0" VerticalAlignment="Top" Width="98"/>
 
-        <TextBox x:Name="inputTxt" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5" Height="76" Margin="108,147,0,0" Text="Input..." VerticalAlignment="Top" Width="476"/>
-        <TextBox x:Name="outputTxt" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" HorizontalAlignment="Left" Margin="108,5,0,0" TextWrapping="Wrap" Text="Output..." VerticalAlignment="Top" Width="476" RenderTransformOrigin="0.5,0.5" Height="132"/>
+        <TextBox x:Name="InputTxt" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5" Height="76" Margin="108,147,0,0" Text="Input..." VerticalAlignment="Top" Width="476"/>
+        <TextBox x:Name="OutputTxt" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" HorizontalAlignment="Left" Margin="108,5,0,0" TextWrapping="Wrap" Text="Output..." VerticalAlignment="Top" Width="476" RenderTransformOrigin="0.5,0.5" Height="132"/>
 
-        <TreeView Name="treeView" Margin="5,293,444,5"/>
+        <TreeView Name="TreeView" Margin="5,293,444,5"/>
 
-        <WebBrowser x:Name="pdfWebViewer" Margin="589,10,10,243" Height="278" VerticalAlignment="Top" HorizontalAlignment="Left"></WebBrowser>
+        <WebBrowser x:Name="PdfWebViewer" Margin="589,10,10,243" Height="278" VerticalAlignment="Top" HorizontalAlignment="Left"></WebBrowser>
 
-        <ListView Name="listView" Margin="589,293,5,5" Padding="2" SelectionMode="Single">
+        <ListView Name="ListView" Margin="589,293,5,5" Padding="2" SelectionMode="Single">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Title}" Width="75" />
@@ -28,9 +28,9 @@
             </ListView.View>
         </ListView>
         <Label Content="User Password" HorizontalAlignment="Left" Height="33" Margin="5,225,0,0" VerticalAlignment="Top" Width="113"/>
-        <TextBox x:Name="userPassowrdTxt" HorizontalAlignment="Left" Height="21" Margin="108,231,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="476"/>
+        <TextBox x:Name="UserPassowrdTxt" HorizontalAlignment="Left" Height="21" Margin="108,231,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="476"/>
         <Label Content="AdminPassword" HorizontalAlignment="Left" Height="37" Margin="5,256,0,0" VerticalAlignment="Top" Width="113"/>
-        <TextBox x:Name="adminPasswordTxt" HorizontalAlignment="Left" Height="22" Margin="108,260,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="476"/>
+        <TextBox x:Name="AdminPasswordTxt" HorizontalAlignment="Left" Height="22" Margin="108,260,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="476"/>
 
     </Grid>
 </Window>

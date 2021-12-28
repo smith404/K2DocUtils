@@ -2,7 +2,7 @@
 
 namespace K2EmailDecrypter
 {
-    class Preferences
+    public class Preferences
     {
         private static readonly string RootKey = "Software";
 

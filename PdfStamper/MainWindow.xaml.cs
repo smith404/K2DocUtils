@@ -1,28 +1,14 @@
 ﻿using Microsoft.Recognizers.Text;
-using Microsoft.Recognizers.Text.DateTime;
-using Microsoft.Recognizers.Text.Sequence;
 using Microsoft.Win32;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.BarCodes;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
-using PdfStamper.pdf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PdfStamper
 {
@@ -36,8 +22,8 @@ namespace PdfStamper
         public MainWindow()
         {
             InitializeComponent();
-            workspaceExplorer = new Explorer(treeView);
-            pdfWebViewer.Navigate(new Uri("about:blank"));
+            workspaceExplorer = new Explorer(TreeView);
+            PdfWebViewer.Navigate(new Uri("about:blank"));
         }
 
         public string Redacte(string source, List<ModelResult> results)
@@ -58,7 +44,7 @@ namespace PdfStamper
         }
 
         private readonly ObservableCollection<ExplorerItem> documents = null;
-        private void executeBtn_Click(object sender, RoutedEventArgs e)
+        private void ExecuteBtn_Click(object sender, RoutedEventArgs e)
         {
             // Create a new PDF document
             PdfDocument s_document = new PdfDocument();
@@ -135,7 +121,7 @@ namespace PdfStamper
             */
         }
 
-        private void btnOpenFile_Click(object sender, RoutedEventArgs e)
+        private void OpenFileBtn_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -160,7 +146,7 @@ namespace PdfStamper
                 Console.WriteLine(fileName);
                 outputDocument.Save(fileName);
 
-                pdfWebViewer.Navigate(fileName);
+                PdfWebViewer.Navigate(fileName);
             }
         }
 
@@ -169,11 +155,11 @@ namespace PdfStamper
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // This is all that you need to do, in order to use the ListViewDragManager.
-            dragMgr = new ListViewDragDropManager<ExplorerItem>(listView);
+            dragMgr = new ListViewDragDropManager<ExplorerItem>(ListView);
         }
 
         // Performs custom drop logic for the top ListView.
-        void dragMgr_ProcessDrop(object sender, ProcessDropEventArgs<ExplorerItem> e)
+        void DragMgr_ProcessDrop(object sender, ProcessDropEventArgs<ExplorerItem> e)
         {
             // Perform a swap, instead of just moving the dropped item.
             int higherIdx = Math.Max(e.OldIndex, e.NewIndex);
@@ -206,7 +192,7 @@ namespace PdfStamper
             e.Effects = DragDropEffects.Move;
         }
 
-        private void makeBtn_Click(object sender, RoutedEventArgs e)
+        private void MakeBtn_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new ConsolidateDialog(documents);
 
@@ -223,8 +209,8 @@ namespace PdfStamper
                     SecurityInfo si = new SecurityInfo(dialog.OutputDocument.SecuritySettings);
 
                     si.ResetPasswords();
-                    adminPasswordTxt.Text = si.AdminPassword;
-                    userPassowrdTxt.Text = si.UserPassword;
+                    AdminPasswordTxt.Text = si.AdminPassword;
+                    UserPassowrdTxt.Text = si.UserPassword;
 
                 }
 
@@ -232,7 +218,7 @@ namespace PdfStamper
 
                 dialog.OutputDocument.Save(fileName);
 
-                pdfWebViewer.Navigate(fileName);
+                PdfWebViewer.Navigate(fileName);
             }
             else
             {

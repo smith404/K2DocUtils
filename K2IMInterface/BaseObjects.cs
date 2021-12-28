@@ -223,35 +223,50 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "import")]
         public bool Import { get; set; }
 
-        public bool checkout { get; set; }
+        [JsonProperty(PropertyName = "checkout")]
+        public bool Checkout { get; set; }
 
-        public bool release { get; set; }
+        [JsonProperty(PropertyName = "release")]
+        public bool Release { get; set; }
 
-        public bool delete { get; set; }
+        [JsonProperty(PropertyName = "delete")]
+        public bool Delete { get; set; }
 
-        public bool read_only { get; set; }
+        [JsonProperty(PropertyName = "read_only")]
+        public bool ReadOnly { get; set; }
 
-        public bool allow_index_search { get; set; }
+        [JsonProperty(PropertyName = "allow_index_search")]
+        public bool AllowIndexSearch { get; set; }
 
-        public bool display_public_documents { get; set; }
+        [JsonProperty(PropertyName = "display_public_documents")]
+        public bool DisplayPublicDocuments { get; set; }
 
-        public bool edit_previous_versions { get; set; }
+        [JsonProperty(PropertyName = "edit_previous_versions")]
+        public bool EditPreviousVersions { get; set; }
 
-        public bool edit_external_default_security { get; set; }
+        [JsonProperty(PropertyName = "edit_external_default_security")]
+        public bool EditExternalDefaultSecurity { get; set; }
 
-        public bool create_public_folder { get; set; }
+        [JsonProperty(PropertyName = "create_public_folder")]
+        public bool CreatePublicFolder { get; set; }
 
-        public bool create_public_search_folder { get; set; }
+        [JsonProperty(PropertyName = "create_public_search_folder")]
+        public bool CreatePublicSearchFolder { get; set; }
 
-        public bool delete_public_folder { get; set; }
+        [JsonProperty(PropertyName = "delete_public_folder")]
+        public bool DeletePublicFolder { get; set; }
 
-        public bool delete_public_search_folder { get; set; }
+        [JsonProperty(PropertyName = "delete_public_search_folder")]
+        public bool DeletePublicSearchFolder { get; set; }
 
-        public bool view_public_folder { get; set; }
+        [JsonProperty(PropertyName = "view_public_folder")]
+        public bool ViewPublicFolder { get; set; }
 
-        public bool view_public_search_folder { get; set; }
+        [JsonProperty(PropertyName = "view_public_search_folder")]
+        public bool ViewPublicSearchFolder { get; set; }
 
-        public bool edit_external_default_security_folder { get; set; }
+        [JsonProperty(PropertyName = "edit_external_default_security_folder")]
+        public bool EditExternalDefaultSecurityFolder { get; set; }
     }
 
     public class IMM2Bits

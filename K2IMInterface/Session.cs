@@ -418,20 +418,61 @@ namespace K2IMInterface
                 // Write the paramter objects
                 foreach (string key in parameters.Keys)
                 {
-                    rs.Write(boundryBytes, 0, boundryBytes.Length);
-                    string postTemplate = "Content-Disposition: form-data: name=\"{0}\"\r\nContent-Type: application/json\r\n\r\n{1}";
-                    string formData = string.Format(postTemplate, "profile", JsonConvert.SerializeObject(""));
-                    byte[] formBytes = System.Text.Encoding.UTF8.GetBytes(formData);
-                    rs.Write(formBytes, 0, formBytes.Length);
+                    // Reserved keys star with a "#"
+                    if (!key.StartsWith("#"))
+                    {
+                        string parameterDetails = parameters[key];
+                        string[] details = parameterDetails.Split('|');
+                        if (details.Length == 3)
+                        {
+                            // We expect a something like:
+                            // object|application/json|{"field": "value"}
+                            // otherwise there is not much we can do
+                            rs.Write(boundryBytes, 0, boundryBytes.Length);
+                            string postTemplate = "Content-Disposition: form-data: name=\"{0}\"\r\nContent-Type: {1}\r\n\r\n{2}";
+                            string formData = string.Format(postTemplate, details[0], details[1]);
+                            byte[] formBytes = Encoding.UTF8.GetBytes(formData);
+                            rs.Write(formBytes, 0, formBytes.Length);
+                        }
+                    }
                 }
 
                 // Write the file object
-                rs.Write(boundryBytes, 0, boundryBytes.Length);
-                string fileTemplate = "Content-Disposition: form-data: name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
-                string fileData = string.Format(fileTemplate, "file", "", "application/octet-stream");
-                byte[] fileBytes = System.Text.Encoding.UTF8.GetBytes(fileData);
-                rs.Write(fileBytes, 0, fileData.Length);
-                rs.Write(data, 0, data.Length);
+                string fileDetails = parameters["#file"];
+                if (fileDetails != null)
+                {
+                    string[] details = fileDetails.Split('|');
+                    if (details.Length == 3)
+                    {
+                        // We have all three pieced of inforamtion
+                        rs.Write(boundryBytes, 0, boundryBytes.Length);
+                        string fileTemplate = "Content-Disposition: form-data: name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
+                        string fileData = string.Format(fileTemplate, details[0], details[1], details[2]);
+                        byte[] fileBytes = System.Text.Encoding.UTF8.GetBytes(fileData);
+                        rs.Write(fileBytes, 0, fileData.Length);
+                        rs.Write(data, 0, data.Length);
+                    }
+                    else if (details.Length == 2)
+                    {
+                        // Assume the content type is octet-stream
+                        rs.Write(boundryBytes, 0, boundryBytes.Length);
+                        string fileTemplate = "Content-Disposition: form-data: name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
+                        string fileData = string.Format(fileTemplate, details[0], details[1], "application/octet-stream");
+                        byte[] fileBytes = System.Text.Encoding.UTF8.GetBytes(fileData);
+                        rs.Write(fileBytes, 0, fileData.Length);
+                        rs.Write(data, 0, data.Length);
+                    }
+                    else if (details.Length == 1)
+                    {
+                        // Assume the content type is octet-stream and the field is form field is named "file"
+                        rs.Write(boundryBytes, 0, boundryBytes.Length);
+                        string fileTemplate = "Content-Disposition: form-data: name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
+                        string fileData = string.Format(fileTemplate, "file", details[1], "application/octet-stream");
+                        byte[] fileBytes = System.Text.Encoding.UTF8.GetBytes(fileData);
+                        rs.Write(fileBytes, 0, fileData.Length);
+                        rs.Write(data, 0, data.Length);
+                    }
+                }
 
                 // Write the trailer
                 byte[] trailerBytes = System.Text.Encoding.UTF8.GetBytes("\r\n--" + boundry + "--\r\n");

@@ -6,15 +6,27 @@ namespace K2EmailDecrypter
 {
     public partial class MainWindow : Form
     {
+        private readonly Timer appTimer;
+        public Timer AppTimer
+        {
+            get { return appTimer; }
+        }
+
+        private readonly Decrypter decrypter = new Decrypter();
+        public Decrypter Decrypter
+        {
+            get { return decrypter; }
+        }
+
         public static string appName = "K2 Email Decrypter";
         public static string appVersion = "0.0.1";
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private readonly NotifyIcon notifyIcon;
-        private readonly ContextMenu contextMenu;
-        private readonly MenuItem exitMenuItem;
-        private readonly MenuItem propertiesMenuItem;
+        private readonly NotifyIcon AppNotifyIcon;
+        private readonly ContextMenu AppContextMenu;
+        private readonly MenuItem ExitMenuItem;
+        private readonly MenuItem PropertiesMenuItem;
 
         private bool wasExitAction = false;
 
@@ -36,48 +48,57 @@ namespace K2EmailDecrypter
             components = new System.ComponentModel.Container();
 
             // Initialize context menu
-            exitMenuItem = new MenuItem
+            ExitMenuItem = new MenuItem
             {
                 Index = 0,
                 Text = "E&xit"
             };
-            exitMenuItem.Click += new EventHandler(exitMenuItem_Click);
+            ExitMenuItem.Click += new EventHandler(ExitMenuItem_Click);
 
             // Initialize context menu
-            propertiesMenuItem = new MenuItem
+            PropertiesMenuItem = new MenuItem
             {
                 Index = 0,
                 Text = "P&references"
             };
-            propertiesMenuItem.Click += new EventHandler(propertiesMenuItem_Click);
+            PropertiesMenuItem.Click += new EventHandler(PropertiesMenuItem_Click);
 
-            contextMenu = new ContextMenu();
-            contextMenu.MenuItems.AddRange(new MenuItem[] { propertiesMenuItem });
-            contextMenu.MenuItems.AddRange(new MenuItem[] { exitMenuItem });
-
+            AppContextMenu = new ContextMenu();
+            AppContextMenu.MenuItems.AddRange(new MenuItem[] { PropertiesMenuItem });
+            AppContextMenu.MenuItems.AddRange(new MenuItem[] { ExitMenuItem });
 
             // Set up how the form should be displayed.
             ClientSize = new System.Drawing.Size(800, 250);
             Text = appName;
 
             // Set up the notify icon
-            notifyIcon = new NotifyIcon(components)
+            AppNotifyIcon = new NotifyIcon(components)
             {
                 Icon = new Icon("resources/secure.ico"),
-                ContextMenu = contextMenu,
+                ContextMenu = AppContextMenu,
                 Text = appName,
                 Visible = true
             };
-            notifyIcon.DoubleClick += new EventHandler(notifyIcon_DoubleClick);
+            AppNotifyIcon.DoubleClick += new EventHandler(AppNotifyIcon_DoubleClick);
 
             // Set window properties
-            Resize += new EventHandler(mainWindow_Resize);
+            Resize += new EventHandler(MainWindow_Resize);
             MaximizeBox = false;
             FormBorderStyle = FormBorderStyle.Fixed3D;
-            FormClosing += mainWindow_Close;
+            FormClosing += MainWindow_Close;
+
+            // Set up the timer object
+            appTimer = new Timer();
+            appTimer.Tick += new EventHandler(TimerEventProcessor);
+
+            // Delay is stored in seconds so multiply by 1000 for milliseconds
+            properties = new PropertiesForm();
+            appTimer.Interval = properties.Preferences.Delay * 1000;
+
+            appTimer.Start();
         }
 
-        private void mainWindow_Resize(object Sender, EventArgs e)
+        private void MainWindow_Resize(object Sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Minimized)
             {
@@ -85,7 +106,7 @@ namespace K2EmailDecrypter
             }
         }
 
-        private void mainWindow_Close(object Sender, FormClosingEventArgs e)
+        private void MainWindow_Close(object Sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing && !wasExitAction)
             {
@@ -94,11 +115,11 @@ namespace K2EmailDecrypter
             }
             else
             {
-                notifyIcon.Icon = null;
+                AppNotifyIcon.Icon = null;
             }
         }
 
-        private void notifyIcon_DoubleClick(object Sender, EventArgs e)
+        private void AppNotifyIcon_DoubleClick(object Sender, EventArgs e)
         {
             // Set the WindowState to normal if the form is minimized.
             if (WindowState == FormWindowState.Minimized)
@@ -110,7 +131,7 @@ namespace K2EmailDecrypter
             }
         }
 
-        private void exitMenuItem_Click(object Sender, EventArgs e)
+        private void ExitMenuItem_Click(object Sender, EventArgs e)
         {
             // Close the form, as the user has selected exit
             log.Debug("Application exiting");
@@ -118,7 +139,7 @@ namespace K2EmailDecrypter
             Close();
         }
 
-        private void propertiesMenuItem_Click(object Sender, EventArgs e)
+        private void PropertiesMenuItem_Click(object Sender, EventArgs e)
         {
             // Close the form, as the user has selected exit
             if (properties == null)
@@ -136,7 +157,7 @@ namespace K2EmailDecrypter
             }
         }
 
-        private void executeBtn_Click(object sender, EventArgs e)
+        private void ExecuteBtn_Click(object sender, EventArgs e)
         {
 
         }
@@ -145,6 +166,14 @@ namespace K2EmailDecrypter
         {
             // Just ignore all the errors
             return true;
+        }
+
+        private void TimerEventProcessor(Object myObject, EventArgs myEventArgs)
+        {
+            appTimer.Stop();
+
+            OutputTxt.Text += "Event triggered: " + DateTime.Now + "\r\n";
+            appTimer.Enabled = true;
         }
     }
 }

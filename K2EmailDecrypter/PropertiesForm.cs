@@ -13,32 +13,38 @@ namespace K2EmailDecrypter
     public partial class PropertiesForm : Form
     {
         private static readonly string ProviderRoot = "SOFTWARE\\Microsoft\\Cryptography\\Defaults\\Provider";
+
         private readonly Preferences preferences;
+        public Preferences Preferences
+        {
+            get { return preferences; }
+        }
 
         public PropertiesForm()
         {
             // Set up window with no task bar presence
             InitializeComponent();
             ShowInTaskbar = false;
+            TokenTxt.UseSystemPasswordChar = true;
 
             // Create application preferences instance
             preferences = new Preferences();
 
-            versionNumberLbl.Text = MainWindow.appVersion;
+            VersionNumberLbl.Text = MainWindow.appVersion;
 
             // Read the delay preference and make sure it's valid
             int delay = preferences.Delay;
-            if (delay < refreshTrk.Minimum || delay > refreshTrk.Maximum)
+            if (delay < RefreshTrk.Minimum || delay > RefreshTrk.Maximum)
             {
-                delay = refreshTrk.Minimum;
+                delay = RefreshTrk.Minimum;
             }
-            refreshTrk.Value = delay;
-            valLbl.Text = delay.ToString();
+            RefreshTrk.Value = delay;
+            ValLbl.Text = delay.ToString();
 
             List<Key> keys = Key.GetSubkeysValue(ProviderRoot, Microsoft.Win32.RegistryHive.LocalMachine);
             foreach(Key key in keys)
             {
-                cryptoProviderCbb.Items.Add(key);
+                CryptoProviderCbb.Items.Add(key);
             }
 
             Key provider = new Key
@@ -46,17 +52,21 @@ namespace K2EmailDecrypter
                 KeyName = preferences.CryptoProvider
             };
 
-            cryptoProviderCbb.SelectedItem = provider;
+            CryptoProviderCbb.SelectedItem = provider;
+
+            TokenTxt.Text = preferences.IMKey;
+
         }
 
         private void PropertiesForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                preferences.Delay = refreshTrk.Value;
-                if (cryptoProviderCbb.SelectedItem != null)
+                preferences.IMKey = TokenTxt.Text;
+                preferences.Delay = RefreshTrk.Value;
+                if (CryptoProviderCbb.SelectedItem != null)
                 {
-                    preferences.CryptoProvider = cryptoProviderCbb.SelectedItem.ToString();
+                    preferences.CryptoProvider = CryptoProviderCbb.SelectedItem.ToString();
                 }
 
                 e.Cancel = true;
@@ -65,14 +75,14 @@ namespace K2EmailDecrypter
 
         }
 
-        private void refeshTrk_ValueChanged(object sender, EventArgs e)
+        private void RefeshTrk_ValueChanged(object sender, EventArgs e)
         {
-            valLbl.Text = refreshTrk.Value.ToString();
+            ValLbl.Text = RefreshTrk.Value.ToString();
         }
 
-        private void PropertiesForm_Load(object sender, EventArgs e)
+        private void ViewBtn_Click(object sender, EventArgs e)
         {
-
+            TokenTxt.UseSystemPasswordChar = !TokenTxt.UseSystemPasswordChar;
         }
     }
 }
