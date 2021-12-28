@@ -10,7 +10,8 @@ using K2IManageObjects;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Collections.Specialized;
+using System.IO;
 using System.Net;
 using System.Text;
 
@@ -22,6 +23,8 @@ namespace K2IMInterface
         public static int GENERAL_ERROR = 0;
         public static int BAD_USER_INFO = 1000;
         public static int BAD_GET_CALL = 1001;
+        public static int BAD_DOWNLOAD_CALL = 1001;
+        public static int BAD_UPLOAD_CALL = 1001;
 
         public int ErrorCode { get; set; }
 
@@ -90,14 +93,14 @@ namespace K2IMInterface
 
             try
             {
-                string json = MakeGetCall(DecorateRESTCall(url));
+                string json = PerformGetCall(DecorateRESTCall(url));
                 if (json.Length > 0)
                 {
                     workspaces = JsonConvert.DeserializeObject<IMItemList<IMWorkspace>>(json).Data;
                 }
                 return new List<IMWorkspace>();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 if (ErrorHandler != null)
                 {
@@ -165,7 +168,7 @@ namespace K2IMInterface
             return ConstructSearchTerm(query, term, 0, 25, false);
         }
 
-            public string ConstructSearchTerm(string query, string term, int offset, int limit, bool total)
+        public string ConstructSearchTerm(string query, string term, int offset, int limit, bool total)
         {
             var uri = new StringBuilder(query);
 
@@ -184,7 +187,10 @@ namespace K2IMInterface
                 uri.Append(limit);
             }
 
-            if (total) uri.Append("&total=true");
+            if (total)
+            {
+                uri.Append("&total=true");
+            }
 
             return uri.ToString();
         }
@@ -202,17 +208,20 @@ namespace K2IMInterface
                 req.Method = "GET";
                 req.Timeout = 60000;
 
-                System.Net.WebResponse resp = req.GetResponse();
+                WebResponse resp = req.GetResponse();
 
-                if (resp == null) return null;
+                if (resp == null)
+                {
+                    return null;
+                }
 
-                System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
+                StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
 
                 string json = sr.ReadToEnd().Trim();
 
                 return JsonConvert.DeserializeObject<IMItem<IMUser>>(json).Data;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 if (ErrorHandler != null)
                 {
@@ -226,7 +235,7 @@ namespace K2IMInterface
             }
         }
 
-        public string MakeGetCall(string uri)
+        public string PerformGetCall(string uri)
         {
             uri = DecorateRESTCall(uri);
 
@@ -240,11 +249,14 @@ namespace K2IMInterface
                 req.Method = "GET";
                 req.Timeout = 60000;
 
-                System.Net.WebResponse resp = req.GetResponse();
+                WebResponse resp = req.GetResponse();
 
-                if (resp == null) return null;
+                if (resp == null)
+                {
+                    return null;
+                }
 
-                System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
+                StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
 
                 return sr.ReadToEnd().Trim();
             }
@@ -258,7 +270,195 @@ namespace K2IMInterface
                         return null;
                     }
                 }
-                throw new IMException(String.Format("Exception in: MakeGetCall []", uri), ex, IMException.BAD_GET_CALL);
+                throw new IMException(string.Format("Exception in: MakeGetCall []", uri), ex, IMException.BAD_GET_CALL);
+            }
+        }
+
+        public byte[] PerformDownloadCall(string uri)
+        {
+            uri = DecorateRESTCall(uri);
+
+            try
+            {
+                HttpWebRequest req = (HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
+
+                req.PreAuthenticate = true;
+                req.Headers.Add("Authorization", "Bearer " + IMToken);
+                req.Accept = "application/json";
+                req.Method = "GET";
+                req.KeepAlive = true;
+
+                WebResponse resp = req.GetResponse();
+                if (resp == null)
+                {
+                    return null;
+                }
+
+                Stream respStream = resp.GetResponseStream();
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    respStream.CopyTo(ms);
+
+                    return ms.ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ErrorHandler != null)
+                {
+                    bool handled = ErrorHandler(ex);
+                    if (handled)
+                    {
+                        return null;
+                    }
+                }
+                throw new IMException(string.Format("Exception in: PerformDownloadCall []", uri), ex, IMException.BAD_DOWNLOAD_CALL);
+            }
+        }
+
+        public string PerformVersionUpload(string uri, byte[] data, IMDocument doc)
+        {
+            uri = DecorateRESTCall(uri);
+
+            string boundry = "-----------------------------" + DateTime.Now.Ticks.ToString("x");
+            byte[] boundryBytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundry + "\r\n");
+
+            try
+            {
+                HttpWebRequest req = (HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
+
+                req.PreAuthenticate = true;
+                req.Headers.Add("Authorization", "Bearer " + IMToken);
+                req.Accept = "application/json";
+                req.Method = "POST";
+                req.KeepAlive = true;
+                req.ContentType = "multipart/form-data; boundry=" + boundry;
+
+                // Get the request stream
+                Stream rs = req.GetRequestStream();
+
+                // Create a profile object
+                IMProfile profile = new IMProfile();
+                IMDocProfile docProfile = new IMDocProfile
+                {
+                    Author = doc.Author,
+                    Clazz = doc.Clazz,
+                    Extension = doc.Extension,
+                    Type = doc.Type
+                };
+                profile.DocProfile = docProfile;
+
+                string fileName = doc.Name + "." + doc.Extension;
+
+                // Write the profile object
+                rs.Write(boundryBytes, 0, boundryBytes.Length);
+                string postTemplate = "Content-Disposition: form-data: name=\"{0}\"\r\nContent-Type: application/json\r\n\r\n{1}";
+                string formData = string.Format(postTemplate, "profile", JsonConvert.SerializeObject(profile));
+                byte[] formBytes = System.Text.Encoding.UTF8.GetBytes(formData);
+                rs.Write(formBytes, 0, formBytes.Length);
+
+                // Write the file object
+                rs.Write(boundryBytes, 0, boundryBytes.Length);
+                string fileTemplate = "Content-Disposition: form-data: name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
+                string fileData = string.Format(fileTemplate, "file", fileName, "application/octet-stream");
+                byte[] fileBytes = System.Text.Encoding.UTF8.GetBytes(fileData);
+                rs.Write(fileBytes, 0, fileData.Length);
+                rs.Write(data, 0, data.Length);
+
+                // Write the trailer
+                byte[] trailerBytes = System.Text.Encoding.UTF8.GetBytes("\r\n--" + boundry + "--\r\n");
+                rs.Write(trailerBytes, 0, trailerBytes.Length);
+                rs.Close();
+
+                WebResponse resp = req.GetResponse();
+                if (resp == null)
+                {
+                    return null;
+                }
+
+                StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
+
+                return sr.ReadToEnd().Trim();
+            }
+            catch (Exception ex)
+            {
+                if (ErrorHandler != null)
+                {
+                    bool handled = ErrorHandler(ex);
+                    if (handled)
+                    {
+                        return null;
+                    }
+                }
+                throw new IMException(string.Format("Exception in: PerformUploadCall []", uri), ex, IMException.BAD_UPLOAD_CALL);
+            }
+        }
+
+        public string PerformUploadCall(string uri, byte[] data, NameValueCollection parameters)
+        {
+            uri = DecorateRESTCall(uri);
+
+            string boundry = "-----------------------------" + DateTime.Now.Ticks.ToString("x");
+            byte[] boundryBytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundry + "\r\n");
+
+            try
+            {
+                HttpWebRequest req = (HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
+
+                req.PreAuthenticate = true;
+                req.Headers.Add("Authorization", "Bearer " + IMToken);
+                req.Accept = "application/json";
+                req.Method = "POST";
+                req.KeepAlive = true;
+                req.ContentType = "multipart/form-data; boundry=" + boundry;
+
+                // Get the request stream
+                Stream rs = req.GetRequestStream();
+
+                // Write the paramter objects
+                foreach (string key in parameters.Keys)
+                {
+                    rs.Write(boundryBytes, 0, boundryBytes.Length);
+                    string postTemplate = "Content-Disposition: form-data: name=\"{0}\"\r\nContent-Type: application/json\r\n\r\n{1}";
+                    string formData = string.Format(postTemplate, "profile", JsonConvert.SerializeObject(""));
+                    byte[] formBytes = System.Text.Encoding.UTF8.GetBytes(formData);
+                    rs.Write(formBytes, 0, formBytes.Length);
+                }
+
+                // Write the file object
+                rs.Write(boundryBytes, 0, boundryBytes.Length);
+                string fileTemplate = "Content-Disposition: form-data: name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
+                string fileData = string.Format(fileTemplate, "file", "", "application/octet-stream");
+                byte[] fileBytes = System.Text.Encoding.UTF8.GetBytes(fileData);
+                rs.Write(fileBytes, 0, fileData.Length);
+                rs.Write(data, 0, data.Length);
+
+                // Write the trailer
+                byte[] trailerBytes = System.Text.Encoding.UTF8.GetBytes("\r\n--" + boundry + "--\r\n");
+                rs.Write(trailerBytes, 0, trailerBytes.Length);
+                rs.Close();
+
+                WebResponse resp = req.GetResponse();
+                if (resp == null)
+                {
+                    return null;
+                }
+
+                StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
+
+                return sr.ReadToEnd().Trim();
+            }
+            catch (Exception ex)
+            {
+                if (ErrorHandler != null)
+                {
+                    bool handled = ErrorHandler(ex);
+                    if (handled)
+                    {
+                        return null;
+                    }
+                }
+                throw new IMException(string.Format("Exception in: PerformUploadCall []", uri), ex, IMException.BAD_UPLOAD_CALL);
             }
         }
     }

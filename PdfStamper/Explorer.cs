@@ -35,7 +35,7 @@ namespace PdfStamper
         }
 
         // The main graphical element
-        private StackPanel stack;
+        private readonly StackPanel stack;
 
         // Panel sub elements
         private readonly Label lbl;
@@ -60,21 +60,27 @@ namespace PdfStamper
             DataContext = context;
 
             // Create stack panel
-            stack = new StackPanel();
-            stack.Orientation = Orientation.Horizontal;
+            stack = new StackPanel
+            {
+                Orientation = Orientation.Horizontal
+            };
 
             // Add the label information
-            lbl = new Label();
-            lbl.Content = text;
-            lbl.HorizontalAlignment = HorizontalAlignment.Center;
-            lbl.VerticalAlignment = VerticalAlignment.Center;
+            lbl = new Label
+            {
+                Content = text,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
 
             // If it's a document add a check box
             if (type == EntryType.Document)
             {
-                cb = new CheckBox();
-                cb.HorizontalAlignment = HorizontalAlignment.Center;
-                cb.VerticalAlignment = VerticalAlignment.Center;
+                cb = new CheckBox
+                {
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
                 stack.Children.Add(cb);
 
                 Title = ((FileInfo)context).Name;
@@ -124,7 +130,7 @@ namespace PdfStamper
     // http://codesdirectory.blogspot.com/2013/01/c-wpf-treeview-file-explorer.html
     public class Explorer
     {
-        private TreeView treeView;
+        private readonly TreeView treeView;
 
         public Explorer(TreeView treeView)
         {
@@ -137,7 +143,7 @@ namespace PdfStamper
             var drives = DriveInfo.GetDrives();
             foreach (var drive in drives)
             {
-                this.treeView.Items.Add(this.GetItem(drive));
+                treeView.Items.Add(GetItem(drive));
             }
         }
 
@@ -145,7 +151,7 @@ namespace PdfStamper
         {
             var item = new ExplorerItem(EntryType.Workspace, drive.Name, drive);
 
-            this.AddHolder(item);
+            AddHolder(item);
             item.Expanded += new RoutedEventHandler(itemExpanded);
             return item;
         }
@@ -154,7 +160,7 @@ namespace PdfStamper
         {
             var item = new ExplorerItem(EntryType.Folder, directory.Name, directory);
 
-            this.AddHolder(item);
+            AddHolder(item);
             item.Expanded += new RoutedEventHandler(itemExpanded);
 
             return item;
@@ -193,7 +199,7 @@ namespace PdfStamper
 
                 if (!isHidden && !isSystem)
                 {
-                    item.Items.Add(this.GetItem(directory));
+                    item.Items.Add(GetItem(directory));
                 }
             }
         }
@@ -223,7 +229,7 @@ namespace PdfStamper
                 var isSystem = (file.Attributes & FileAttributes.System) == FileAttributes.System;
                 if (!isHidden && !isSystem)
                 {
-                    item.Items.Add(this.GetItem(file));
+                    item.Items.Add(GetItem(file));
                 }
             }
         }
@@ -232,12 +238,12 @@ namespace PdfStamper
         {
             var item = (TreeViewItem)sender;
 
-            if (this.HasHolder(item))
+            if (HasHolder(item))
             {
                 treeView.Cursor = Cursors.Wait;
-                this.RemoveHolder(item);
-                this.ExploreDirectories(item);
-                this.ExploreFiles(item);
+                RemoveHolder(item);
+                ExploreDirectories(item);
+                ExploreFiles(item);
                 treeView.Cursor = Cursors.Arrow;
             }
         }

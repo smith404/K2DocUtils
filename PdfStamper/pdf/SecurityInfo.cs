@@ -39,7 +39,7 @@ namespace PdfStamper
 
     public class SecurityInfo
     {
-        PdfSecuritySettings pss = null;
+        readonly PdfSecuritySettings pss = null;
 
         public static byte PermitAccessibilityExtractContent = 0b00000001;
         public static byte PermitAnnotations = 0b00000010;

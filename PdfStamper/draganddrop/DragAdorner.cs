@@ -19,7 +19,7 @@ namespace WPF.JoshSmith.Adorners
     {
         #region Data
 
-        private Rectangle child = null;
+        private readonly Rectangle child = null;
         private double offsetLeft = 0;
         private double offsetTop = 0;
 
@@ -36,12 +36,14 @@ namespace WPF.JoshSmith.Adorners
         public DragAdorner(UIElement adornedElement, Size size, Brush brush)
             : base(adornedElement)
         {
-            Rectangle rect = new Rectangle();
-            rect.Fill = brush;
-            rect.Width = size.Width;
-            rect.Height = size.Height;
-            rect.IsHitTestVisible = false;
-            this.child = rect;
+            Rectangle rect = new Rectangle
+            {
+                Fill = brush,
+                Width = size.Width,
+                Height = size.Height,
+                IsHitTestVisible = false
+            };
+            child = rect;
         }
 
         #endregion // Constructor
@@ -59,7 +61,7 @@ namespace WPF.JoshSmith.Adorners
         {
             GeneralTransformGroup result = new GeneralTransformGroup();
             result.Children.Add(base.GetDesiredTransform(transform));
-            result.Children.Add(new TranslateTransform(this.offsetLeft, this.offsetTop));
+            result.Children.Add(new TranslateTransform(offsetLeft, offsetTop));
             return result;
         }
 
@@ -72,10 +74,10 @@ namespace WPF.JoshSmith.Adorners
         /// </summary>
         public double OffsetLeft
         {
-            get { return this.offsetLeft; }
+            get { return offsetLeft; }
             set
             {
-                this.offsetLeft = value;
+                offsetLeft = value;
                 UpdateLocation();
             }
         }
@@ -91,9 +93,9 @@ namespace WPF.JoshSmith.Adorners
         /// <param name="top"></param>
         public void SetOffsets(double left, double top)
         {
-            this.offsetLeft = left;
-            this.offsetTop = top;
-            this.UpdateLocation();
+            offsetLeft = left;
+            offsetTop = top;
+            UpdateLocation();
         }
 
         #endregion // SetOffsets
@@ -105,10 +107,10 @@ namespace WPF.JoshSmith.Adorners
         /// </summary>
         public double OffsetTop
         {
-            get { return this.offsetTop; }
+            get { return offsetTop; }
             set
             {
-                this.offsetTop = value;
+                offsetTop = value;
                 UpdateLocation();
             }
         }
@@ -126,8 +128,8 @@ namespace WPF.JoshSmith.Adorners
         /// <returns></returns>
         protected override Size MeasureOverride(Size constraint)
         {
-            this.child.Measure(constraint);
-            return this.child.DesiredSize;
+            child.Measure(constraint);
+            return child.DesiredSize;
         }
 
         /// <summary>
@@ -137,7 +139,7 @@ namespace WPF.JoshSmith.Adorners
         /// <returns></returns>
         protected override Size ArrangeOverride(Size finalSize)
         {
-            this.child.Arrange(new Rect(finalSize));
+            child.Arrange(new Rect(finalSize));
             return finalSize;
         }
 
@@ -148,7 +150,7 @@ namespace WPF.JoshSmith.Adorners
         /// <returns></returns>
         protected override Visual GetVisualChild(int index)
         {
-            return this.child;
+            return child;
         }
 
         /// <summary>
@@ -165,9 +167,9 @@ namespace WPF.JoshSmith.Adorners
 
         private void UpdateLocation()
         {
-            AdornerLayer adornerLayer = this.Parent as AdornerLayer;
+            AdornerLayer adornerLayer = Parent as AdornerLayer;
             if (adornerLayer != null)
-                adornerLayer.Update(this.AdornedElement);
+                adornerLayer.Update(AdornedElement);
         }
 
         #endregion // Private Helpers

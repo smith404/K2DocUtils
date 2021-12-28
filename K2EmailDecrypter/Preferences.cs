@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace K2EmailDecrypter
 {
     class Preferences
     {
-        private static string RootKey = "Software";
+        private static readonly string RootKey = "Software";
 
         public string IMKey
         {

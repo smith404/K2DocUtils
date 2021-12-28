@@ -29,9 +29,11 @@ namespace PdfStamper
             gfx.TranslateTransform(-thePage.Width / 2, -thePage.Height / 2);
 
             // Create a string format
-            XStringFormat format = new XStringFormat();
-            format.Alignment = XStringAlignment.Near;
-            format.LineAlignment = XLineAlignment.Near;
+            XStringFormat format = new XStringFormat
+            {
+                Alignment = XStringAlignment.Near,
+                LineAlignment = XLineAlignment.Near
+            };
 
             // Create a dimmed red brush
             XBrush brush = new XSolidBrush(XBrushes.DarkTurquoise);
@@ -64,9 +66,11 @@ namespace PdfStamper
                 gfx.TranslateTransform(-targetPage.Width / 2, -targetPage.Height / 2);
 
                 // Create a string format
-                XStringFormat format = new XStringFormat();
-                format.Alignment = XStringAlignment.Near;
-                format.LineAlignment = XLineAlignment.Near;
+                XStringFormat format = new XStringFormat
+                {
+                    Alignment = XStringAlignment.Near,
+                    LineAlignment = XLineAlignment.Near
+                };
 
                 // Create a dimmed red brush
                 XBrush brush = new XSolidBrush(XBrushes.DarkTurquoise);

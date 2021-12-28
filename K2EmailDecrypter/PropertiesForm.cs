@@ -12,14 +12,14 @@ namespace K2EmailDecrypter
 {
     public partial class PropertiesForm : Form
     {
-        private static string ProviderRoot = "SOFTWARE\\Microsoft\\Cryptography\\Defaults\\Provider";
-        private Preferences preferences;
+        private static readonly string ProviderRoot = "SOFTWARE\\Microsoft\\Cryptography\\Defaults\\Provider";
+        private readonly Preferences preferences;
 
         public PropertiesForm()
         {
             // Set up window with no task bar presence
             InitializeComponent();
-            this.ShowInTaskbar = false;
+            ShowInTaskbar = false;
 
             // Create application preferences instance
             preferences = new Preferences();
@@ -41,8 +41,10 @@ namespace K2EmailDecrypter
                 cryptoProviderCbb.Items.Add(key);
             }
 
-            Key provider = new Key();
-            provider.KeyName = preferences.CryptoProvider;
+            Key provider = new Key
+            {
+                KeyName = preferences.CryptoProvider
+            };
 
             cryptoProviderCbb.SelectedItem = provider;
         }
@@ -58,7 +60,7 @@ namespace K2EmailDecrypter
                 }
 
                 e.Cancel = true;
-                this.Hide();
+                Hide();
             }
 
         }

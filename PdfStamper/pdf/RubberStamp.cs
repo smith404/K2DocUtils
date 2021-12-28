@@ -33,10 +33,12 @@ namespace PdfStamper
 
             XRect rect = gfx.Transformer.WorldToDefaultPage(new XRect(new XPoint(20, 20), new XSize(200, 50)));
 
-            PdfRubberStampAnnotation rsAnnot = new PdfRubberStampAnnotation();
-            rsAnnot.Icon = Icon;
-            rsAnnot.Flags = PdfAnnotationFlags.ReadOnly;
-            rsAnnot.Rectangle = new PdfRectangle(rect);
+            PdfRubberStampAnnotation rsAnnot = new PdfRubberStampAnnotation
+            {
+                Icon = Icon,
+                Flags = PdfAnnotationFlags.ReadOnly,
+                Rectangle = new PdfRectangle(rect)
+            };
 
             // Add the rubber stamp annotation to the page
             thePage.Annotations.Add(rsAnnot);

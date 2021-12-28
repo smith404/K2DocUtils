@@ -38,14 +38,38 @@ namespace K2IManageObjects
         {
             get
             {
-                if (string.Equals(WsType, "workspace", System.StringComparison.OrdinalIgnoreCase)) return EntryType.Workspace;
-                else if (string.Equals(WsType, "workspace_shortcut", System.StringComparison.OrdinalIgnoreCase)) return EntryType.Workspace;
-                else if (string.Equals(WsType, "folder", System.StringComparison.OrdinalIgnoreCase)) return EntryType.Folder;
-                else if (string.Equals(WsType, "folder_shortcut", System.StringComparison.OrdinalIgnoreCase)) return EntryType.Folder;
-                else if (string.Equals(WsType, "document", System.StringComparison.OrdinalIgnoreCase)) return EntryType.Document;
-                else if (string.Equals(WsType, "document_shortcut", System.StringComparison.OrdinalIgnoreCase)) return EntryType.Document;
-                else if (string.Equals(WsType, "email", System.StringComparison.OrdinalIgnoreCase)) return EntryType.Email;
-                else return EntryType.Unknown;
+                if (string.Equals(WsType, "workspace", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    return EntryType.Workspace;
+                }
+                else if (string.Equals(WsType, "workspace_shortcut", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    return EntryType.Workspace;
+                }
+                else if (string.Equals(WsType, "folder", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    return EntryType.Folder;
+                }
+                else if (string.Equals(WsType, "folder_shortcut", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    return EntryType.Folder;
+                }
+                else if (string.Equals(WsType, "document", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    return EntryType.Document;
+                }
+                else if (string.Equals(WsType, "document_shortcut", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    return EntryType.Document;
+                }
+                else if (string.Equals(WsType, "email", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    return EntryType.Email;
+                }
+                else
+                {
+                    return EntryType.Unknown;
+                }
             }
         }
         public IMObject()
@@ -56,7 +80,9 @@ namespace K2IManageObjects
         public override string ToString()
         {
             if (_PropertyInfos == null)
+            {
                 _PropertyInfos = GetType().GetProperties();
+            }
 
             var sb = new StringBuilder();
 
@@ -338,7 +364,7 @@ namespace K2IManageObjects
             uri.Append(Id);
             uri.Append("/children");
 
-            return JsonConvert.DeserializeObject<IMItemList<IMDBObject>>(session.MakeGetCall(uri.ToString())).Data;
+            return JsonConvert.DeserializeObject<IMItemList<IMDBObject>>(session.PerformGetCall(uri.ToString())).Data;
         }
 
         public string SearchString(string term, int offset, int limit, bool total)
@@ -376,7 +402,10 @@ namespace K2IManageObjects
                 uri.Append(limit);
             }
 
-            if (total) uri.Append("&total=true");
+            if (total)
+            {
+                uri.Append("&total=true");
+            }
 
             return uri.ToString();
         }
@@ -979,7 +1008,7 @@ namespace K2IManageObjects
         {
             string url = "workspaces/recent";
 
-            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)).Data;
+            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.PerformGetCall(url)).Data;
         }
     }
 
@@ -1090,7 +1119,8 @@ namespace K2IManageObjects
 
         public string edit_time { get; set; }
 
-        public string extension { get; set; }
+        [JsonProperty(PropertyName = "extension")]
+        public string Extension { get; set; }
 
         public string content_type { get; set; }
 
@@ -1234,7 +1264,7 @@ namespace K2IManageObjects
             uri.Append("email/conversation/");
             uri.Append(ConversationId);
 
-            string json = session.MakeGetCall(session.DecorateRESTCall(uri.ToString()));
+            string json = session.PerformGetCall(session.DecorateRESTCall(uri.ToString()));
             if (json.Length > 0)
             {
                 return JsonConvert.DeserializeObject<IMConversation>(json);
@@ -1337,14 +1367,14 @@ namespace K2IManageObjects
         {
             string url = "folders/" + Id + "/documents";
 
-            return JsonConvert.DeserializeObject<IMItemList<IMDocument>>(session.MakeGetCall(url)).Data;
+            return JsonConvert.DeserializeObject<IMItemList<IMDocument>>(session.PerformGetCall(url)).Data;
         }
 
         public List<IMFolder> SubFolders(K2IMInterface.IMSession session)
         {
             string url = "folders/" + Id + "/subfolders";
 
-            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.MakeGetCall(url)).Data;
+            return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.PerformGetCall(url)).Data;
         }
     }
 
@@ -1431,7 +1461,7 @@ namespace K2IManageObjects
         public string iwl { get; set; }
 
         public string last_user { get; set; }
-  
+
         [JsonProperty(PropertyName = "operator")]
         public string Operator { get; set; }
 

@@ -124,7 +124,7 @@ namespace K2EmailDecrypter
             }
             else
             {
-                return this.KeyName.Equals(that.ToString());
+                return KeyName.Equals(that.ToString());
             }
         }
 

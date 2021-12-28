@@ -11,10 +11,10 @@ namespace K2EmailDecrypter
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private NotifyIcon notifyIcon;
-        private ContextMenu contextMenu;
-        private MenuItem exitMenuItem;
-        private MenuItem propertiesMenuItem;
+        private readonly NotifyIcon notifyIcon;
+        private readonly ContextMenu contextMenu;
+        private readonly MenuItem exitMenuItem;
+        private readonly MenuItem propertiesMenuItem;
 
         private bool wasExitAction = false;
 
@@ -29,55 +29,59 @@ namespace K2EmailDecrypter
             log.Debug("Application started");
 
             log.Debug("Error Handler Assigned");
-            K2IMInterface.IMSession.Instance.ErrorHandler = this.MyErrorCallback;
+            K2IMInterface.IMSession.Instance.ErrorHandler = MyErrorCallback;
 
             InitializeComponent();
 
-            this.components = new System.ComponentModel.Container();
+            components = new System.ComponentModel.Container();
 
             // Initialize context menu
-            this.exitMenuItem = new MenuItem();
-            this.exitMenuItem.Index = 0;
-            this.exitMenuItem.Text = "E&xit";
-            this.exitMenuItem.Click += new EventHandler(this.exitMenuItem_Click);
+            exitMenuItem = new MenuItem
+            {
+                Index = 0,
+                Text = "E&xit"
+            };
+            exitMenuItem.Click += new EventHandler(exitMenuItem_Click);
 
             // Initialize context menu
-            this.propertiesMenuItem = new MenuItem();
-            this.propertiesMenuItem.Index = 0;
-            this.propertiesMenuItem.Text = "P&references";
-            this.propertiesMenuItem.Click += new EventHandler(this.propertiesMenuItem_Click);
+            propertiesMenuItem = new MenuItem
+            {
+                Index = 0,
+                Text = "P&references"
+            };
+            propertiesMenuItem.Click += new EventHandler(propertiesMenuItem_Click);
 
-            this.contextMenu = new ContextMenu();
-            this.contextMenu.MenuItems.AddRange(new MenuItem[] { this.propertiesMenuItem });
-            this.contextMenu.MenuItems.AddRange(new MenuItem[] { this.exitMenuItem });
+            contextMenu = new ContextMenu();
+            contextMenu.MenuItems.AddRange(new MenuItem[] { propertiesMenuItem });
+            contextMenu.MenuItems.AddRange(new MenuItem[] { exitMenuItem });
 
 
             // Set up how the form should be displayed.
-            this.ClientSize = new System.Drawing.Size(800, 250);
-            this.Text = appName;
+            ClientSize = new System.Drawing.Size(800, 250);
+            Text = appName;
 
             // Set up the notify icon
-            this.notifyIcon = new NotifyIcon(this.components);
-            notifyIcon.Icon = new Icon("resources/secure.ico");
-            notifyIcon.ContextMenu = this.contextMenu;
-            notifyIcon.Text = appName;
-            notifyIcon.Visible = true;
-            notifyIcon.DoubleClick += new EventHandler(this.notifyIcon_DoubleClick);
+            notifyIcon = new NotifyIcon(components)
+            {
+                Icon = new Icon("resources/secure.ico"),
+                ContextMenu = contextMenu,
+                Text = appName,
+                Visible = true
+            };
+            notifyIcon.DoubleClick += new EventHandler(notifyIcon_DoubleClick);
 
             // Set window properties
-            this.Resize += new EventHandler(this.mainWindow_Resize);
-            this.MaximizeBox = false;
-            this.FormBorderStyle = FormBorderStyle.Fixed3D;
-            this.FormClosing += mainWindow_Close;
-
-            //keyTxt.Text = preferences.IMKey;
+            Resize += new EventHandler(mainWindow_Resize);
+            MaximizeBox = false;
+            FormBorderStyle = FormBorderStyle.Fixed3D;
+            FormClosing += mainWindow_Close;
         }
 
         private void mainWindow_Resize(object Sender, EventArgs e)
         {
-            if (this.WindowState == FormWindowState.Minimized)
+            if (WindowState == FormWindowState.Minimized)
             {
-                this.ShowInTaskbar = false;
+                ShowInTaskbar = false;
             }
         }
 
@@ -85,25 +89,24 @@ namespace K2EmailDecrypter
         {
             if (e.CloseReason == CloseReason.UserClosing && !wasExitAction)
             {
-                this.WindowState = FormWindowState.Minimized;
+                WindowState = FormWindowState.Minimized;
                 e.Cancel = true;
             }
             else
             {
                 notifyIcon.Icon = null;
-                //preferences.IMKey = keyTxt.Text;
             }
         }
 
         private void notifyIcon_DoubleClick(object Sender, EventArgs e)
         {
             // Set the WindowState to normal if the form is minimized.
-            if (this.WindowState == FormWindowState.Minimized)
+            if (WindowState == FormWindowState.Minimized)
             {
                 // Activate the form.
-                this.WindowState = FormWindowState.Normal;
-                this.Activate();
-                this.ShowInTaskbar = true;
+                WindowState = FormWindowState.Normal;
+                Activate();
+                ShowInTaskbar = true;
             }
         }
 
@@ -112,7 +115,7 @@ namespace K2EmailDecrypter
             // Close the form, as the user has selected exit
             log.Debug("Application exiting");
             wasExitAction = true;
-            this.Close();
+            Close();
         }
 
         private void propertiesMenuItem_Click(object Sender, EventArgs e)

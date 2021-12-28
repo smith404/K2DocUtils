@@ -2,12 +2,15 @@
 using Microsoft.Recognizers.Text.DateTime;
 using Microsoft.Recognizers.Text.Sequence;
 using Microsoft.Win32;
+using PdfSharp.Drawing;
+using PdfSharp.Drawing.BarCodes;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using PdfStamper.pdf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -28,7 +31,7 @@ namespace PdfStamper
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Explorer workspaceExplorer = null;
+        private readonly Explorer workspaceExplorer = null;
 
         public MainWindow()
         {
@@ -54,20 +57,29 @@ namespace PdfStamper
             return sb.ToString();
         }
 
-        private ObservableCollection<ExplorerItem> documents = null;
+        private readonly ObservableCollection<ExplorerItem> documents = null;
         private void executeBtn_Click(object sender, RoutedEventArgs e)
         {
             // Create a new PDF document
-            //PdfDocument document = new PdfDocument();
+            PdfDocument s_document = new PdfDocument();
+            s_document.Info.Title = "PDFsharp XGraphic Sample";
+            s_document.Info.Author = "Stefan Lange";
+            s_document.Info.Subject = "Created with code snippets that show the use of graphical functions";
+            s_document.Info.Keywords = "PDFsharp, XGraphics";
+
+            RenderPage(s_document.AddPage());
+            s_document.Save("test.pdf");
+
+
 
             //SecurityInfo si = new SecurityInfo(document.SecuritySettings);
 
             //si.ResetPasswords();
 
             //this.outputTxt.Text = "Admin PWD: " + si.AdminPassword;
-            List<ExplorerItem> items = workspaceExplorer.FindSelected();
-            documents = ExplorerItem.CreateItems(items);
-            this.listView.ItemsSource = documents;
+            //List<ExplorerItem> items = workspaceExplorer.FindSelected();
+            //documents = ExplorerItem.CreateItems(items);
+            //this.listView.ItemsSource = documents;
 
 
             //var culture = Culture.English;
@@ -92,10 +104,43 @@ namespace PdfStamper
             */
         }
 
+        public void RenderPage(PdfPage page)
+        {
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+
+            Code2of5Interleaved bc25 = new Code2of5Interleaved
+            {
+                Text = "2501068039721",
+                Size = new XSize(90, 30),
+                Direction = CodeDirection.LeftToRight,
+                TextLocation = TextLocation.Above
+            };
+
+            gfx.DrawBarCode(bc25, XBrushes.Black, new XPoint(10, 10));
+
+/*
+            Code3of9Standard bc39 = new Code3of9Standard("ISABEL123", new XSize(90, 40));
+            bc39.TextLocation = TextLocation.AboveEmbedded;
+            gfx.DrawBarCode(bc39, XBrushes.DarkBlue, new XPoint(100, 500));
+
+            bc39.Direction = CodeDirection.RightToLeft;
+            gfx.DrawBarCode(bc39, XBrushes.DarkBlue, new XPoint(300, 500));
+
+            bc39.Text = "TITUS";
+            bc39.Direction = CodeDirection.TopToBottom;
+            gfx.DrawBarCode(bc39, XBrushes.DarkBlue, new XPoint(100, 700));
+
+            bc39.Direction = CodeDirection.BottomToTop;
+            gfx.DrawBarCode(bc39, XBrushes.Red, new XPoint(300, 700));
+            */
+        }
+
         private void btnOpenFile_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Pdf Files (*.pdf)|*.pdf";
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Pdf Files (*.pdf)|*.pdf"
+            };
 
             if (openFileDialog.ShowDialog() == true)
             {
@@ -124,7 +169,7 @@ namespace PdfStamper
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // This is all that you need to do, in order to use the ListViewDragManager.
-            this.dragMgr = new ListViewDragDropManager<ExplorerItem>(this.listView);
+            dragMgr = new ListViewDragDropManager<ExplorerItem>(listView);
         }
 
         // Performs custom drop logic for the top ListView.

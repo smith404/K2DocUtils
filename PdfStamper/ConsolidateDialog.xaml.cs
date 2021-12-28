@@ -56,11 +56,12 @@ namespace PdfStamper
                 }
 
                 //Watermark wm = new Watermark("Watermark");
-                
-                PageStamp ps = new PageStamp(stampTxt.Text);
 
-                ps.FontSize = Convert.ToDouble(fontSizeTxt.Text);
-                ps.FontBrush = XBrushes.Red;
+                PageStamp ps = new PageStamp(stampTxt.Text)
+                {
+                    FontSize = Convert.ToDouble(fontSizeTxt.Text),
+                    FontBrush = XBrushes.Red
+                };
 
                 ps.constructFont();
 

@@ -24,11 +24,11 @@ namespace PdfStamper
         public double TopOffset { get; set; }
         public double BottomOffset { get; set; }
 
-        private string stamp;
+        private readonly string stamp;
 
         public PageStamp(string stampFormat)
         {
-            this.stamp = stampFormat;
+            stamp = stampFormat;
 
             BoarderPen = XPens.BlanchedAlmond;
             BackgroundBrush = XBrushes.BlanchedAlmond;
@@ -85,9 +85,11 @@ namespace PdfStamper
 
             gfx.DrawRectangle(BoarderPen, BackgroundBrush, rect);
 
-            XStringFormat format = new XStringFormat();
-            format.Alignment = XStringAlignment.Center;
-            format.LineAlignment = XLineAlignment.Center;
+            XStringFormat format = new XStringFormat
+            {
+                Alignment = XStringAlignment.Center,
+                LineAlignment = XLineAlignment.Center
+            };
 
             gfx.DrawString(text, font, FontBrush, rect, format);
         }
