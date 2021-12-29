@@ -100,6 +100,7 @@ namespace K2EmailDecrypter
             this.RefreshTrk.SmallChange = 30;
             this.RefreshTrk.TabIndex = 5;
             this.RefreshTrk.Value = 60;
+            this.RefreshTrk.Scroll += new System.EventHandler(this.RefreshTrk_Scroll);
             this.RefreshTrk.ValueChanged += new System.EventHandler(this.RefeshTrk_ValueChanged);
             // 
             // SecondsLbl

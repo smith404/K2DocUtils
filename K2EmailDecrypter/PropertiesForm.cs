@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -41,16 +42,13 @@ namespace K2EmailDecrypter
             RefreshTrk.Value = delay;
             ValLbl.Text = delay.ToString();
 
-            List<Key> keys = Key.GetSubkeysValue(ProviderRoot, Microsoft.Win32.RegistryHive.LocalMachine);
+            List<Key> keys = Key.GetSubkeysList(Registry.LocalMachine, ProviderRoot);
             foreach(Key key in keys)
             {
                 CryptoProviderCbb.Items.Add(key);
             }
 
-            Key provider = new Key
-            {
-                KeyName = preferences.CryptoProvider
-            };
+            Key provider = new Key(preferences.CryptoProvider);
 
             CryptoProviderCbb.SelectedItem = provider;
 
@@ -83,6 +81,11 @@ namespace K2EmailDecrypter
         private void ViewBtn_Click(object sender, EventArgs e)
         {
             TokenTxt.UseSystemPasswordChar = !TokenTxt.UseSystemPasswordChar;
+        }
+
+        private void RefreshTrk_Scroll(object sender, EventArgs e)
+        {
+
         }
     }
 }

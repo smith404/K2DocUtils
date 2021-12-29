@@ -12,6 +12,12 @@ namespace K2EmailDecrypter
             set { Utilities.WriteUserKey(RootKey, nameof(IMKey), value.ToString()); }
         }
 
+        public string Database
+        {
+            get { return Utilities.ReadUserKey(RootKey, nameof(Database)); }
+            set { Utilities.WriteUserKey(RootKey, nameof(Database), value.ToString()); }
+        }
+
         public string CryptoProvider
         {
             get { return Utilities.ReadUserKey(RootKey, nameof(CryptoProvider)); }
@@ -27,5 +33,12 @@ namespace K2EmailDecrypter
             }
             set { Utilities.WriteUserKey(RootKey, nameof(Delay), value.ToString()); }
         }
+
+        public string LastRunISO8601
+        {
+            get { return Utilities.ReadUserKey(RootKey, nameof(LastRunISO8601)); }
+            set { Utilities.WriteUserKey(RootKey, nameof(LastRunISO8601), value.ToString()); }
+        }
+
     }
 }

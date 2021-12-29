@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -93,9 +95,17 @@ namespace K2EmailDecrypter
 
             // Delay is stored in seconds so multiply by 1000 for milliseconds
             properties = new PropertiesForm();
-            appTimer.Interval = properties.Preferences.Delay * 1000;
+            //appTimer.Interval = properties.Preferences.Delay * 1000;
+            appTimer.Interval = 10000;
 
             appTimer.Start();
+
+            string location = "Software\\" + appName + "\\" + appVersion + "\\Condition";
+            Key key = Key.GetKeyValue(Registry.CurrentUser, location);
+            foreach(KeyValuePair<string, object> p in key.Values)
+            {
+                Console.WriteLine(p.Key + " = " + p.Value.ToString());
+            }
         }
 
         private void MainWindow_Resize(object Sender, EventArgs e)
@@ -159,7 +169,11 @@ namespace K2EmailDecrypter
 
         private void ExecuteBtn_Click(object sender, EventArgs e)
         {
+            appTimer.Stop();
+            OutputTxt.Text += "Event triggered: " + DateTime.Now + "\r\n";
+            appTimer.Start();
 
+            properties.Preferences.LastRunISO8601 = Utilities.getNowISO8601();
         }
 
         public bool MyErrorCallback(Exception ex)
@@ -171,9 +185,10 @@ namespace K2EmailDecrypter
         private void TimerEventProcessor(Object myObject, EventArgs myEventArgs)
         {
             appTimer.Stop();
-
             OutputTxt.Text += "Event triggered: " + DateTime.Now + "\r\n";
-            appTimer.Enabled = true;
+            appTimer.Start();
+
+            properties.Preferences.LastRunISO8601 = Utilities.getNowISO8601();
         }
     }
 }

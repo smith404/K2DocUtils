@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,24 @@ namespace K2EmailDecrypter
     {
         public static string Application { get; set; }
         public static string Version { get; set; }
+
+        public static string getNowISO8601(bool universalTime = true)
+        {
+            return getTimeISO8601(DateTime.Now, universalTime);
+        }
+
+        public static string getTimeISO8601(DateTime theTime, bool universalTime = true)
+        {
+            if (universalTime)
+            {
+                return theTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
+            }
+            else
+            {
+                return theTime.ToString("yyyy-MM-ddTHH:mm:ssZ");
+            }
+
+        }
 
         public static void WriteUserKey(string root, string key, string val)
         {
@@ -55,32 +74,41 @@ namespace K2EmailDecrypter
     class Key
     {
         public string KeyName { get; set; }
+
         public List<KeyValuePair<string, object>> Values { get; set; }
 
-        public static List<Key> GetSubkeysValue(string path, RegistryHive hive)
+        public Key(string keyName)
+        {
+            KeyName = keyName;
+            Values = new List<KeyValuePair<string, object>>();
+        }
+
+        public static List<Key> GetSubkeysList(RegistryKey hiveKey, string path)
         {
             var result = new List<Key>();
-            var hiveKey = RegistryKey.OpenBaseKey(hive, RegistryView.Default);
 
             using (var key = hiveKey.OpenSubKey(path))
             {
-                var subkeys = key.GetSubKeyNames();
-
-                foreach (var subkey in subkeys)
+                if (key != null)
                 {
-                    var values = GetKeyValue(hiveKey, subkey);
-                    result.Add(values);
+                    var subkeys = key.GetSubKeyNames();
+
+                    foreach (var subkey in subkeys)
+                    {
+                        var values = GetKeyValue(hiveKey, subkey);
+                        result.Add(values);
+                    }
                 }
             }
 
             return result;
         }
 
-        public static Key GetKeyValue(RegistryKey hive, string keyName)
+        public static Key GetKeyValue(RegistryKey hiveKey, string keyName)
         {
-            var result = new Key() { KeyName = keyName };
+            var result = new Key(keyName);
 
-            using (var key = hive.OpenSubKey(keyName))
+            using (var key = hiveKey.OpenSubKey(keyName))
             {
                 if (key != null)
                 {
@@ -100,9 +128,9 @@ namespace K2EmailDecrypter
             return result;
         }
 
-        public static void SetKeyValue(RegistryKey hive, string keyName, object value)
+        public static void SetKeyValue(RegistryKey hiveKey, string keyName, object value)
         {
-            using (var key = hive.OpenSubKey(keyName))
+            using (var key = hiveKey.OpenSubKey(keyName))
             {
                 foreach (var valueName in key.GetValueNames())
                 {
