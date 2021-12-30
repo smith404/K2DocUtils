@@ -195,6 +195,29 @@ namespace K2IMInterface
             return uri.ToString();
         }
 
+        public string ConstructSearchTerm(string query, List<string> terms)
+        {
+            StringBuilder uri = new StringBuilder(query);
+
+            bool firstTerm = true;
+            foreach (string term in terms)
+            {
+                if (firstTerm)
+                {
+                    firstTerm = false;
+                    uri.Append("?");
+                }
+                else
+                {
+                    uri.Append("&");
+                }
+
+                uri.Append(term);
+            }
+
+            return uri.ToString();
+        }
+
         public IMUser WhoAmI()
         {
             string uri = DecorateRESTCall("users/me");
