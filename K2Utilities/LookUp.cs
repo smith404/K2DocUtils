@@ -6,8 +6,9 @@ namespace K2Utilities
 {
     public class LookUp
     {
-        // Character to identify a variable place holder
-        public char Identifier = '$';
+        // Characters to identify a variable place holder
+        public string Prepend = "${";
+        public string Append = "}";
 
         // Create a new dictionary of strings, with string keys for the lookup
         public readonly Dictionary<string, string> Entries = new Dictionary<string, string>();
@@ -20,7 +21,7 @@ namespace K2Utilities
             {
                 foreach (KeyValuePair<string, object> p in key.Values)
                 {
-                    Entries.Add(p.Key, p.Value.ToString());
+                    Entries[p.Key.ToLower()] = p.Value.ToString();
                 }
 
                 return key.Values.Count;
@@ -31,7 +32,19 @@ namespace K2Utilities
 
         public void Add(string key, string value)
         {
-            Entries.Add(key, value);
+            Entries[key.ToLower()] = value;
+        }
+
+        public string SearchAndReplace(string inStr)
+        {
+            string outStr = inStr;
+
+            foreach (KeyValuePair<string, string> kvp in Entries)
+            {
+                outStr = outStr.Replace(Prepend + kvp.Key + Append, kvp.Value);
+            }
+
+            return outStr;
         }
 
         public override string ToString()

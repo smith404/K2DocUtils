@@ -4,9 +4,6 @@ using PdfSharp.Pdf.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PdfStamper.pdf
 {
@@ -56,7 +53,7 @@ namespace PdfStamper.pdf
 
         public int AddedDocuments
         {
-            get { return inputDocuments.Count; } 
+            get { return inputDocuments.Count; }
         }
 
         public ConsolidatedDocument()
@@ -104,7 +101,10 @@ namespace PdfStamper.pdf
                     }
 
                     // Create the root bookmark. You can set the style and the color.
-                    if (WithBookmarks && pageIdx == 0) outline = outputDocument.Outlines.Add(inputDocument.Tag.ToString(), newPage, true, PdfOutlineStyle.Bold, XColors.Black);
+                    if (WithBookmarks && pageIdx == 0)
+                    {
+                        outline = outputDocument.Outlines.Add(inputDocument.Tag.ToString(), newPage, true, PdfOutlineStyle.Bold, XColors.Black);
+                    }
                 }
 
                 ++docIdx;

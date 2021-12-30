@@ -1,14 +1,18 @@
-﻿using Microsoft.Win32;
+﻿using K2Utilities;
+using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using K2Utilities;
 
 namespace K2EmailDecrypter
 {
     public partial class MainWindow : Form
     {
+        public static string appName = "K2 Email Decrypter";
+        public static string appVersion = "0.0.1";
+
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly Timer appTimer;
         public Timer AppTimer
         {
@@ -21,10 +25,6 @@ namespace K2EmailDecrypter
             get { return decrypter; }
         }
 
-        public static string appName = "K2 Email Decrypter";
-        public static string appVersion = "0.0.1";
-
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly NotifyIcon AppNotifyIcon;
         private readonly ContextMenu AppContextMenu;
@@ -96,17 +96,17 @@ namespace K2EmailDecrypter
 
             // Delay is stored in seconds so multiply by 1000 for milliseconds
             properties = new PropertiesForm();
-            //appTimer.Interval = properties.Preferences.Delay * 1000;
-            appTimer.Interval = 10000;
+            appTimer.Interval = properties.Preferences.Delay * 1000;
+            //appTimer.Interval = 10000;
 
             appTimer.Start();
 
             LookUp lup = Utilities.Instance.MakeLookUp();
 
-            string location = "Software\\" + appName + "\\" + appVersion + "\\CCondition";
+            string location = "Software\\" + appName + "\\" + appVersion + "\\Condition";
             lup.AddRegistryKeyValues(Registry.CurrentUser, location);
 
-            Console.WriteLine(lup.ToString());
+            Console.WriteLine(lup.SearchAndReplace("This is: ${application} in version ${version} last run on ${lastruniso8601}"));
         }
 
         public bool MyErrorCallback(Exception ex)

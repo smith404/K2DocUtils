@@ -1,13 +1,7 @@
-﻿using PdfSharp;
-using PdfSharp.Drawing;
+﻿using PdfSharp.Drawing;
 using PdfSharp.Pdf;
-using PdfSharp.Pdf.Annotations;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PdfStamper
 {
@@ -124,7 +118,7 @@ namespace PdfStamper
                 PdfPage targetPage = target.AddPage(sourcePage);
 
                 XGraphics gfx = XGraphics.FromPdfPage(targetPage, XGraphicsPdfPageOptions.Append);
- 
+
                 XSize size = gfx.MeasureString(theStamp, font, XStringFormats.Default);
 
                 XRect rect = new XRect(10, 10, size.Width, size.Height);

@@ -104,21 +104,21 @@ namespace PdfStamper
 
             gfx.DrawBarCode(bc25, XBrushes.Black, new XPoint(10, 10));
 
-/*
-            Code3of9Standard bc39 = new Code3of9Standard("ISABEL123", new XSize(90, 40));
-            bc39.TextLocation = TextLocation.AboveEmbedded;
-            gfx.DrawBarCode(bc39, XBrushes.DarkBlue, new XPoint(100, 500));
+            /*
+                        Code3of9Standard bc39 = new Code3of9Standard("ISABEL123", new XSize(90, 40));
+                        bc39.TextLocation = TextLocation.AboveEmbedded;
+                        gfx.DrawBarCode(bc39, XBrushes.DarkBlue, new XPoint(100, 500));
 
-            bc39.Direction = CodeDirection.RightToLeft;
-            gfx.DrawBarCode(bc39, XBrushes.DarkBlue, new XPoint(300, 500));
+                        bc39.Direction = CodeDirection.RightToLeft;
+                        gfx.DrawBarCode(bc39, XBrushes.DarkBlue, new XPoint(300, 500));
 
-            bc39.Text = "TITUS";
-            bc39.Direction = CodeDirection.TopToBottom;
-            gfx.DrawBarCode(bc39, XBrushes.DarkBlue, new XPoint(100, 700));
+                        bc39.Text = "TITUS";
+                        bc39.Direction = CodeDirection.TopToBottom;
+                        gfx.DrawBarCode(bc39, XBrushes.DarkBlue, new XPoint(100, 700));
 
-            bc39.Direction = CodeDirection.BottomToTop;
-            gfx.DrawBarCode(bc39, XBrushes.Red, new XPoint(300, 700));
-            */
+                        bc39.Direction = CodeDirection.BottomToTop;
+                        gfx.DrawBarCode(bc39, XBrushes.Red, new XPoint(300, 700));
+                        */
         }
 
         private void OpenFileBtn_Click(object sender, RoutedEventArgs e)
@@ -175,7 +175,9 @@ namespace PdfStamper
                 // Null values will cause an error when calling Move.
                 if (e.ItemsSource[lowerIdx] == null ||
                     e.ItemsSource[higherIdx] == null)
+                {
                     return;
+                }
 
                 // The item came from the ListView into which it was dropped, so swap it with the item at the target index.
                 e.ItemsSource.Move(lowerIdx, higherIdx);
@@ -225,39 +227,39 @@ namespace PdfStamper
                 // User cancelled the dialog box
                 MessageBox.Show("Sorry it didn't work out, we'll try again later.");
             }
-/*
-            ConsolidatedDocument cd = new ConsolidatedDocument();
+            /*
+                        ConsolidatedDocument cd = new ConsolidatedDocument();
 
-            if (documents != null)
-            {
-                foreach (ExplorerItem document in documents)
-                {
-                    Console.WriteLine(document.Title);
+                        if (documents != null)
+                        {
+                            foreach (ExplorerItem document in documents)
+                            {
+                                Console.WriteLine(document.Title);
 
-                    byte[] fileData = File.ReadAllBytes(document.Id);
+                                byte[] fileData = File.ReadAllBytes(document.Id);
 
-                    cd.addDocument(ConsolidatedDocument.makeDocument(fileData, document.Title));
-                }
+                                cd.addDocument(ConsolidatedDocument.makeDocument(fileData, document.Title));
+                            }
 
-                Watermark wm = new Watermark("Bollocks");
-                PageStamp ps = new PageStamp("Bates {DN} / {PN}");
-                var stamps = new List<OverlayElement>();
+                            Watermark wm = new Watermark("Bollocks");
+                            PageStamp ps = new PageStamp("Bates {DN} / {PN}");
+                            var stamps = new List<OverlayElement>();
 
-                stamps.Add(ps);
-                stamps.Add(wm);
+                            stamps.Add(ps);
+                            stamps.Add(wm);
 
-                byte[] consolidatedDocument = cd.consolidate(stamps);
+                            byte[] consolidatedDocument = cd.consolidate(stamps);
 
-                PdfDocument outputDocument = ConsolidatedDocument.makeDocument(consolidatedDocument, "Consolidated Document");
-                Console.WriteLine("Pages: " + outputDocument.PageCount);
+                            PdfDocument outputDocument = ConsolidatedDocument.makeDocument(consolidatedDocument, "Consolidated Document");
+                            Console.WriteLine("Pages: " + outputDocument.PageCount);
 
-                string fileName = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".pdf";
-                Console.WriteLine(fileName);
-                outputDocument.Save(fileName);
+                            string fileName = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".pdf";
+                            Console.WriteLine(fileName);
+                            outputDocument.Save(fileName);
 
-                pdfWebViewer.Navigate(fileName);
-            }
-*/
+                            pdfWebViewer.Navigate(fileName);
+                        }
+            */
         }
     }
 }

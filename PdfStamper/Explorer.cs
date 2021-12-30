@@ -19,7 +19,7 @@ namespace PdfStamper
             base.Tag = "Place Holder";
         }
     }
-    
+
     public class ExplorerItem : TreeViewItem
     {
         public static ObservableCollection<ExplorerItem> CreateItems(List<ExplorerItem> items)
@@ -121,7 +121,10 @@ namespace PdfStamper
 
         public bool isSelected()
         {
-            if (!Tag.Equals(EntryType.Document)) return false;
+            if (!Tag.Equals(EntryType.Document))
+            {
+                return false;
+            }
 
             return cb.IsChecked ?? false;
         }
@@ -190,7 +193,10 @@ namespace PdfStamper
                 directoryInfo = ((FileInfo)item.DataContext).Directory;
             }
 
-            if (object.ReferenceEquals(directoryInfo, null)) return;
+            if (object.ReferenceEquals(directoryInfo, null))
+            {
+                return;
+            }
 
             foreach (var directory in directoryInfo.GetDirectories())
             {
@@ -221,7 +227,10 @@ namespace PdfStamper
                 directoryInfo = ((FileInfo)item.DataContext).Directory;
             }
 
-            if (object.ReferenceEquals(directoryInfo, null)) return;
+            if (object.ReferenceEquals(directoryInfo, null))
+            {
+                return;
+            }
 
             foreach (var file in directoryInfo.GetFiles())
             {
@@ -288,7 +297,10 @@ namespace PdfStamper
 
             foreach (TreeViewItem innerNode in node.Items)
             {
-                if (!(innerNode is TreeViewItemHolder)) ProcessNodes((ExplorerItem)innerNode, results, level + 1);
+                if (!(innerNode is TreeViewItemHolder))
+                {
+                    ProcessNodes((ExplorerItem)innerNode, results, level + 1);
+                }
             }
         }
 

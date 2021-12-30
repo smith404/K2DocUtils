@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
@@ -43,7 +41,7 @@ namespace WPF.JoshSmith.Controls.Utilities
             // Using PointFromScreen instead of Dan Crevier's code (commented out below)
             // is a bug fix created by William J. Roberts.  Read his comments about the fix
             // here: http://www.codeproject.com/useritems/ListViewDragDropManager.asp?msg=1911611#xx1911611xx
-            return relativeTo.PointFromScreen(new Point((double)mouse.X, (double)mouse.Y));
+            return relativeTo.PointFromScreen(new Point(mouse.X, mouse.Y));
 
             #region Commented Out
             //System.Windows.Interop.HwndSource presentationSource =

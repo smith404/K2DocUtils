@@ -33,7 +33,6 @@ namespace K2IManageObjects
 
         private PropertyInfo[] _PropertyInfos = null;
 
-
         public EntryType EntityType
         {
             get
@@ -274,13 +273,17 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "use_import_tool")]
         public bool UseImportTool { get; set; }
 
-        public bool use_monitor_tool { get; set; }
+        [JsonProperty(PropertyName = "use_monitor_tool")]
+        public bool UseMonitorTool { get; set; }
 
-        public bool use_admin_tool { get; set; }
+        [JsonProperty(PropertyName = "use_admin_tool")]
+        public bool UseAdminTool { get; set; }
 
-        public bool document_view { get; set; }
+        [JsonProperty(PropertyName = "document_view")]
+        public bool DocumentView { get; set; }
 
-        public bool external { get; set; }
+        [JsonProperty(PropertyName = "external")]
+        public bool External { get; set; }
     }
 
     public class IMM3Bits
@@ -288,19 +291,26 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "browse_workspace")]
         public bool BrowseWorkspace { get; set; }
 
-        public bool search_workspace { get; set; }
+        [JsonProperty(PropertyName = "search_workspace")]
+        public bool SearchWorkspace { get; set; }
 
-        public bool author_workspace { get; set; }
+        [JsonProperty(PropertyName = "author_workspace")]
+        public bool AuthorWorkspace { get; set; }
 
-        public bool share_workspace { get; set; }
+        [JsonProperty(PropertyName = "share_workspace")]
+        public bool ShareWorkspace { get; set; }
 
-        public bool customize_personal_views { get; set; }
+        [JsonProperty(PropertyName = "customize_personal_views")]
+        public bool CustomizePersonalViews { get; set; }
 
-        public bool customize_public_views { get; set; }
+        [JsonProperty(PropertyName = "customize_public_views")]
+        public bool CustomizePublicViews { get; set; }
 
-        public bool create_template { get; set; }
+        [JsonProperty(PropertyName = "create_template")]
+        public bool CreateTemplate { get; set; }
 
-        public bool delete_workspace { get; set; }
+        [JsonProperty(PropertyName = "delete_workspace")]
+        public bool DeleteWorkspace { get; set; }
     }
 
     public class IMM4Bits
@@ -308,37 +318,53 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "content_assistance")]
         public bool ContentAssistance { get; set; }
 
-        public bool trustee_assistance { get; set; }
+        [JsonProperty(PropertyName = "trustee_assistance")]
+        public bool TrusteeAssistance { get; set; }
 
-        public bool report { get; set; }
+        [JsonProperty(PropertyName = "report")]
+        public bool Report { get; set; }
 
-        public bool report_management { get; set; }
+        [JsonProperty(PropertyName = "report_management")]
+        public bool ReportManagement { get; set; }
 
-        public bool dms_job_operations { get; set; }
+        [JsonProperty(PropertyName = "dms_job_operations")]
+        public bool DmsJobOperations { get; set; }
 
-        public bool custom_metadata_management { get; set; }
+        [JsonProperty(PropertyName = "custom_metadata_management")]
+        public bool CustomMetadataManagement { get; set; }
 
-        public bool system_metadata_management { get; set; }
+        [JsonProperty(PropertyName = "system_metadata_management")]
+        public bool SystemMetadataManagement { get; set; }
 
-        public bool role_management { get; set; }
+        [JsonProperty(PropertyName = "role_management")]
+        public bool RoleManagement { get; set; }
 
-        public bool trustee_management { get; set; }
+        [JsonProperty(PropertyName = "trustee_management")]
+        public bool TrusteeManagement { get; set; }
 
-        public bool govern_security_management { get; set; }
+        [JsonProperty(PropertyName = "govern_security_management")]
+        public bool GovernSecurityManagement { get; set; }
 
-        public bool system_management { get; set; }
+        [JsonProperty(PropertyName = "system_management")]
+        public bool SystemManagement { get; set; }
 
-        public bool system_job_operations { get; set; }
+        [JsonProperty(PropertyName = "system_job_operations")]
+        public bool SystemJobOperations { get; set; }
 
-        public bool admin_tier_3 { get; set; }
+        [JsonProperty(PropertyName = "admin_tier_3")]
+        public bool AdminTier3 { get; set; }
 
-        public bool admin_tier_2 { get; set; }
+        [JsonProperty(PropertyName = "admin_tier_2")]
+        public bool AdminTier2 { get; set; }
 
-        public bool admin_tier_1 { get; set; }
+        [JsonProperty(PropertyName = "admin_tier_1")]
+        public bool AdminTier1 { get; set; }
 
-        public bool admin_custom { get; set; }
+        [JsonProperty(PropertyName = "admin_custom")]
+        public bool AdminCustom { get; set; }
 
-        public int tier { get; set; }
+        [JsonProperty(PropertyName = "tier")]
+        public int Tier { get; set; }
     }
 
     public abstract class IMDBObject : IMObject
@@ -425,6 +451,44 @@ namespace K2IManageObjects
             return uri.ToString();
         }
 
+        public string SearchString(List<string> terms)
+        {
+            var uri = new StringBuilder();
+
+            switch (EntityType)
+            {
+                case EntryType.Workspace:
+                    uri.Append("workspaces/search");
+                    break;
+                case EntryType.Folder:
+                    uri.Append("folders/search");
+                    break;
+                case EntryType.Document:
+                    uri.Append("documents/search");
+                    break;
+                case EntryType.Email:
+                    uri.Append("emails/search");
+                    break;
+            }
+
+            bool firstTerm = true;
+            foreach (string term in terms)
+            {
+                if (firstTerm)
+                {
+                    firstTerm = false;
+                    uri.Append("?");
+                }
+                else
+                {
+                    uri.Append("&");
+                }
+
+                uri.Append(term);
+            }
+
+            return uri.ToString();
+        }
     }
 
     public class IMSession : IMObject
@@ -1114,9 +1178,11 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "checkout_path")]
         public string CheckoutPath { get; set; }
 
-        public string checkout_due_date { get; set; }
+        [JsonProperty(PropertyName = "checkout_due_date")]
+        public string CheckoutDueDate { get; set; }
 
-        public string checkout_comment { get; set; }
+        [JsonProperty(PropertyName = "checkout_comment")]
+        public string CheckoutComment { get; set; }
 
         public string author_description { get; set; }
 

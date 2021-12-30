@@ -1,13 +1,8 @@
 // Copyright (C) Josh Smith - January 2007
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Documents;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Media.Animation;
-using System.Windows.Controls;
 
 namespace WPF.JoshSmith.Adorners
 {
@@ -169,7 +164,9 @@ namespace WPF.JoshSmith.Adorners
         {
             AdornerLayer adornerLayer = Parent as AdornerLayer;
             if (adornerLayer != null)
+            {
                 adornerLayer.Update(AdornedElement);
+            }
         }
 
         #endregion // Private Helpers

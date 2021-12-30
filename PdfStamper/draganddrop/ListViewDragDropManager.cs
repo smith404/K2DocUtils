@@ -1,13 +1,13 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
-using System.Windows.Media;
 using System.Windows.Input;
+using System.Windows.Media;
 using WPF.JoshSmith.Adorners;
 using WPF.JoshSmith.Controls.Utilities;
-using System.Collections.ObjectModel;
 
 namespace PdfStamper
 {
@@ -90,10 +90,14 @@ namespace PdfStamper
             set
             {
                 if (IsDragInProgress)
+                {
                     throw new InvalidOperationException("Cannot set the DragAdornerOpacity property during a drag operation.");
+                }
 
                 if (value < 0.0 || value > 1.0)
+                {
                     throw new ArgumentOutOfRangeException("DragAdornerOpacity", value, "Must be between 0 and 1.");
+                }
 
                 dragAdornerOpacity = value;
             }
@@ -127,7 +131,9 @@ namespace PdfStamper
             set
             {
                 if (IsDragInProgress)
+                {
                     throw new InvalidOperationException("Cannot set the ListView property during a drag operation.");
+                }
 
                 if (listView != null)
                 {
@@ -148,7 +154,9 @@ namespace PdfStamper
                 if (listView != null)
                 {
                     if (!listView.AllowDrop)
+                    {
                         listView.AllowDrop = true;
+                    }
 
                     #region Hook Events
 
@@ -190,7 +198,9 @@ namespace PdfStamper
             set
             {
                 if (IsDragInProgress)
+                {
                     throw new InvalidOperationException("Cannot set the ShowDragAdorner property during a drag operation.");
+                }
 
                 showDragAdorner = value;
             }
@@ -236,20 +246,28 @@ namespace PdfStamper
         void listView_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (!CanStartDragOperation)
+            {
                 return;
+            }
 
             // Select the item the user clicked on.
             if (listView.SelectedIndex != indexToSelect)
+            {
                 listView.SelectedIndex = indexToSelect;
+            }
 
             // If the item at the selected index is null, there's nothing
             // we can do, so just return;
             if (listView.SelectedItem == null)
+            {
                 return;
+            }
 
             ListViewItem itemToDrag = GetListViewItem(listView.SelectedIndex);
             if (itemToDrag == null)
+            {
                 return;
+            }
 
             AdornerLayer adornerLayer = ShowDragAdornerResolved ? InitializeAdornerLayer(itemToDrag) : null;
 
@@ -267,7 +285,9 @@ namespace PdfStamper
             e.Effects = DragDropEffects.Move;
 
             if (ShowDragAdornerResolved)
+            {
                 UpdateDragAdornerLocation();
+            }
 
             // Update the item which is known to be currently under the drag cursor.
             int index = IndexUnderDragCursor;
@@ -283,10 +303,14 @@ namespace PdfStamper
             if (!IsMouseOver(listView))
             {
                 if (ItemUnderDragCursor != null)
+                {
                     ItemUnderDragCursor = null;
+                }
 
                 if (dragAdorner != null)
+                {
                     dragAdorner.Visibility = Visibility.Collapsed;
+                }
             }
         }
 
@@ -311,23 +335,31 @@ namespace PdfStamper
         void listView_Drop(object sender, DragEventArgs e)
         {
             if (ItemUnderDragCursor != null)
+            {
                 ItemUnderDragCursor = null;
+            }
 
             e.Effects = DragDropEffects.None;
 
             if (!e.Data.GetDataPresent(typeof(ItemType)))
+            {
                 return;
+            }
 
             // Get the data object which was dropped.
             ItemType data = e.Data.GetData(typeof(ItemType)) as ItemType;
             if (data == null)
+            {
                 return;
+            }
 
             // Get the ObservableCollection<ItemType> which contains the dropped data object.
             ObservableCollection<ItemType> itemsSource = listView.ItemsSource as ObservableCollection<ItemType>;
             if (itemsSource == null)
+            {
                 throw new Exception(
                     "A ListView managed by ListViewDragManager must have its ItemsSource set to an ObservableCollection<ItemType>.");
+            }
 
             int oldIndex = itemsSource.IndexOf(data);
             int newIndex = IndexUnderDragCursor;
@@ -337,23 +369,31 @@ namespace PdfStamper
                 // The drag started somewhere else, and our ListView is empty
                 // so make the new item the first in the list.
                 if (itemsSource.Count == 0)
+                {
                     newIndex = 0;
+                }
 
                 // The drag started somewhere else, but our ListView has items
                 // so make the new item the last in the list.
                 else if (oldIndex < 0)
+                {
                     newIndex = itemsSource.Count;
+                }
 
                 // The user is trying to drop an item from our ListView into
                 // our ListView, but the mouse is not over an item, so don't
                 // let them drop it.
                 else
+                {
                     return;
+                }
             }
 
             // Dropping an item back onto itself is not considered an actual 'drop'.
             if (oldIndex == newIndex)
+            {
                 return;
+            }
 
             if (ProcessDrop != null)
             {
@@ -368,9 +408,13 @@ namespace PdfStamper
                 // new index (according to where the mouse cursor is).  If it was
                 // not previously in the ListBox, then insert the item.
                 if (oldIndex > -1)
+                {
                     itemsSource.Move(oldIndex, newIndex);
+                }
                 else
+                {
                     itemsSource.Insert(newIndex, data);
+                }
 
                 // Set the Effects property so that the call to DoDragDrop will return 'Move'.
                 e.Effects = DragDropEffects.Move;
@@ -390,16 +434,24 @@ namespace PdfStamper
             get
             {
                 if (Mouse.LeftButton != MouseButtonState.Pressed)
+                {
                     return false;
+                }
 
                 if (!canInitiateDrag)
+                {
                     return false;
+                }
 
                 if (indexToSelect == -1)
+                {
                     return false;
+                }
 
                 if (!HasCursorLeftDragThreshold)
+                {
                     return false;
+                }
 
                 return true;
             }
@@ -417,7 +469,9 @@ namespace PdfStamper
             IsDragInProgress = false;
 
             if (ItemUnderDragCursor != null)
+            {
                 ItemUnderDragCursor = null;
+            }
 
             // Remove the drag adorner from the adorner layer.
             if (adornerLayer != null)
@@ -434,7 +488,9 @@ namespace PdfStamper
         ListViewItem GetListViewItem(int index)
         {
             if (listView.ItemContainerGenerator.Status != GeneratorStatus.ContainersGenerated)
+            {
                 return null;
+            }
 
             return listView.ItemContainerGenerator.ContainerFromIndex(index) as ListViewItem;
         }
@@ -442,7 +498,9 @@ namespace PdfStamper
         ListViewItem GetListViewItem(ItemType dataItem)
         {
             if (listView.ItemContainerGenerator.Status != GeneratorStatus.ContainersGenerated)
+            {
                 return null;
+            }
 
             return listView.ItemContainerGenerator.ContainerFromItem(dataItem) as ListViewItem;
         }
@@ -456,7 +514,9 @@ namespace PdfStamper
             get
             {
                 if (indexToSelect < 0)
+                {
                     return false;
+                }
 
                 ListViewItem item = GetListViewItem(indexToSelect);
                 Rect bounds = VisualTreeHelper.GetDescendantBounds(item);
@@ -576,21 +636,29 @@ namespace PdfStamper
                 Point ptMouse = MouseUtilities.GetMousePosition(listView);
                 HitTestResult res = VisualTreeHelper.HitTest(listView, ptMouse);
                 if (res == null)
+                {
                     return false;
+                }
 
                 DependencyObject depObj = res.VisualHit;
                 while (depObj != null)
                 {
                     if (depObj is ScrollBar)
+                    {
                         return true;
+                    }
 
                     // VisualTreeHelper works with objects of type Visual or Visual3D.
                     // If the current object is not derived from Visual or Visual3D,
                     // then use the LogicalTreeHelper to find the parent element.
                     if (depObj is Visual || depObj is System.Windows.Media.Media3D.Visual3D)
+                    {
                         depObj = VisualTreeHelper.GetParent(depObj);
+                    }
                     else
+                    {
                         depObj = LogicalTreeHelper.GetParent(depObj);
+                    }
                 }
 
                 return false;
@@ -607,20 +675,26 @@ namespace PdfStamper
             set
             {
                 if (itemUnderDragCursor == value)
+                {
                     return;
+                }
 
                 // The first pass handles the previous item under the cursor.
                 // The second pass handles the new one.
                 for (int i = 0; i < 2; ++i)
                 {
                     if (i == 1)
+                    {
                         itemUnderDragCursor = value;
+                    }
 
                     if (itemUnderDragCursor != null)
                     {
                         ListViewItem listViewItem = GetListViewItem(itemUnderDragCursor);
                         if (listViewItem != null)
+                        {
                             ListViewItemDragState.SetIsUnderDragCursor(listViewItem, i == 1);
+                        }
                     }
                 }
             }

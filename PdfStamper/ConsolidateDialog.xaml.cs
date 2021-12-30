@@ -1,22 +1,11 @@
 ﻿using PdfSharp.Drawing;
 using PdfSharp.Pdf;
-using PdfSharp.Pdf.Annotations;
 using PdfStamper.pdf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PdfStamper
 {
@@ -76,7 +65,10 @@ namespace PdfStamper
                 byte[] consolidatedDocument = cd.consolidate(stamps);
 
                 OutputDocument = ConsolidatedDocument.makeDocument(consolidatedDocument, "Consolidated Document");
-                if (OutputDocument.PageCount > 0) DialogResult = true;
+                if (OutputDocument.PageCount > 0)
+                {
+                    DialogResult = true;
+                }
 
                 return;
             }

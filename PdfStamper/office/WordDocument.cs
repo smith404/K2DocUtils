@@ -1,9 +1,6 @@
 ﻿using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PdfStamper.office
 {
@@ -28,7 +25,9 @@ namespace PdfStamper.office
             {
                 string temp = sourceDocument.Paragraphs[i + 1].Range.Text.Trim();
                 if (temp != string.Empty)
+                {
                     data.Add(temp);
+                }
             }
 
             List<String> title = new List<String>();
@@ -55,8 +54,8 @@ namespace PdfStamper.office
                 }
             }
 
-            ((_Document)sourceDocument).Close();
-            ((_Application)wordApp).Quit();
+            sourceDocument.Close();
+            wordApp.Quit();
         }
 
         public void openProtected(string path, string pwd)

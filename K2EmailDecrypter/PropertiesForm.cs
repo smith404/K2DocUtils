@@ -1,14 +1,8 @@
-﻿using Microsoft.Win32;
+﻿using K2Utilities;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using K2Utilities;
 
 namespace K2EmailDecrypter
 {
@@ -44,7 +38,7 @@ namespace K2EmailDecrypter
             ValLbl.Text = delay.ToString();
 
             List<Key> keys = Key.GetSubkeysList(Registry.LocalMachine, ProviderRoot);
-            foreach(Key key in keys)
+            foreach (Key key in keys)
             {
                 CryptoProviderCbb.Items.Add(key);
             }
