@@ -71,7 +71,6 @@
       <DependentUpon>PropertiesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities.cs" />
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -116,6 +115,10 @@
     <ProjectReference Include="..\K2IMInterface\K2IMInterface.csproj">
       <Project>{0839f575-d124-4b7a-a7fc-4ea1322a348d}</Project>
       <Name>K2IMInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\K2Utilities\K2Utilities.csproj">
+      <Project>{d4b084dd-d88b-4633-a659-f473a68cdf7e}</Project>
+      <Name>K2Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

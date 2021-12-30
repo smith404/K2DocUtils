@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using K2Utilities;
 
 namespace K2EmailDecrypter
 {
@@ -37,8 +38,8 @@ namespace K2EmailDecrypter
         public MainWindow()
         {
             // Set some global values
-            Utilities.Application = appName;
-            Utilities.Version = appVersion;
+            Utilities.Instance.Application = appName;
+            Utilities.Instance.Version = appVersion;
 
             log.Debug("Application started");
 
@@ -100,12 +101,18 @@ namespace K2EmailDecrypter
 
             appTimer.Start();
 
-            string location = "Software\\" + appName + "\\" + appVersion + "\\Condition";
-            Key key = Key.GetKeyValue(Registry.CurrentUser, location);
-            foreach(KeyValuePair<string, object> p in key.Values)
-            {
-                Console.WriteLine(p.Key + " = " + p.Value.ToString());
-            }
+            LookUp lup = Utilities.Instance.MakeLookUp();
+
+            string location = "Software\\" + appName + "\\" + appVersion + "\\CCondition";
+            lup.AddRegistryKeyValues(Registry.CurrentUser, location);
+
+            Console.WriteLine(lup.ToString());
+        }
+
+        public bool MyErrorCallback(Exception ex)
+        {
+            // Just ignore all the errors
+            return true;
         }
 
         private void MainWindow_Resize(object Sender, EventArgs e)
@@ -173,13 +180,7 @@ namespace K2EmailDecrypter
             OutputTxt.Text += "Event triggered: " + DateTime.Now + "\r\n";
             appTimer.Start();
 
-            properties.Preferences.LastRunISO8601 = Utilities.getNowISO8601();
-        }
-
-        public bool MyErrorCallback(Exception ex)
-        {
-            // Just ignore all the errors
-            return true;
+            properties.Preferences.LastRunISO8601 = Utilities.Instance.getNowISO8601();
         }
 
         private void TimerEventProcessor(Object myObject, EventArgs myEventArgs)
@@ -188,7 +189,7 @@ namespace K2EmailDecrypter
             OutputTxt.Text += "Event triggered: " + DateTime.Now + "\r\n";
             appTimer.Start();
 
-            properties.Preferences.LastRunISO8601 = Utilities.getNowISO8601();
+            properties.Preferences.LastRunISO8601 = Utilities.Instance.getNowISO8601();
         }
     }
 }

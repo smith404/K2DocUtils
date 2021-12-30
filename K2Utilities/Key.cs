@@ -1,77 +1,13 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace K2EmailDecrypter
+namespace K2Utilities
 {
-    class Utilities
-    {
-        public static string Application { get; set; }
-        public static string Version { get; set; }
-
-        public static string getNowISO8601(bool universalTime = true)
-        {
-            return getTimeISO8601(DateTime.Now, universalTime);
-        }
-
-        public static string getTimeISO8601(DateTime theTime, bool universalTime = true)
-        {
-            if (universalTime)
-            {
-                return theTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
-            }
-            else
-            {
-                return theTime.ToString("yyyy-MM-ddTHH:mm:ssZ");
-            }
-
-        }
-
-        public static void WriteUserKey(string root, string key, string val)
-        {
-            RegistryKey regKey = Registry.CurrentUser.OpenSubKey(root, true);
-
-            if (regKey != null)
-            {
-                regKey.CreateSubKey(Application);
-                regKey = regKey.OpenSubKey(Application, true);
-
-                regKey.CreateSubKey(Version);
-                regKey = regKey.OpenSubKey(Version, true);
-
-                regKey.SetValue(key, val);
-                regKey.Close();
-            }
-        }
-
-        public static string ReadUserKey(string root, string key)
-        {
-            RegistryKey regKey = Registry.CurrentUser.OpenSubKey(root, true);
-
-            if (regKey != null)
-            {
-                regKey.CreateSubKey(Application);
-                regKey = regKey.OpenSubKey(Application, true);
-
-                regKey.CreateSubKey(Version);
-                regKey = regKey.OpenSubKey(Version, true);
-
-                object val = regKey.GetValue(key);
-                if (val != null)
-                {
-                    return val.ToString();
-                }
-            }
-
-            return null;
-        }
-    }
-
-    class Key
+    public class Key
     {
         public string KeyName { get; set; }
 
@@ -119,10 +55,6 @@ namespace K2EmailDecrypter
                         result.Values.Add(pair);
                     }
                 }
-                else
-                {
-                    result.Values = null;
-                }
             }
 
             return result;
@@ -160,6 +92,5 @@ namespace K2EmailDecrypter
         {
             return KeyName.GetHashCode();
         }
-
     }
 }
