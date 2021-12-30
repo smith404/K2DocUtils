@@ -170,7 +170,7 @@ namespace K2IMInterface
 
         public string ConstructSearchTerm(string query, string term, int offset, int limit, bool total)
         {
-            var uri = new StringBuilder(query);
+            StringBuilder uri = new StringBuilder(query);
 
             uri.Append("?anywhere=");
             uri.Append(term);

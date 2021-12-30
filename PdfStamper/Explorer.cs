@@ -143,8 +143,8 @@ namespace PdfStamper
 
         public void LoadDirectories()
         {
-            var drives = DriveInfo.GetDrives();
-            foreach (var drive in drives)
+            DriveInfo[] drives = DriveInfo.GetDrives();
+            foreach (DriveInfo drive in drives)
             {
                 treeView.Items.Add(GetItem(drive));
             }
@@ -152,7 +152,7 @@ namespace PdfStamper
 
         private TreeViewItem GetItem(DriveInfo drive)
         {
-            var item = new ExplorerItem(EntryType.Workspace, drive.Name, drive);
+            ExplorerItem item = new ExplorerItem(EntryType.Workspace, drive.Name, drive);
 
             AddHolder(item);
             item.Expanded += new RoutedEventHandler(itemExpanded);
@@ -161,7 +161,7 @@ namespace PdfStamper
 
         private TreeViewItem GetItem(DirectoryInfo directory)
         {
-            var item = new ExplorerItem(EntryType.Folder, directory.Name, directory);
+            ExplorerItem item = new ExplorerItem(EntryType.Folder, directory.Name, directory);
 
             AddHolder(item);
             item.Expanded += new RoutedEventHandler(itemExpanded);
@@ -171,14 +171,14 @@ namespace PdfStamper
 
         private TreeViewItem GetItem(FileInfo file)
         {
-            var item = new ExplorerItem(EntryType.Document, file.Name, file);
+            ExplorerItem item = new ExplorerItem(EntryType.Document, file.Name, file);
 
             return item;
         }
 
         private void ExploreDirectories(TreeViewItem item)
         {
-            var directoryInfo = (DirectoryInfo)null;
+            DirectoryInfo directoryInfo = (DirectoryInfo)null;
 
             if (item.Tag.Equals(EntryType.Workspace))
             {
@@ -198,10 +198,10 @@ namespace PdfStamper
                 return;
             }
 
-            foreach (var directory in directoryInfo.GetDirectories())
+            foreach (DirectoryInfo directory in directoryInfo.GetDirectories())
             {
-                var isHidden = (directory.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-                var isSystem = (directory.Attributes & FileAttributes.System) == FileAttributes.System;
+                bool isHidden = (directory.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+                bool isSystem = (directory.Attributes & FileAttributes.System) == FileAttributes.System;
 
                 if (!isHidden && !isSystem)
                 {
@@ -212,7 +212,7 @@ namespace PdfStamper
 
         private void ExploreFiles(TreeViewItem item)
         {
-            var directoryInfo = (DirectoryInfo)null;
+            DirectoryInfo directoryInfo = (DirectoryInfo)null;
 
             if (item.Tag.Equals(EntryType.Workspace))
             {
@@ -232,10 +232,10 @@ namespace PdfStamper
                 return;
             }
 
-            foreach (var file in directoryInfo.GetFiles())
+            foreach (FileInfo file in directoryInfo.GetFiles())
             {
-                var isHidden = (file.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-                var isSystem = (file.Attributes & FileAttributes.System) == FileAttributes.System;
+                bool isHidden = (file.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+                bool isSystem = (file.Attributes & FileAttributes.System) == FileAttributes.System;
                 if (!isHidden && !isSystem)
                 {
                     item.Items.Add(GetItem(file));
@@ -245,7 +245,7 @@ namespace PdfStamper
 
         void itemExpanded(object sender, RoutedEventArgs e)
         {
-            var item = (TreeViewItem)sender;
+            TreeViewItem item = (TreeViewItem)sender;
 
             if (HasHolder(item))
             {
@@ -269,8 +269,8 @@ namespace PdfStamper
 
         private void RemoveHolder(TreeViewItem item)
         {
-            var holders = item.Items.OfType<TreeViewItem>().ToList().FindAll(tvi => tvi is TreeViewItemHolder);
-            foreach (var holder in holders)
+            List<TreeViewItem> holders = item.Items.OfType<TreeViewItem>().ToList().FindAll(tvi => tvi is TreeViewItemHolder);
+            foreach (TreeViewItem holder in holders)
             {
                 item.Items.Remove(holder);
             }
@@ -278,7 +278,7 @@ namespace PdfStamper
 
         public List<ExplorerItem> FindSelected()
         {
-            var results = new List<ExplorerItem>();
+            List<ExplorerItem> results = new List<ExplorerItem>();
 
             foreach (TreeViewItem item in treeView.Items)
             {

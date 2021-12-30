@@ -56,7 +56,7 @@ namespace PdfStamper
 
                 //RubberStamp rs = new RubberStamp(PdfRubberStampAnnotationIcon.Approved);
 
-                var stamps = new List<OverlayElement>();
+                List<OverlayElement> stamps = new List<OverlayElement>();
 
                 //stamps.Add(rs);
                 stamps.Add(ps);

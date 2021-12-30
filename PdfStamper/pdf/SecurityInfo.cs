@@ -22,8 +22,8 @@ namespace PdfStamper
             StringBuilder result = new StringBuilder(size);
             for (int i = 0; i < size; i++)
             {
-                var rnd = BitConverter.ToUInt32(data, i * 4);
-                var idx = rnd % chars.Length;
+                uint rnd = BitConverter.ToUInt32(data, i * 4);
+                long idx = rnd % chars.Length;
 
                 result.Append(chars[idx]);
             }

@@ -83,11 +83,11 @@ namespace K2IManageObjects
                 _PropertyInfos = GetType().GetProperties();
             }
 
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
 
-            foreach (var info in _PropertyInfos)
+            foreach (PropertyInfo info in _PropertyInfos)
             {
-                var value = info.GetValue(this, null) ?? "(null)";
+                object value = info.GetValue(this, null) ?? "(null)";
                 sb.AppendLine(info.Name + ": " + value.ToString());
             }
 
@@ -388,7 +388,7 @@ namespace K2IManageObjects
 
         public List<IMDBObject> Children(K2IMInterface.IMSession session)
         {
-            var uri = new StringBuilder();
+            StringBuilder uri = new StringBuilder();
 
             switch (EntityType)
             {
@@ -410,7 +410,7 @@ namespace K2IManageObjects
 
         public string SearchString(string term, int offset, int limit, bool total)
         {
-            var uri = new StringBuilder();
+            StringBuilder uri = new StringBuilder();
 
             switch (EntityType)
             {
@@ -453,7 +453,7 @@ namespace K2IManageObjects
 
         public string SearchString(List<string> terms)
         {
-            var uri = new StringBuilder();
+            StringBuilder uri = new StringBuilder();
 
             switch (EntityType)
             {
@@ -683,7 +683,7 @@ namespace K2IManageObjects
 
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
 
             Data.ForEach(delegate (IMObject obj)
             {
@@ -1340,7 +1340,7 @@ namespace K2IManageObjects
 
         public IMConversation Conversation(K2IMInterface.IMSession session)
         {
-            var uri = new StringBuilder();
+            StringBuilder uri = new StringBuilder();
 
             uri.Append("email/conversation/");
             uri.Append(ConversationId);

@@ -26,17 +26,17 @@ namespace K2Utilities
 
         public static List<Key> GetSubkeysList(RegistryKey hiveKey, string path)
         {
-            var result = new List<Key>();
+            List<Key> result = new List<Key>();
 
-            using (var key = hiveKey.OpenSubKey(path))
+            using (RegistryKey key = hiveKey.OpenSubKey(path))
             {
                 if (key != null)
                 {
-                    var subkeys = key.GetSubKeyNames();
+                    string[] subkeys = key.GetSubKeyNames();
 
-                    foreach (var subkey in subkeys)
+                    foreach (string subkey in subkeys)
                     {
-                        var values = GetKeyValue(hiveKey, subkey);
+                        Key values = GetKeyValue(hiveKey, subkey);
                         result.Add(values);
                     }
                 }
@@ -47,16 +47,16 @@ namespace K2Utilities
 
         public static Key GetKeyValue(RegistryKey hiveKey, string keyName)
         {
-            var result = new Key(keyName);
+            Key result = new Key(keyName);
 
-            using (var key = hiveKey.OpenSubKey(keyName))
+            using (RegistryKey key = hiveKey.OpenSubKey(keyName))
             {
                 if (key != null)
                 {
-                    foreach (var valueName in key.GetValueNames())
+                    foreach (string valueName in key.GetValueNames())
                     {
-                        var val = key.GetValue(valueName);
-                        var pair = new KeyValuePair<string, object>(valueName, val);
+                        object val = key.GetValue(valueName);
+                        KeyValuePair<string, object> pair = new KeyValuePair<string, object>(valueName, val);
                         result.Values.Add(pair);
                     }
                 }
@@ -67,9 +67,9 @@ namespace K2Utilities
 
         public static void SetKeyValue(RegistryKey hiveKey, string keyName, object value)
         {
-            using (var key = hiveKey.OpenSubKey(keyName))
+            using (RegistryKey key = hiveKey.OpenSubKey(keyName))
             {
-                foreach (var valueName in key.GetValueNames())
+                foreach (string valueName in key.GetValueNames())
                 {
                     key.SetValue(valueName, value);
                 }

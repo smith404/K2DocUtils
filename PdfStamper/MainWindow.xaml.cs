@@ -28,7 +28,7 @@ namespace PdfStamper
 
         public string Redacte(string source, List<ModelResult> results)
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
 
             int idx = 0;
             results.ForEach(delegate (ModelResult result)
@@ -196,7 +196,7 @@ namespace PdfStamper
 
         private void MakeBtn_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new ConsolidateDialog(documents);
+            ConsolidateDialog dialog = new ConsolidateDialog(documents);
 
             // Display the dialog box and read the response
             bool? result = dialog.ShowDialog();
