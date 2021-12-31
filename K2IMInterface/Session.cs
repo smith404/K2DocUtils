@@ -297,6 +297,45 @@ namespace K2IMInterface
             }
         }
 
+        public string PerformPOSTCall(string uri, object that, bool isPut=false)
+        {
+            uri = DecorateRESTCall(uri);
+
+            try
+            {
+                HttpWebRequest req = (HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
+
+                req.PreAuthenticate = true;
+                req.Headers.Add("Authorization", "Bearer " + IMToken);
+                req.Accept = "application/json";
+                req.Method = (isPut) ? "PUT" : "POST";
+                req.Timeout = 60000;
+
+                WebResponse resp = req.GetResponse();
+
+                if (resp == null)
+                {
+                    return null;
+                }
+
+                StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
+
+                return sr.ReadToEnd().Trim();
+            }
+            catch (Exception ex)
+            {
+                if (ErrorHandler != null)
+                {
+                    bool handled = ErrorHandler(ex);
+                    if (handled)
+                    {
+                        return null;
+                    }
+                }
+                throw new IMException(string.Format("Exception in: MakeGetCall []", uri), ex, IMException.BAD_GET_CALL);
+            }
+        }
+
         public byte[] PerformDownloadCall(string uri)
         {
             try
