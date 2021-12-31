@@ -8,6 +8,8 @@
 
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace K2Utilities
 {
@@ -107,5 +109,24 @@ namespace K2Utilities
 
             return null;
         }
+
+        public object SetObjectProperties(object that, Key key)
+        {
+            if (that != null && key != null)
+            {
+                Type objectType = that.GetType();
+
+                foreach (KeyValuePair<string, object> pair in key.Values)
+                {
+                    PropertyInfo thatProperty = objectType.GetProperty(pair.Key);
+                    if (thatProperty != null)
+                    {
+                        thatProperty.SetValue(that, pair.Value);
+                    }
+                }
+            }
+            return that;
+        }
+
     }
 }

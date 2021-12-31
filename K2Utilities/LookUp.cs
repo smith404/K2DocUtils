@@ -8,6 +8,7 @@
 
 using Microsoft.Win32;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace K2Utilities
@@ -43,7 +44,7 @@ namespace K2Utilities
             {
                 int c = 0;
 
-                foreach (var prop in that.GetType().GetProperties())
+                foreach (PropertyInfo prop in that.GetType().GetProperties())
                 {
                     object value = prop.GetValue(that, null);
                     if (value != null)

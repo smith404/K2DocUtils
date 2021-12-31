@@ -1,4 +1,5 @@
-﻿using K2Utilities;
+﻿using K2IManageObjects;
+using K2Utilities;
 using Microsoft.Win32;
 using System;
 using System.Drawing;
@@ -97,16 +98,23 @@ namespace K2EmailDecrypter
             // Delay is stored in seconds so multiply by 1000 for milliseconds
             properties = new PropertiesForm();
             appTimer.Interval = properties.Preferences.Delay * 1000;
-            //appTimer.Interval = 10000;
 
             appTimer.Start();
 
             LookUp lup = Utilities.Instance.MakeLookUp();
 
-            string location = "Software\\" + appName + "\\" + appVersion + "\\Condition";
+            string location = "Software\\" + appName + "\\" + appVersion + "\\Precondition";
             lup.AddRegistryKeyValues(Registry.CurrentUser, location);
 
-            Console.WriteLine(lup.SearchAndReplace("This is: ${application} in version ${version} last run on ${lastruniso8601}"));
+            location = "Software\\" + appName + "\\" + appVersion + "\\Postcondition";
+            Key key = Key.GetKeyValue(Registry.CurrentUser, location);
+
+            IMInstance inst = new IMInstance();
+            inst.Name = "WooHoo";
+
+            Utilities.Instance.SetObjectProperties(inst, key);
+
+            Console.WriteLine("Instance: " + inst);
         }
 
         public bool MyErrorCallback(Exception ex)
