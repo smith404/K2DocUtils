@@ -299,8 +299,6 @@ namespace K2IMInterface
 
         public byte[] PerformDownloadCall(string uri)
         {
-            uri = DecorateRESTCall(uri);
-
             try
             {
                 HttpWebRequest req = (HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
@@ -341,10 +339,8 @@ namespace K2IMInterface
 
         public string PerformVersionUpload(string uri, byte[] data, IMDocument doc)
         {
-            uri = DecorateRESTCall(uri);
-
-            string boundry = "-----------------------------" + DateTime.Now.Ticks.ToString("x");
-            byte[] boundryBytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundry + "\r\n");
+            string boundary = "-----------------------------" + DateTime.Now.Ticks.ToString("x");
+            byte[] boundaryBytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
 
             try
             {
@@ -355,7 +351,7 @@ namespace K2IMInterface
                 req.Accept = "application/json";
                 req.Method = "POST";
                 req.KeepAlive = true;
-                req.ContentType = "multipart/form-data; boundry=" + boundry;
+                req.ContentType = "multipart/form-data; boundary=" + boundary;
 
                 // Get the request stream
                 Stream rs = req.GetRequestStream();
@@ -374,22 +370,22 @@ namespace K2IMInterface
                 string fileName = doc.Name + "." + doc.Extension;
 
                 // Write the profile object
-                rs.Write(boundryBytes, 0, boundryBytes.Length);
-                string postTemplate = "Content-Disposition: form-data: name=\"{0}\"\r\nContent-Type: application/json\r\n\r\n{1}";
+                rs.Write(boundaryBytes, 0, boundaryBytes.Length);
+                string postTemplate = "Content-Disposition: form-data; name=\"{0}\"\r\nContent-Type: application/json\r\n\r\n{1}";
                 string formData = string.Format(postTemplate, "profile", JsonConvert.SerializeObject(profile));
                 byte[] formBytes = System.Text.Encoding.UTF8.GetBytes(formData);
                 rs.Write(formBytes, 0, formBytes.Length);
 
                 // Write the file object
-                rs.Write(boundryBytes, 0, boundryBytes.Length);
-                string fileTemplate = "Content-Disposition: form-data: name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
+                rs.Write(boundaryBytes, 0, boundaryBytes.Length);
+                string fileTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
                 string fileData = string.Format(fileTemplate, "file", fileName, "application/octet-stream");
                 byte[] fileBytes = System.Text.Encoding.UTF8.GetBytes(fileData);
                 rs.Write(fileBytes, 0, fileData.Length);
                 rs.Write(data, 0, data.Length);
 
                 // Write the trailer
-                byte[] trailerBytes = System.Text.Encoding.UTF8.GetBytes("\r\n--" + boundry + "--\r\n");
+                byte[] trailerBytes = System.Text.Encoding.UTF8.GetBytes("\r\n--" + boundary + "--\r\n");
                 rs.Write(trailerBytes, 0, trailerBytes.Length);
                 rs.Close();
 
@@ -419,10 +415,8 @@ namespace K2IMInterface
 
         public string PerformUploadCall(string uri, byte[] data, NameValueCollection parameters)
         {
-            uri = DecorateRESTCall(uri);
-
-            string boundry = "-----------------------------" + DateTime.Now.Ticks.ToString("x");
-            byte[] boundryBytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundry + "\r\n");
+            string boundary = "-----------------------------" + DateTime.Now.Ticks.ToString("x");
+            byte[] boundaryBytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
 
             try
             {
@@ -433,7 +427,7 @@ namespace K2IMInterface
                 req.Accept = "application/json";
                 req.Method = "POST";
                 req.KeepAlive = true;
-                req.ContentType = "multipart/form-data; boundry=" + boundry;
+                req.ContentType = "multipart/form-data; boundary=" + boundary;
 
                 // Get the request stream
                 Stream rs = req.GetRequestStream();
@@ -451,8 +445,8 @@ namespace K2IMInterface
                             // We expect a something like:
                             // object|application/json|{"field": "value"}
                             // otherwise there is not much we can do
-                            rs.Write(boundryBytes, 0, boundryBytes.Length);
-                            string postTemplate = "Content-Disposition: form-data: name=\"{0}\"\r\nContent-Type: {1}\r\n\r\n{2}";
+                            rs.Write(boundaryBytes, 0, boundaryBytes.Length);
+                            string postTemplate = "Content-Disposition: form-data; name=\"{0}\"\r\nContent-Type: {1}\r\n\r\n{2}";
                             string formData = string.Format(postTemplate, details[0], details[1]);
                             byte[] formBytes = Encoding.UTF8.GetBytes(formData);
                             rs.Write(formBytes, 0, formBytes.Length);
@@ -468,8 +462,8 @@ namespace K2IMInterface
                     if (details.Length == 3)
                     {
                         // We have all three pieced of inforamtion
-                        rs.Write(boundryBytes, 0, boundryBytes.Length);
-                        string fileTemplate = "Content-Disposition: form-data: name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
+                        rs.Write(boundaryBytes, 0, boundaryBytes.Length);
+                        string fileTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
                         string fileData = string.Format(fileTemplate, details[0], details[1], details[2]);
                         byte[] fileBytes = System.Text.Encoding.UTF8.GetBytes(fileData);
                         rs.Write(fileBytes, 0, fileData.Length);
@@ -478,8 +472,8 @@ namespace K2IMInterface
                     else if (details.Length == 2)
                     {
                         // Assume the content type is octet-stream
-                        rs.Write(boundryBytes, 0, boundryBytes.Length);
-                        string fileTemplate = "Content-Disposition: form-data: name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
+                        rs.Write(boundaryBytes, 0, boundaryBytes.Length);
+                        string fileTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
                         string fileData = string.Format(fileTemplate, details[0], details[1], "application/octet-stream");
                         byte[] fileBytes = System.Text.Encoding.UTF8.GetBytes(fileData);
                         rs.Write(fileBytes, 0, fileData.Length);
@@ -488,8 +482,8 @@ namespace K2IMInterface
                     else if (details.Length == 1)
                     {
                         // Assume the content type is octet-stream and the field is form field is named "file"
-                        rs.Write(boundryBytes, 0, boundryBytes.Length);
-                        string fileTemplate = "Content-Disposition: form-data: name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
+                        rs.Write(boundaryBytes, 0, boundaryBytes.Length);
+                        string fileTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
                         string fileData = string.Format(fileTemplate, "file", details[1], "application/octet-stream");
                         byte[] fileBytes = System.Text.Encoding.UTF8.GetBytes(fileData);
                         rs.Write(fileBytes, 0, fileData.Length);
@@ -498,7 +492,7 @@ namespace K2IMInterface
                 }
 
                 // Write the trailer
-                byte[] trailerBytes = System.Text.Encoding.UTF8.GetBytes("\r\n--" + boundry + "--\r\n");
+                byte[] trailerBytes = System.Text.Encoding.UTF8.GetBytes("\r\n--" + boundary + "--\r\n");
                 rs.Write(trailerBytes, 0, trailerBytes.Length);
                 rs.Close();
 

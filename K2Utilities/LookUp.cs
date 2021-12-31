@@ -48,7 +48,7 @@ namespace K2Utilities
                     object value = prop.GetValue(that, null);
                     if (value != null)
                     {
-                        Entries[prop.Name] = value.ToString();
+                        Entries[prop.Name.ToLower()] = value.ToString();
                         ++c;
                     }
                 }
