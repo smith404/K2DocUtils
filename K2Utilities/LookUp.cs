@@ -34,7 +34,27 @@ namespace K2Utilities
 
                 return key.Values.Count;
             }
+            return 0;
+        }
 
+        public int AddObject(object that)
+        {
+            if (that != null)
+            {
+                int c = 0;
+
+                foreach (var prop in that.GetType().GetProperties())
+                {
+                    object value = prop.GetValue(that, null);
+                    if (value != null)
+                    {
+                        Entries[prop.Name] = value.ToString();
+                        ++c;
+                    }
+                }
+
+                return c;
+            }
             return 0;
         }
 

@@ -23,6 +23,40 @@ namespace K2IManageObjects
         Unknown
     }
 
+    public class IMInstance
+    {
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; }
+
+        [JsonProperty(PropertyName = "url")]
+        public string URL { get; set; }
+
+        [JsonProperty(PropertyName = "description")]
+        public string Description { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
+
+        public override bool Equals(System.Object that)
+        {
+            if ((that == null))
+            {
+                return false;
+            }
+            else
+            {
+                return Name.Equals(that.ToString());
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
+    }
+
     public abstract class IMObject
     {
         [JsonProperty(PropertyName = "id")]
@@ -386,7 +420,7 @@ namespace K2IManageObjects
             Name = "UNKNOWN";
         }
 
-        public List<IMDBObject> Children(K2IMInterface.IMSession session)
+        public List<IMDBObject> Children(K2IMInterface.IMConnection session)
         {
             StringBuilder uri = new StringBuilder();
 
@@ -1083,7 +1117,7 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "retain_days")]
         public int RetainDays { get; set; }
 
-        public List<IMFolder> Recent(K2IMInterface.IMSession session)
+        public List<IMFolder> Recent(K2IMInterface.IMConnection session)
         {
             string url = "workspaces/recent";
 
@@ -1338,7 +1372,7 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "to")]
         public IMEmailParticipant[] To { get; set; }
 
-        public IMConversation Conversation(K2IMInterface.IMSession session)
+        public IMConversation Conversation(K2IMInterface.IMConnection session)
         {
             StringBuilder uri = new StringBuilder();
 
@@ -1444,14 +1478,14 @@ namespace K2IManageObjects
 
         public string workspace_name { get; set; }
 
-        public List<IMDocument> Docunments(K2IMInterface.IMSession session)
+        public List<IMDocument> Docunments(K2IMInterface.IMConnection session)
         {
             string url = "folders/" + Id + "/documents";
 
             return JsonConvert.DeserializeObject<IMItemList<IMDocument>>(session.PerformGetCall(url)).Data;
         }
 
-        public List<IMFolder> SubFolders(K2IMInterface.IMSession session)
+        public List<IMFolder> SubFolders(K2IMInterface.IMConnection session)
         {
             string url = "folders/" + Id + "/subfolders";
 

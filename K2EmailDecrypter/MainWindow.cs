@@ -44,7 +44,7 @@ namespace K2EmailDecrypter
             log.Debug("Application started");
 
             log.Debug("Error Handler Assigned");
-            K2IMInterface.IMSession.Instance.ErrorHandler = MyErrorCallback;
+            K2IMInterface.IMConnection.Instance.ErrorHandler = MyErrorCallback;
 
             InitializeComponent();
 

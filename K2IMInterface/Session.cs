@@ -39,10 +39,10 @@ namespace K2IMInterface
             System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }
 
-    public sealed class IMSession
+    public sealed class IMConnection
     {
         private static readonly object padlock = new object();
-        private static IMSession instance = null;
+        private static IMConnection instance = null;
 
         public delegate bool ErrorCallback(Exception ex);
         public ErrorCallback ErrorHandler { get; set; }
@@ -54,7 +54,7 @@ namespace K2IMInterface
         public string APIVersion { get; set; }
 
 
-        private IMSession()
+        private IMConnection()
         {
             ErrorHandler = null;
             APIVersion = "api/v1/";
@@ -62,7 +62,7 @@ namespace K2IMInterface
             BaseURI = "https://localhost/";
         }
 
-        public static IMSession Instance
+        public static IMConnection Instance
         {
             get
             {
@@ -72,7 +72,7 @@ namespace K2IMInterface
                     {
                         if (instance == null)
                         {
-                            instance = new IMSession();
+                            instance = new IMConnection();
                         }
                     }
                 }
