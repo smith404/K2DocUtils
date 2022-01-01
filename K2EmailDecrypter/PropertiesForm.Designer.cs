@@ -93,8 +93,6 @@ namespace K2EmailDecrypter
             // 
             this.RefreshTrk.LargeChange = 60;
             this.RefreshTrk.Location = new System.Drawing.Point(136, 80);
-            this.RefreshTrk.Maximum = 1800;
-            this.RefreshTrk.Minimum = 60;
             this.RefreshTrk.Name = "RefreshTrk";
             this.RefreshTrk.Size = new System.Drawing.Size(247, 45);
             this.RefreshTrk.SmallChange = 30;

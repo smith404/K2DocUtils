@@ -6,7 +6,10 @@ namespace K2EmailDecrypter
 {
     public class Preferences
     {
-        private static readonly string RootKey = "Software";
+        public const int MinDelay = 60;
+        public const int DefaultDelay = 180;
+        public const int MaxDelay = 1800;
+        private const string RootKey = "Software";
 
         public string IMKey
         {
@@ -31,6 +34,10 @@ namespace K2EmailDecrypter
             get
             {
                 Int32.TryParse(Utilities.Instance.ReadUserKey(RootKey, nameof(Delay)), out int val);
+                if (val < MinDelay || val > MaxDelay)
+                {
+                    val = DefaultDelay;
+                }
                 return val;
             }
             set { Utilities.Instance.WriteUserKey(RootKey, nameof(Delay), value.ToString()); }

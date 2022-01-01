@@ -8,7 +8,7 @@ namespace K2EmailDecrypter
 {
     public partial class PropertiesForm : Form
     {
-        private static readonly string ProviderRoot = "SOFTWARE\\Microsoft\\Cryptography\\Defaults\\Provider";
+        private const string ProviderRoot = "SOFTWARE\\Microsoft\\Cryptography\\Defaults\\Provider";
 
         private readonly Preferences preferences;
         public Preferences Preferences
@@ -20,6 +20,10 @@ namespace K2EmailDecrypter
         {
             // Set up window with no task bar presence
             InitializeComponent();
+
+            RefreshTrk.Minimum = Preferences.MinDelay;
+            RefreshTrk.Maximum = Preferences.MaxDelay;
+
             ShowInTaskbar = false;
             TokenTxt.UseSystemPasswordChar = true;
 

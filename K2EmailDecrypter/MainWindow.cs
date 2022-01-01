@@ -140,6 +140,10 @@ namespace K2EmailDecrypter
             }
             else
             {
+                // Stop the processing thread
+                Decrypter.CancelReceivingThread();
+
+                // Remove the icon to avoid ghosting in the notification area
                 AppNotifyIcon.Icon = null;
             }
         }
