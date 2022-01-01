@@ -68,12 +68,12 @@ namespace PdfStamper
             //this.listView.ItemsSource = documents;
 
 
-            //var culture = Culture.English;
+            //Culture culture = Culture.English;
             //var results = SequenceRecognizer.RecognizeIpAddress(inputTxt.Text, culture);
             //var results = SequenceRecognizer.RecognizePhoneNumber(inputTxt.Text, culture);
             //var results = DateTimeRecognizer.RecognizeDateTime(inputTxt.Text, culture);
             /*
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             results.ForEach(delegate (ModelResult result)
             {
                 sb.Append(result.Text);
@@ -243,7 +243,7 @@ namespace PdfStamper
 
                             Watermark wm = new Watermark("Bollocks");
                             PageStamp ps = new PageStamp("Bates {DN} / {PN}");
-                            var stamps = new List<OverlayElement>();
+                            List<OverlayElement> stamps = new List<OverlayElement>();
 
                             stamps.Add(ps);
                             stamps.Add(wm);

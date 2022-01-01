@@ -1,4 +1,5 @@
 ﻿using K2IManageObjects;
+using K2IMInterface;
 using K2Utilities;
 using Microsoft.Win32;
 using System;
@@ -114,7 +115,7 @@ namespace K2EmailDecrypter
 
             Utilities.Instance.SetObjectProperties(inst, key);
 
-            Console.WriteLine("Instance: " + inst);
+            Console.WriteLine(IMConnection.Instance.PerformPOSTCall("", inst));
         }
 
         public bool MyErrorCallback(Exception ex)

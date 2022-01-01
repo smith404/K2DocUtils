@@ -311,13 +311,22 @@ namespace K2IMInterface
                 req.Method = (isPut) ? "PUT" : "POST";
                 req.Timeout = 60000;
 
-                WebResponse resp = req.GetResponse();
+                // Turn our object to a json string as a byte array
+                string json = JsonConvert.SerializeObject(that);
+                byte[] data = Encoding.Default.GetBytes(json);
 
+                req.ContentType = "application/json"; 
+                req.ContentLength = data.Length;
+
+                Stream reqStreeam = req.GetRequestStream();
+                reqStreeam.Write(data, 0, data.Length);
+                reqStreeam.Close();
+
+                WebResponse resp = req.GetResponse();
                 if (resp == null)
                 {
                     return null;
                 }
-
                 StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
 
                 return sr.ReadToEnd().Trim();
@@ -433,7 +442,6 @@ namespace K2IMInterface
                 {
                     return null;
                 }
-
                 StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
 
                 return sr.ReadToEnd().Trim();
@@ -540,7 +548,6 @@ namespace K2IMInterface
                 {
                     return null;
                 }
-
                 StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
 
                 return sr.ReadToEnd().Trim();
