@@ -109,8 +109,10 @@ namespace K2EmailDecrypter
             location = "Software\\" + appName + "\\" + appVersion + "\\Postcondition";
             Key key = Key.GetKeyValue(Registry.CurrentUser, location);
 
-            IMInstance inst = new IMInstance();
-            inst.Name = "WooHoo";
+            IMInstance inst = new IMInstance
+            {
+                Name = "WooHoo"
+            };
 
             Utilities.Instance.SetObjectProperties(inst, key);
 

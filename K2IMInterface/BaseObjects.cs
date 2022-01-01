@@ -551,23 +551,32 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "groupid")]
         public string GID { get; set; }
 
-        public int group_nos { get; set; }
+        [JsonProperty(PropertyName = "group_nos")]
+        public int GroupNos { get; set; }
 
-        public string full_name { get; set; }
+        [JsonProperty(PropertyName = "full_name")]
+        public string FullName { get; set; }
 
-        public int group_number { get; set; }
+        [JsonProperty(PropertyName = "group_number")]
+        public int GroupNumber { get; set; }
 
-        public string group_domain { get; set; }
+        [JsonProperty(PropertyName = "group_domain")]
+        public string GroupDomain { get; set; }
 
-        public bool is_external { get; set; }
+        [JsonProperty(PropertyName = "is_external")]
+        public bool IsExternal { get; set; }
 
-        public bool enabled { get; set; }
+        [JsonProperty(PropertyName = "enabled")]
+        public bool Enabled { get; set; }
 
-        public string sync_id { get; set; }
+        [JsonProperty(PropertyName = "sync_id")]
+        public string SyncId { get; set; }
 
-        public string distinguished_name { get; set; }
+        [JsonProperty(PropertyName = "distinguished_name")]
+        public string DistinguishedName { get; set; }
 
-        public string last_sync_ts { get; set; }
+        [JsonProperty(PropertyName = "last_sync_ts")]
+        public string LastSyncTs { get; set; }
     }
 
     public class IMRole : IMDBObject
@@ -1005,7 +1014,8 @@ namespace K2IManageObjects
 
     public class IMWorkspace : IMCutomFieldsObject
     {
-        public string activity_date { get; set; }
+        [JsonProperty(PropertyName = "activity_date")]
+        public string ActivityDate { get; set; }
 
         public string comment { get; set; }
 

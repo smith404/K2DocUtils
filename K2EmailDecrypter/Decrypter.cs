@@ -9,9 +9,9 @@ namespace K2EmailDecrypter
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Decrypter");
 
-        private BlockingCollection<IMDBObject> queue;
+        private readonly BlockingCollection<IMDBObject> queue;
 
-        private CancellationTokenSource receivingCts = new CancellationTokenSource();
+        private readonly CancellationTokenSource receivingCts = new CancellationTokenSource();
 
         public Decrypter()
         {
@@ -19,7 +19,7 @@ namespace K2EmailDecrypter
             queue = new BlockingCollection<IMDBObject>();
 
             log.Debug("Creating decryption thread");
-            Thread thread = new Thread(Start);
+            _ = new Thread(Start);
             log.Debug("Starting decryption thread");
             thread.Start();
 
