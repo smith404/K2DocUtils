@@ -13,7 +13,7 @@ namespace K2EmailDecrypter
         public static string appName = "K2 Email Decrypter";
         public static string appVersion = "0.0.1";
 
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger("MainWindow");
 
         private readonly Timer appTimer;
         public Timer AppTimer
@@ -190,6 +190,7 @@ namespace K2EmailDecrypter
         {
             appTimer.Stop();
             OutputTxt.Text += "Event triggered: " + DateTime.Now + "\r\n";
+            Decrypter.Decrypt(new IMDocument() { Id = Utilities.Instance.getNowISO8601() });
             appTimer.Start();
 
             properties.Preferences.LastRunISO8601 = Utilities.Instance.getNowISO8601();
