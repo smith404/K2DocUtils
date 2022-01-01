@@ -27,7 +27,6 @@ namespace K2EmailDecrypter
             get { return decrypter; }
         }
 
-
         private readonly NotifyIcon AppNotifyIcon;
         private readonly ContextMenu AppContextMenu;
         private readonly MenuItem ExitMenuItem;
@@ -115,7 +114,7 @@ namespace K2EmailDecrypter
 
             Utilities.Instance.SetObjectProperties(inst, key);
 
-            Console.WriteLine(IMConnection.Instance.PerformPOSTCall("", inst));
+            //Console.WriteLine(IMConnection.Instance.PerformPOSTCall("", inst));
         }
 
         public bool MyErrorCallback(Exception ex)
