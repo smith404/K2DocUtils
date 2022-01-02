@@ -33,10 +33,10 @@ namespace PdfStamper
             XPoint result = new XPoint(LeftOffset, TopOffset);
 
             double pageWidth = targetPage.Width.Point;
-            double pageHeight = targetPage.Height.Point;
+            _ = targetPage.Height.Point;
 
             double elementWidth = elementSize.Width;
-            double elementHeight = elementSize.Height;
+            _ = elementSize.Height;
 
             switch (Location)
             {
@@ -54,7 +54,7 @@ namespace PdfStamper
             return result;
         }
 
-        private string makeStamp(string source)
+        private string MakeStamp(string source)
         {
             string target = source;
 
@@ -66,7 +66,7 @@ namespace PdfStamper
             return target;
         }
 
-        private void addRectangle(XRect rect, XGraphics gfx)
+        private void AddRectangle(XRect rect, XGraphics gfx)
         {
             gfx.DrawRectangle(BoarderPen, BackgroundBrush, rect);
         }
@@ -90,13 +90,12 @@ namespace PdfStamper
 
         public override void OverlayPage(PdfPage thePage)
         {
-            string theStamp = makeStamp(stamp);
+            string theStamp = MakeStamp(stamp);
 
             XGraphics gfx = XGraphics.FromPdfPage(thePage, XGraphicsPdfPageOptions.Append);
 
             XSize size = gfx.MeasureString(theStamp, font, XStringFormats.Default);
-
-            XRect rect = new XRect(10, 10, size.Width, size.Height);
+            _ = new XRect(10, 10, size.Width, size.Height);
             XPoint point = new XPoint(10, 10);
 
             addRectangleWithText(point, theStamp, gfx);
@@ -111,7 +110,7 @@ namespace PdfStamper
             for (int idx = 0; idx < count; ++idx)
             {
                 SetPageNumber(idx);
-                string theStamp = makeStamp(stamp);
+                string theStamp = MakeStamp(stamp);
 
                 PdfPage sourcePage = source.Pages[idx];
 
@@ -120,8 +119,7 @@ namespace PdfStamper
                 XGraphics gfx = XGraphics.FromPdfPage(targetPage, XGraphicsPdfPageOptions.Append);
 
                 XSize size = gfx.MeasureString(theStamp, font, XStringFormats.Default);
-
-                XRect rect = new XRect(10, 10, size.Width, size.Height);
+                _ = new XRect(10, 10, size.Width, size.Height);
                 XPoint point = new XPoint(10, 10);
 
                 addRectangleWithText(point, theStamp, gfx);

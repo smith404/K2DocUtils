@@ -41,7 +41,7 @@ namespace PdfStamper
 
                     byte[] fileData = File.ReadAllBytes(document.Id);
 
-                    cd.addDocument(ConsolidatedDocument.makeDocument(fileData, document.Title));
+                    cd.AddDocument(ConsolidatedDocument.MakeDocument(fileData, document.Title));
                 }
 
                 //Watermark wm = new Watermark("Watermark");
@@ -62,9 +62,9 @@ namespace PdfStamper
                 stamps.Add(ps);
                 //stamps.Add(wm);
 
-                byte[] consolidatedDocument = cd.consolidate(stamps);
+                byte[] consolidatedDocument = cd.Consolidate(stamps);
 
-                OutputDocument = ConsolidatedDocument.makeDocument(consolidatedDocument, "Consolidated Document");
+                OutputDocument = ConsolidatedDocument.MakeDocument(consolidatedDocument, "Consolidated Document");
                 if (OutputDocument.PageCount > 0)
                 {
                     DialogResult = true;

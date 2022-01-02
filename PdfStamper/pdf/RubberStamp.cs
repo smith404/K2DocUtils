@@ -44,7 +44,7 @@ namespace PdfStamper
             thePage.Annotations.Add(rsAnnot);
         }
 
-        private void addBoarder(XRect rect, XGraphics gfx)
+        private void AddBoarder(XRect rect, XGraphics gfx)
         {
             gfx.DrawRoundedRectangle(BoarderPen, BackgroundBrush, rect, new XSize(20, 20));
         }

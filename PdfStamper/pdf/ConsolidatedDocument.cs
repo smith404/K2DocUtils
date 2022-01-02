@@ -15,7 +15,7 @@ namespace PdfStamper.pdf
             args.Password = "owner";
         }
 
-        public static PdfDocument openDocument(string path)
+        public static PdfDocument OpenDocument(string path)
         {
             PdfDocument document = null;
             try
@@ -34,7 +34,7 @@ namespace PdfStamper.pdf
             return document;
         }
 
-        public static PdfDocument makeDocument(byte[] data, string tagInfo)
+        public static PdfDocument MakeDocument(byte[] data, string tagInfo)
         {
             MemoryStream stream = new MemoryStream(data);
 
@@ -62,14 +62,14 @@ namespace PdfStamper.pdf
             WithBookmarks = true;
         }
 
-        public int addDocument(PdfDocument inputDocument)
+        public int AddDocument(PdfDocument inputDocument)
         {
             inputDocuments.Add(inputDocument);
 
             return inputDocuments.Count;
         }
 
-        public byte[] consolidate(List<OverlayElement> stamps)
+        public byte[] Consolidate(List<OverlayElement> stamps)
         {
             // Create the output document
             PdfDocument outputDocument = new PdfDocument();

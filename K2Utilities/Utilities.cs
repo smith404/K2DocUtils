@@ -40,12 +40,12 @@ namespace K2Utilities
             }
         }
 
-        public string getNowISO8601(bool universalTime = true)
+        public string GetNowISO8601(bool universalTime = true)
         {
-            return getTimeISO8601(DateTime.Now, universalTime);
+            return GetTimeISO8601(DateTime.Now, universalTime);
         }
 
-        public string getTimeISO8601(DateTime theTime, bool universalTime = true)
+        public string GetTimeISO8601(DateTime theTime, bool universalTime = true)
         {
             if (universalTime)
             {

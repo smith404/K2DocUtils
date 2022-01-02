@@ -30,9 +30,9 @@ namespace PdfStamper
 
 
             // Create a PDF text annotation
-            PdfTextAnnotation textAnnot = new PdfTextAnnotation();
+            _ = new PdfTextAnnotation();
 
-            textAnnot = new PdfTextAnnotation
+            PdfTextAnnotation textAnnot = new PdfTextAnnotation
             {
                 Title = "Annotation 2 (title)",
                 Subject = "Annotation 2 (subject)",

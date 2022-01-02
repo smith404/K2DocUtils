@@ -19,7 +19,7 @@ namespace K2EmailDecrypter
             queue = new BlockingCollection<IMDBObject>();
 
             log.Debug("Creating decryption thread");
-            _ = new Thread(Start);
+            Thread thread = new Thread(Start);
             log.Debug("Starting decryption thread");
             thread.Start();
 

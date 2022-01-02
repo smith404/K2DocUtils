@@ -1,5 +1,4 @@
 ﻿using K2IManageObjects;
-using K2IMInterface;
 using K2Utilities;
 using Microsoft.Win32;
 using System;
@@ -192,10 +191,10 @@ namespace K2EmailDecrypter
         {
             appTimer.Stop();
             OutputTxt.Text += "Event triggered: " + DateTime.Now + "\r\n";
-            Decrypter.Decrypt(new IMDocument() { Id = Utilities.Instance.getNowISO8601() });
+            Decrypter.Decrypt(new IMDocument() { Id = Utilities.Instance.GetNowISO8601() });
             appTimer.Start();
 
-            properties.Preferences.LastRunISO8601 = Utilities.Instance.getNowISO8601();
+            properties.Preferences.LastRunISO8601 = Utilities.Instance.GetNowISO8601();
         }
 
         private void TimerEventProcessor(Object myObject, EventArgs myEventArgs)
@@ -204,7 +203,7 @@ namespace K2EmailDecrypter
             OutputTxt.Text += "Event triggered: " + DateTime.Now + "\r\n";
             appTimer.Start();
 
-            properties.Preferences.LastRunISO8601 = Utilities.Instance.getNowISO8601();
+            properties.Preferences.LastRunISO8601 = Utilities.Instance.GetNowISO8601();
         }
     }
 }

@@ -297,7 +297,7 @@ namespace K2IMInterface
             }
         }
 
-        public string PerformPOSTCall(string uri, object that, bool isPut=false)
+        public string PerformPOSTCall(string uri, object that, bool isPut = false)
         {
             uri = DecorateRESTCall(uri);
 
@@ -315,7 +315,7 @@ namespace K2IMInterface
                 string json = JsonConvert.SerializeObject(that);
                 byte[] data = Encoding.Default.GetBytes(json);
 
-                req.ContentType = "application/json"; 
+                req.ContentType = "application/json";
                 req.ContentLength = data.Length;
 
                 Stream reqStreeam = req.GetRequestStream();
