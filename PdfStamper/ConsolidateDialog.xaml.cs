@@ -52,7 +52,7 @@ namespace PdfStamper
                     FontBrush = XBrushes.Red
                 };
 
-                ps.constructFont();
+                ps.ConstructFont();
 
                 //RubberStamp rs = new RubberStamp(PdfRubberStampAnnotationIcon.Approved);
 

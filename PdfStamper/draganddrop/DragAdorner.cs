@@ -162,8 +162,7 @@ namespace WPF.JoshSmith.Adorners
 
         private void UpdateLocation()
         {
-            AdornerLayer adornerLayer = Parent as AdornerLayer;
-            if (adornerLayer != null)
+            if (Parent is AdornerLayer adornerLayer)
             {
                 adornerLayer.Update(AdornedElement);
             }

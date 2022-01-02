@@ -71,7 +71,7 @@ namespace PdfStamper
             gfx.DrawRectangle(BoarderPen, BackgroundBrush, rect);
         }
 
-        private void addRectangleWithText(XPoint position, string text, XGraphics gfx)
+        private void AddRectangleWithText(XPoint position, string text, XGraphics gfx)
         {
             XSize size = gfx.MeasureString(text, font, XStringFormats.Default);
 
@@ -98,7 +98,7 @@ namespace PdfStamper
             _ = new XRect(10, 10, size.Width, size.Height);
             XPoint point = new XPoint(10, 10);
 
-            addRectangleWithText(point, theStamp, gfx);
+            AddRectangleWithText(point, theStamp, gfx);
 
             gfx.Dispose();
         }
@@ -122,7 +122,7 @@ namespace PdfStamper
                 _ = new XRect(10, 10, size.Width, size.Height);
                 XPoint point = new XPoint(10, 10);
 
-                addRectangleWithText(point, theStamp, gfx);
+                AddRectangleWithText(point, theStamp, gfx);
 
                 gfx.Dispose();
             }

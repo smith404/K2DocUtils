@@ -193,7 +193,7 @@ namespace PdfStamper
                 directoryInfo = ((FileInfo)item.DataContext).Directory;
             }
 
-            if (object.ReferenceEquals(directoryInfo, null))
+            if (directoryInfo is null)
             {
                 return;
             }
@@ -227,7 +227,7 @@ namespace PdfStamper
                 directoryInfo = ((FileInfo)item.DataContext).Directory;
             }
 
-            if (object.ReferenceEquals(directoryInfo, null))
+            if (directoryInfo is null)
             {
                 return;
             }

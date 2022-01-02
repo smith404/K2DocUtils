@@ -51,10 +51,10 @@ namespace PdfStamper
             FontStyle = XFontStyle.Regular;
             FontBrush = XBrushes.DeepSkyBlue;
 
-            constructFont();
+            ConstructFont();
         }
 
-        public void constructFont()
+        public void ConstructFont()
         {
             font = new XFont(FontName, FontSize, FontStyle);
         }

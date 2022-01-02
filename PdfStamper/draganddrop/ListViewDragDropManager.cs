@@ -347,15 +347,13 @@ namespace PdfStamper
             }
 
             // Get the data object which was dropped.
-            ItemType data = e.Data.GetData(typeof(ItemType)) as ItemType;
-            if (data == null)
+            if (!(e.Data.GetData(typeof(ItemType)) is ItemType data))
             {
                 return;
             }
 
             // Get the ObservableCollection<ItemType> which contains the dropped data object.
-            ObservableCollection<ItemType> itemsSource = listView.ItemsSource as ObservableCollection<ItemType>;
-            if (itemsSource == null)
+            if (!(listView.ItemsSource is ObservableCollection<ItemType> itemsSource))
             {
                 throw new Exception(
                     "A ListView managed by ListViewDragManager must have its ItemsSource set to an ObservableCollection<ItemType>.");

@@ -1017,72 +1017,104 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "activity_date")]
         public string ActivityDate { get; set; }
 
-        public string comment { get; set; }
+        [JsonProperty(PropertyName = "comment")]
+        public string Comment { get; set; }
 
-        public string effective_security { get; set; }
+        [JsonProperty(PropertyName = "effective_security")]
+        public string EffectiveSecurity { get; set; }
 
-        public string edit_date { get; set; }
+        [JsonProperty(PropertyName = "edit_date")]
+        public string EditDate { get; set; }
 
-        public string email { get; set; }
+        [JsonProperty(PropertyName = "email")]
+        public string Email { get; set; }
 
-        public string folder_type { get; set; }
+        [JsonProperty(PropertyName = "folder_type")]
+        public string FolderType { get; set; }
 
-        public bool has_documents { get; set; }
+        [JsonProperty(PropertyName = "has_documents")]
+        public bool HasDocuments { get; set; }
 
-        public bool has_subfolders { get; set; }
+        [JsonProperty(PropertyName = "has_subfolders")]
+        public bool HasSubfolders { get; set; }
 
-        public bool is_container_saved_search { get; set; }
+        [JsonProperty(PropertyName = "is_container_saved_search")]
+        public bool IsContainerSavedSearch { get; set; }
 
-        public bool is_content_saved_search { get; set; }
+        [JsonProperty(PropertyName = "is_content_saved_search")]
+        public bool IsContentSavedSearch { get; set; }
 
-        public bool is_external_as_normal { get; set; }
+        [JsonProperty(PropertyName = "is_external_as_normal")]
+        public bool IsExternalAsNormal { get; set; }
 
-        public string last_user_description { get; set; }
+        [JsonProperty(PropertyName = "last_user_description")]
+        public string LastUserDescription { get; set; }
 
-        public string owner { get; set; }
+        [JsonProperty(PropertyName = "owner")]
+        public string Owner { get; set; }
 
-        public string owner_description { get; set; }
+        [JsonProperty(PropertyName = "owner_description")]
+        public string OwnerDescription { get; set; }
 
-        public string project_custom1 { get; set; }
+        [JsonProperty(PropertyName = "project_custom1")]
+        public string ProjectCustom1 { get; set; }
 
-        public string project_custom2 { get; set; }
+        [JsonProperty(PropertyName = "project_custom2")]
+        public string ProjectCustom2 { get; set; }
 
-        public string project_custom3 { get; set; }
+        [JsonProperty(PropertyName = "project_custom3")]
+        public string ProjectCustom3 { get; set; }
 
-        public string sub_class { get; set; }
+        [JsonProperty(PropertyName = "sub_class")]
+        public string SubClass { get; set; }
 
-        public string subtype { get; set; }
+        [JsonProperty(PropertyName = "subtype")]
+        public string Subtype { get; set; }
 
-        public string view_type { get; set; }
+        [JsonProperty(PropertyName = "view_type")]
+        public string ViewType { get; set; }
 
-        public string workspace_id { get; set; }
+        [JsonProperty(PropertyName = "workspace_id")]
+        public string WorkspaceId { get; set; }
 
-        public string workspace_name { get; set; }
+        [JsonProperty(PropertyName = "workspace_name")]
+        public string WorkspaceName { get; set; }
 
-        public int document_number { get; set; }
+        [JsonProperty(PropertyName = "document_number")]
+        public int DocumentNumber { get; set; }
 
-        public string author { get; set; }
+        [JsonProperty(PropertyName = "author")]
+        public string Author { get; set; }
 
-        public string author_description { get; set; }
+        [JsonProperty(PropertyName = "author_description")]
+        public string AuthorDescription { get; set; }
 
         [JsonProperty(PropertyName = "class")]
         public string Clazz { get; set; }
 
-        public string content_type { get; set; }
+        [JsonProperty(PropertyName = "content_type")]
+        public string ContentType { get; set; }
 
-        public string create_date { get; set; }
+        [JsonProperty(PropertyName = "create_date")]
+        public string CreateDate { get; set; }
 
-        public string edit_profile_date { get; set; }
+        [JsonProperty(PropertyName = "edit_profile_date")]
+        public string EditProfileDate { get; set; }
 
-        public string extension { get; set; }
+        [JsonProperty(PropertyName = "extension")]
+        public string Extension { get; set; }
 
-        public string file_create_date { get; set; }
+        [JsonProperty(PropertyName = "file_create_date")]
+        public string FileCreateDate { get; set; }
 
-        public string file_edit_date { get; set; }
+        [JsonProperty(PropertyName = "file_edit_date")]
+        public string FileEditDate { get; set; }
 
-        public bool has_attachment { get; set; }
+        [JsonProperty(PropertyName = "has_attachment")]
+        public bool HasAttachment { get; set; }
 
-        public bool in_use { get; set; }
+        [JsonProperty(PropertyName = "in_use")]
+        public bool InUse { get; set; }
 
         public bool is_checked_out { get; set; }
 
@@ -1423,7 +1455,8 @@ namespace K2IManageObjects
             DefaultSecurity = baseObject.DefaultSecurity;
         }
 
-        public string activity_date { get; set; }
+        [JsonProperty(PropertyName = "activity_date")]
+        public string ActivityDate { get; set; }
 
         public string container_saved_search_id { get; set; }
 
@@ -1461,21 +1494,29 @@ namespace K2IManageObjects
 
         public string my_matters_shortcut_id { get; set; }
 
-        public string owner { get; set; }
+        [JsonProperty(PropertyName = "owner")]
+        public string Owner { get; set; }
 
-        public string owner_description { get; set; }
+        [JsonProperty(PropertyName = "owner_description")]
+        public string OwnerDescription { get; set; }
 
-        public string parent_id { get; set; }
+        [JsonProperty(PropertyName = "parent_id")]
+        public string ParentId { get; set; }
 
-        public List<KeyValuePair<string, int>> profile { get; set; }
+        [JsonProperty(PropertyName = "profile")]
+        public List<KeyValuePair<string, int>> Profile { get; set; }
 
-        public string project_custom1 { get; set; }
+        [JsonProperty(PropertyName = "project_custom1")]
+        public string ProjectCustom1 { get; set; }
 
-        public string project_custom2 { get; set; }
+        [JsonProperty(PropertyName = "project_custom2")]
+        public string ProjectCustom2 { get; set; }
 
-        public string project_custom3 { get; set; }
+        [JsonProperty(PropertyName = "project_custom3")]
+        public string ProjectCustom3 { get; set; }
 
-        public string security_policy { get; set; }
+        [JsonProperty(PropertyName = "security_policy")]
+        public string SecurityPolicy { get; set; }
 
         public string subtype { get; set; }
 
@@ -1505,7 +1546,8 @@ namespace K2IManageObjects
 
     public class IMTemplate : IMCutomFieldsObject
     {
-        public string activity_date { get; set; }
+        [JsonProperty(PropertyName = "activity_date")]
+        public string ActivityDate { get; set; }
 
         public string comment { get; set; }
 
