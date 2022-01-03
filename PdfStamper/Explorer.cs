@@ -119,14 +119,17 @@ namespace PdfStamper
             Header = stack;
         }
 
-        public bool isSelected()
+        new public bool IsSelected
         {
-            if (!Tag.Equals(EntryType.Document))
+            get
             {
-                return false;
-            }
+                if (!Tag.Equals(EntryType.Document))
+                {
+                    return false;
+                }
 
-            return cb.IsChecked ?? false;
+                return cb.IsChecked ?? false;
+            }
         }
     }
 
@@ -155,7 +158,7 @@ namespace PdfStamper
             ExplorerItem item = new ExplorerItem(EntryType.Workspace, drive.Name, drive);
 
             AddHolder(item);
-            item.Expanded += new RoutedEventHandler(itemExpanded);
+            item.Expanded += new RoutedEventHandler(ItemExpanded);
             return item;
         }
 
@@ -164,7 +167,7 @@ namespace PdfStamper
             ExplorerItem item = new ExplorerItem(EntryType.Folder, directory.Name, directory);
 
             AddHolder(item);
-            item.Expanded += new RoutedEventHandler(itemExpanded);
+            item.Expanded += new RoutedEventHandler(ItemExpanded);
 
             return item;
         }
@@ -243,7 +246,7 @@ namespace PdfStamper
             }
         }
 
-        void itemExpanded(object sender, RoutedEventArgs e)
+        void ItemExpanded(object sender, RoutedEventArgs e)
         {
             TreeViewItem item = (TreeViewItem)sender;
 
@@ -290,7 +293,7 @@ namespace PdfStamper
 
         private void ProcessNodes(ExplorerItem node, List<ExplorerItem> results, int level)
         {
-            if (node.isSelected())
+            if (node.IsSelected)
             {
                 results.Add(node);
             }

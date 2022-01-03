@@ -139,12 +139,12 @@ namespace PdfStamper
                 {
                     #region Unhook Events
 
-                    listView.PreviewMouseLeftButtonDown -= listView_PreviewMouseLeftButtonDown;
-                    listView.PreviewMouseMove -= listView_PreviewMouseMove;
-                    listView.DragOver -= listView_DragOver;
-                    listView.DragLeave -= listView_DragLeave;
-                    listView.DragEnter -= listView_DragEnter;
-                    listView.Drop -= listView_Drop;
+                    listView.PreviewMouseLeftButtonDown -= ListView_PreviewMouseLeftButtonDown;
+                    listView.PreviewMouseMove -= ListView_PreviewMouseMove;
+                    listView.DragOver -= ListView_DragOver;
+                    listView.DragLeave -= ListView_DragLeave;
+                    listView.DragEnter -= ListView_DragEnter;
+                    listView.Drop -= ListView_Drop;
 
                     #endregion // Unhook Events
                 }
@@ -160,12 +160,12 @@ namespace PdfStamper
 
                     #region Hook Events
 
-                    listView.PreviewMouseLeftButtonDown += listView_PreviewMouseLeftButtonDown;
-                    listView.PreviewMouseMove += listView_PreviewMouseMove;
-                    listView.DragOver += listView_DragOver;
-                    listView.DragLeave += listView_DragLeave;
-                    listView.DragEnter += listView_DragEnter;
-                    listView.Drop += listView_Drop;
+                    listView.PreviewMouseLeftButtonDown += ListView_PreviewMouseLeftButtonDown;
+                    listView.PreviewMouseMove += ListView_PreviewMouseMove;
+                    listView.DragOver += ListView_DragOver;
+                    listView.DragLeave += ListView_DragLeave;
+                    listView.DragEnter += ListView_DragEnter;
+                    listView.Drop += ListView_Drop;
 
                     #endregion // Hook Events
                 }
@@ -214,7 +214,7 @@ namespace PdfStamper
 
         #region listView_PreviewMouseLeftButtonDown
 
-        void listView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void ListView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (IsMouseOverScrollbar)
             {
@@ -243,7 +243,7 @@ namespace PdfStamper
 
         #region listView_PreviewMouseMove
 
-        void listView_PreviewMouseMove(object sender, MouseEventArgs e)
+        void ListView_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (!CanStartDragOperation)
             {
@@ -280,7 +280,7 @@ namespace PdfStamper
 
         #region listView_DragOver
 
-        void listView_DragOver(object sender, DragEventArgs e)
+        void ListView_DragOver(object sender, DragEventArgs e)
         {
             e.Effects = DragDropEffects.Move;
 
@@ -298,7 +298,7 @@ namespace PdfStamper
 
         #region listView_DragLeave
 
-        void listView_DragLeave(object sender, DragEventArgs e)
+        void ListView_DragLeave(object sender, DragEventArgs e)
         {
             if (!IsMouseOver(listView))
             {
@@ -318,7 +318,7 @@ namespace PdfStamper
 
         #region listView_DragEnter
 
-        void listView_DragEnter(object sender, DragEventArgs e)
+        void ListView_DragEnter(object sender, DragEventArgs e)
         {
             if (dragAdorner != null && dragAdorner.Visibility != Visibility.Visible)
             {
@@ -332,7 +332,7 @@ namespace PdfStamper
 
         #region listView_Drop
 
-        void listView_Drop(object sender, DragEventArgs e)
+        void ListView_Drop(object sender, DragEventArgs e)
         {
             if (ItemUnderDragCursor != null)
             {

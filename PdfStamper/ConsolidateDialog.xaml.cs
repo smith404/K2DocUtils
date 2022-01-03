@@ -29,7 +29,7 @@ namespace PdfStamper
             this.documents = documents;
         }
 
-        private void createBtn_Click(object sender, RoutedEventArgs e)
+        private void CreateBtn_Click(object sender, RoutedEventArgs e)
         {
             ConsolidatedDocument cd = new ConsolidatedDocument();
 
@@ -56,10 +56,12 @@ namespace PdfStamper
 
                 //RubberStamp rs = new RubberStamp(PdfRubberStampAnnotationIcon.Approved);
 
-                List<OverlayElement> stamps = new List<OverlayElement>();
+                List<OverlayElement> stamps = new List<OverlayElement>
+                {
 
+                    ps
+                };
                 //stamps.Add(rs);
-                stamps.Add(ps);
                 //stamps.Add(wm);
 
                 byte[] consolidatedDocument = cd.Consolidate(stamps);

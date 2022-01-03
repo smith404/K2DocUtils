@@ -58,7 +58,7 @@ namespace PdfStamper.office
             wordApp.Quit();
         }
 
-        public void openProtected(string path, string pwd)
+        public void OpenProtected(string path, string pwd)
         {
             Application wordApp = null;
             Document sourceDocument = null;
