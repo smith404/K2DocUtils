@@ -1329,35 +1329,53 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "arch_req")]
         public string ArchReq { get; set; }
 
-        public bool is_hipaa { get; set; }
+        [JsonProperty(PropertyName = "is_hipaa")]
+        public bool IsHipaa { get; set; }
 
-        public string is_enabled { get; set; }
+        [JsonProperty(PropertyName = "is_enabled")]
+        public string IsEnabled { get; set; }
 
-        public string workspace_name { get; set; }
+        [JsonProperty(PropertyName = "workspace_name")]
+        public string WorkspaceName { get; set; }
 
-        public string linksite_url { get; set; }
+        [JsonProperty(PropertyName = "linksite_url")]
+        public string LinksiteURL { get; set; }
 
-        public string activity_date { get; set; }
+        [JsonProperty(PropertyName = "activity_date")]
+        public string ActivityDate { get; set; }
 
-        public bool is_latest_version { get; set; }
+        [JsonProperty(PropertyName = "is_latest_version")]
+        public bool IsLatestVersion { get; set; }
 
-        public string custom31_description { get; set; }
+        [JsonProperty(PropertyName = "custom31_description")]
+        public string Custom31Description { get; set; }
 
-        public bool is_restorable { get; set; }
+        [JsonProperty(PropertyName = "is_restorable")]
+        public bool IsRestorable { get; set; }
 
-        public bool is_most_recent_activity { get; set; }
+        [JsonProperty(PropertyName = "is_most_recent_activity")]
+        public bool IsMostRecentActivity { get; set; }
 
-        public int conversation_count { get; set; }
+        [JsonProperty(PropertyName = "conversation_count")]
+        public int ConversationCount { get; set; }
 
-        public IMItem[] attachments { get; set; }
+        [JsonProperty(PropertyName = "attachments")]
+        public IMItem[] Attachments { get; set; }
 
-        public string nvp_value { get; set; }
+        [JsonProperty(PropertyName = "nvp_value")]
+        public string NPVValue { get; set; }
 
-        public string iwl { get; set; }
+        [JsonProperty(PropertyName = "iwl")]
+        public string IWL { get; set; }
 
-        public string workspace_id { get; set; }
+        [JsonProperty(PropertyName = "workspace_id")]
+        public string WorkspaceId { get; set; }
 
-        public IMWarning[] warnings { get; set; }
+        [JsonProperty(PropertyName = "warnings")]
+        public IMWarning[] Warnings { get; set; }
+
+        // Non JSON attribute to allow the document data to be stored
+        public byte[] DocumentContent { get; set; }
 
         public string Recent()
         {
@@ -1377,18 +1395,23 @@ namespace K2IManageObjects
 
     public class IMConversation
     {
-        public string consersation_id { get; set; }
+        [JsonProperty(PropertyName = "consersation_id")]
+        public string ConsersationId { get; set; }
 
-        public string consersation_name { get; set; }
+        [JsonProperty(PropertyName = "consersation_name")]
+        public string ConsersationName { get; set; }
 
-        public IMDocument[] items { get; set; }
+        [JsonProperty(PropertyName = "items")]
+        public IMDocument[] Items { get; set; }
     }
 
     public class IMEmailParticipant
     {
-        public string address { get; set; }
+        [JsonProperty(PropertyName = "address")]
+        public string Address { get; set; }
 
-        public string name { get; set; }
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; }
     }
 
     public class IMEmail : IMDocument
@@ -1508,11 +1531,13 @@ namespace K2IManageObjects
 
         public bool is_content_saved_search { get; set; }
 
-        public bool is_external { get; set; }
+        [JsonProperty(PropertyName = "is_external")]
+        public bool IsExternal { get; set; }
 
         public bool is_external_as_normal { get; set; }
 
-        public string location { get; set; }
+        [JsonProperty(PropertyName = "location")]
+        public string Location { get; set; }
 
         public string my_matters_shortcut_id { get; set; }
 
@@ -1540,16 +1565,20 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "security_policy")]
         public string SecurityPolicy { get; set; }
 
-        public string subtype { get; set; }
+        [JsonProperty(PropertyName = "subtype")]
+        public string Subtype { get; set; }
 
         [JsonProperty(PropertyName = "target")]
         public IMTarget Target { get; set; }
 
-        public string view_type { get; set; }
+        [JsonProperty(PropertyName = "view_type")]
+        public string ViewType { get; set; }
 
-        public string workspace_id { get; set; }
+        [JsonProperty(PropertyName = "workspace_id")]
+        public string WorkspaceId { get; set; }
 
-        public string workspace_name { get; set; }
+        [JsonProperty(PropertyName = "workspace_name")]
+        public string WorkspaceName { get; set; }
 
         public List<IMDocument> Docunments(K2IMInterface.IMConnection session)
         {
@@ -1571,19 +1600,26 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "activity_date")]
         public string ActivityDate { get; set; }
 
-        public string comment { get; set; }
+        [JsonProperty(PropertyName = "comment")]
+        public string Comment { get; set; }
 
-        public string effective_security { get; set; }
+        [JsonProperty(PropertyName = "effective_security")]
+        public string Effective_Security { get; set; }
 
-        public string edit_date { get; set; }
+        [JsonProperty(PropertyName = "edit_date")]
+        public string EditDate { get; set; }
 
-        public string email { get; set; }
+        [JsonProperty(PropertyName = "email")]
+        public string Email { get; set; }
 
-        public string folder_type { get; set; }
+        [JsonProperty(PropertyName = "folder_type")]
+        public string FolderType { get; set; }
 
-        public bool has_documents { get; set; }
+        [JsonProperty(PropertyName = "has_documents")]
+        public bool HasDocuments { get; set; }
 
-        public bool has_subfolders { get; set; }
+        [JsonProperty(PropertyName = "has_subfolders")]
+        public bool HasSubfolders { get; set; }
 
         public bool is_container_saved_search { get; set; }
 
@@ -1593,9 +1629,11 @@ namespace K2IManageObjects
 
         public string last_user_description { get; set; }
 
-        public string owner { get; set; }
+        [JsonProperty(PropertyName = "owner")]
+        public string Owner { get; set; }
 
-        public string owner_description { get; set; }
+        [JsonProperty(PropertyName = "owner_description")]
+        public string OwnerDescription { get; set; }
 
         [JsonProperty(PropertyName = "project_custom1")]
         public string ProjectCustom1 { get; set; }
@@ -1606,34 +1644,47 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "project_custom3")]
         public string ProjectCustom3 { get; set; }
 
-        public string sub_class { get; set; }
+        [JsonProperty(PropertyName = "sub_class")]
+        public string SubClass { get; set; }
 
-        public string subtype { get; set; }
+        [JsonProperty(PropertyName = "subtype")]
+        public string Subtype { get; set; }
 
-        public string view_type { get; set; }
+        [JsonProperty(PropertyName = "view_type")]
+        public string ViewType { get; set; }
 
-        public string workspace_id { get; set; }
+        [JsonProperty(PropertyName = "workspace_id")]
+        public string WorkspaceId { get; set; }
 
-        public string workspace_name { get; set; }
+        [JsonProperty(PropertyName = "workspace_name")]
+        public string WorkspaceName { get; set; }
 
-        public int document_number { get; set; }
+        [JsonProperty(PropertyName = "document_number")]
+        public int DocumentNumber { get; set; }
 
-        public string author { get; set; }
+        [JsonProperty(PropertyName = "author")]
+        public string Author { get; set; }
 
-        public string author_description { get; set; }
+        [JsonProperty(PropertyName = "author_description")]
+        public string AuthorDescription { get; set; }
 
         [JsonProperty(PropertyName = "class")]
         public string Clazz { get; set; }
 
-        public string content_type { get; set; }
+        [JsonProperty(PropertyName = "content_type")]
+        public string ContentType { get; set; }
 
-        public string create_date { get; set; }
+        [JsonProperty(PropertyName = "create_date")]
+        public string CreateDate { get; set; }
 
-        public string edit_profile_date { get; set; }
+        [JsonProperty(PropertyName = "edit_profile_date")]
+        public string EditProfileDate { get; set; }
 
-        public string extension { get; set; }
+        [JsonProperty(PropertyName = "extension")]
+        public string Extension { get; set; }
 
-        public string file_create_date { get; set; }
+        [JsonProperty(PropertyName = "file_create_date")]
+        public string FileCreateDate { get; set; }
 
         public string file_edit_date { get; set; }
 

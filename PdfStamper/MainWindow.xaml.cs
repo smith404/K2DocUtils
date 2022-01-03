@@ -17,12 +17,12 @@ namespace PdfStamper
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly Explorer workspaceExplorer = null;
+        private readonly Explorer WorkspaceExplorer = null;
 
         public MainWindow()
         {
             InitializeComponent();
-            workspaceExplorer = new Explorer(TreeView);
+            WorkspaceExplorer = new Explorer(TreeView);
             PdfWebViewer.Navigate(new Uri("about:blank"));
         }
 
@@ -150,12 +150,12 @@ namespace PdfStamper
             }
         }
 
-        ListViewDragDropManager<ExplorerItem> dragMgr;
+        ListViewDragDropManager<ExplorerItem> DragMgr;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // This is all that you need to do, in order to use the ListViewDragManager.
-            dragMgr = new ListViewDragDropManager<ExplorerItem>(ListView);
+            DragMgr = new ListViewDragDropManager<ExplorerItem>(ListView);
         }
 
         // Performs custom drop logic for the top ListView.
