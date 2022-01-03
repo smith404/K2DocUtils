@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chore.cs" />
     <Compile Include="Key.cs" />
     <Compile Include="LookUp.cs" />
     <Compile Include="Utilities.cs" />

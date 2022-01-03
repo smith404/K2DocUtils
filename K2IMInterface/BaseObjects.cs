@@ -1260,52 +1260,74 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "checkout_comment")]
         public string CheckoutComment { get; set; }
 
-        public string author_description { get; set; }
+        [JsonProperty(PropertyName = "author_description")]
+        public string AuthorDescription { get; set; }
 
-        public string operator_description { get; set; }
+        [JsonProperty(PropertyName = "operator_description")]
+        public string OperatorDescription { get; set; }
 
-        public string type_description { get; set; }
+        [JsonProperty(PropertyName = "type_description")]
+        public string TypeDescription { get; set; }
 
-        public string class_description { get; set; }
+        [JsonProperty(PropertyName = "class_description")]
+        public string ClassDescription { get; set; }
 
-        public string sub_class_description { get; set; }
+        [JsonProperty(PropertyName = "sub_class_description")]
+        public string SubClassDescription { get; set; }
 
-        public string last_user_description { get; set; }
+        [JsonProperty(PropertyName = "last_user_description")]
+        public string LastUserDescription { get; set; }
 
-        public string in_use_by_description { get; set; }
+        [JsonProperty(PropertyName = "in_use_by_description")]
+        public string InUseByDescription { get; set; }
 
-        public string edit_time { get; set; }
+        [JsonProperty(PropertyName = "edit_time")]
+        public string EditTime { get; set; }
 
         [JsonProperty(PropertyName = "extension")]
         public string Extension { get; set; }
 
-        public string content_type { get; set; }
+        [JsonProperty(PropertyName = "content_type")]
+        public string ContentType { get; set; }
 
-        public string edit_profile_date { get; set; }
+        [JsonProperty(PropertyName = "edit_profile_date")]
+        public string EditProfileDate { get; set; }
 
-        public string access_time { get; set; }
+        [JsonProperty(PropertyName = "access_time")]
+        public string AccessTime { get; set; }
 
-        public int folder_id { get; set; }
+        [JsonProperty(PropertyName = "folder_id")]
+        public int FolderId { get; set; }
 
-        public string checkout_date { get; set; }
+        [JsonProperty(PropertyName = "checkout_date")]
+        public string CheckoutDate { get; set; }
 
-        public string msg_id { get; set; }
+        [JsonProperty(PropertyName = "msg_id")]
+        public string MsgId { get; set; }
 
-        public bool is_external { get; set; }
+        [JsonProperty(PropertyName = "is_external")]
+        public bool IsExternal { get; set; }
 
-        public bool has_attachment { get; set; }
+        [JsonProperty(PropertyName = "has_attachment")]
+        public bool HasAttachment { get; set; }
 
-        public bool is_external_as_normal { get; set; }
+        [JsonProperty(PropertyName = "is_external_as_normal")]
+        public bool IsExternalAsNormal { get; set; }
 
-        public string effective_security { get; set; }
+        [JsonProperty(PropertyName = "effective_security")]
+        public string EffectiveSecurity { get; set; }
 
-        public string declared_date { get; set; }
+        [JsonProperty(PropertyName = "declared_date")]
+        public string DeclaredDate { get; set; }
 
-        public string file_create_date { get; set; }
+        [JsonProperty(PropertyName = "file_create_date")]
+        public string FileCreateDate { get; set; }
 
-        public string file_edit_date { get; set; }
+        [JsonProperty(PropertyName = "file_edit_date")]
+        public string FileEditDate { get; set; }
 
-        public string arch_req { get; set; }
+        [JsonProperty(PropertyName = "arch_req")]
+        public string ArchReq { get; set; }
 
         public bool is_hipaa { get; set; }
 
