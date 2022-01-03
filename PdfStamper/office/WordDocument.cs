@@ -50,7 +50,7 @@ namespace PdfStamper.office
                 }
                 else if (styleName == "Heading 1")
                 {
-                    headings.Add(text.ToString() + "\n");
+                    headings.Add(text.ToString() + Environment.NewLine);
                 }
             }
 

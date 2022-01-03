@@ -1,6 +1,5 @@
 ﻿using K2IManageObjects;
 using K2Utilities;
-using Microsoft.Win32;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -9,10 +8,19 @@ namespace K2EmailDecrypter
 {
     public partial class MainWindow : Form
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger("MainWindow");
+
         public static string appName = "K2 Email Decrypter";
         public static string appVersion = "0.0.1";
 
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger("MainWindow");
+        private readonly PropertiesForm properties;
+
+        private readonly NotifyIcon AppNotifyIcon;
+        private readonly ContextMenu AppContextMenu;
+        private readonly MenuItem ExitMenuItem;
+        private readonly MenuItem PropertiesMenuItem;
+
+        private bool wasExitAction = false;
 
         private readonly Timer appTimer;
         public Timer AppTimer
@@ -25,15 +33,6 @@ namespace K2EmailDecrypter
         {
             get { return decrypter; }
         }
-
-        private readonly NotifyIcon AppNotifyIcon;
-        private readonly ContextMenu AppContextMenu;
-        private readonly MenuItem ExitMenuItem;
-        private readonly MenuItem PropertiesMenuItem;
-
-        private bool wasExitAction = false;
-
-        private PropertiesForm properties;
 
         public MainWindow()
         {
@@ -94,28 +93,12 @@ namespace K2EmailDecrypter
             appTimer = new Timer();
             appTimer.Tick += new EventHandler(TimerEventProcessor);
 
-            // Delay is stored in seconds so multiply by 1000 for milliseconds
+            // Create the singleton properties form for the application
             properties = new PropertiesForm();
+
+            // Delay is stored in seconds so multiply by 1000 for milliseconds
             appTimer.Interval = properties.Preferences.Delay * 1000;
-
             appTimer.Start();
-
-            LookUp lup = Utilities.Instance.MakeLookUp();
-
-            string location = "Software\\" + appName + "\\" + appVersion + "\\Precondition";
-            lup.AddRegistryKeyValues(Registry.CurrentUser, location);
-
-            location = "Software\\" + appName + "\\" + appVersion + "\\Postcondition";
-            Key key = Key.GetKeyValue(Registry.CurrentUser, location);
-
-            IMInstance inst = new IMInstance
-            {
-                Name = "WooHoo"
-            };
-
-            Utilities.Instance.SetObjectProperties(inst, key);
-
-            //Console.WriteLine(IMConnection.Instance.PerformPOSTCall("", inst));
         }
 
         public bool MyErrorCallback(Exception ex)
@@ -171,12 +154,6 @@ namespace K2EmailDecrypter
 
         private void PropertiesMenuItem_Click(object Sender, EventArgs e)
         {
-            // Close the form, as the user has selected exit
-            if (properties == null)
-            {
-                properties = new PropertiesForm();
-            }
-
             if (properties.Visible)
             {
                 properties.Focus();
@@ -190,7 +167,7 @@ namespace K2EmailDecrypter
         private void ExecuteBtn_Click(object sender, EventArgs e)
         {
             appTimer.Stop();
-            OutputTxt.Text += "Event triggered: " + DateTime.Now + "\r\n";
+            OutputTxt.Text += "Event triggered: " + DateTime.Now + Environment.NewLine;
             Decrypter.Decrypt(new IMDocument() { Id = Utilities.Instance.GetNowISO8601() });
             appTimer.Start();
 
@@ -200,7 +177,7 @@ namespace K2EmailDecrypter
         private void TimerEventProcessor(Object myObject, EventArgs myEventArgs)
         {
             appTimer.Stop();
-            OutputTxt.Text += "Event triggered: " + DateTime.Now + "\r\n";
+            OutputTxt.Text += "Event triggered: " + DateTime.Now + Environment.NewLine;
             appTimer.Start();
 
             properties.Preferences.LastRunISO8601 = Utilities.Instance.GetNowISO8601();

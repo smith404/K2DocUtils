@@ -181,7 +181,7 @@ namespace PdfStamper
 
         private void ExploreDirectories(TreeViewItem item)
         {
-            DirectoryInfo directoryInfo = (DirectoryInfo)null;
+            DirectoryInfo directoryInfo = null;
 
             if (item.Tag.Equals(EntryType.Workspace))
             {
@@ -215,7 +215,7 @@ namespace PdfStamper
 
         private void ExploreFiles(TreeViewItem item)
         {
-            DirectoryInfo directoryInfo = (DirectoryInfo)null;
+            DirectoryInfo directoryInfo = null;
 
             if (item.Tag.Equals(EntryType.Workspace))
             {

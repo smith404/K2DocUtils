@@ -1,11 +1,7 @@
 ﻿using K2IManageObjects;
 using K2Utilities;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace K2EmailDecrypter
 {
@@ -16,14 +12,14 @@ namespace K2EmailDecrypter
         private const string logStem = "decryptlog";
         private const string extension = "txt";
 
-        private static string tempPath;
+        private static readonly string tempPath;
         static AIPDecryptChore()
         {
             // Get a temporary directory path
             tempPath = $"{Path.GetTempPath()}{Path.DirectorySeparatorChar}API";
 
             // Create the directory if it doesn't already exist
-            System.IO.Directory.CreateDirectory(tempPath);
+            _ = Directory.CreateDirectory(tempPath);
         }
 
         public AIPDecryptChore(IMDBObject item) : base(item)
@@ -51,7 +47,7 @@ namespace K2EmailDecrypter
                 File.Delete($"{logStem}-debug.{extension}");
                 File.Delete($"{logStem}-failure.{extension}");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 log.Error(ex);
             }
