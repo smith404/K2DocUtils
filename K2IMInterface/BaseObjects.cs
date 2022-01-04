@@ -122,7 +122,7 @@ namespace K2IManageObjects
             foreach (PropertyInfo info in _PropertyInfos)
             {
                 object value = info.GetValue(this, null) ?? "(null)";
-                sb.AppendLine(info.Name + ": " + value.ToString());
+                _ = sb.AppendLine($"{info.Name}: {value}");
             }
 
             return sb.ToString();
@@ -1392,12 +1392,12 @@ namespace K2IManageObjects
 
         public string Download()
         {
-            return "/documents/" + Id + "/download";
+            return $"/documents/{Id}/download";
         }
 
         public string Versions()
         {
-            return "/documents/" + Id + "/download";
+            return $"/documents/{Id}/download";
         }
     }
 
@@ -1469,12 +1469,9 @@ namespace K2IManageObjects
 
         public IMConversation Conversation(K2IMInterface.IMConnection session)
         {
-            StringBuilder uri = new StringBuilder();
+            string uri = $"email/conversation/{ConversationId}";
 
-            uri.Append("email/conversation/");
-            uri.Append(ConversationId);
-
-            string json = session.PerformGetCall(session.DecorateRESTCall(uri.ToString()));
+            string json = session.PerformGetCall(session.DecorateRESTCall(uri));
             if (json.Length > 0)
             {
                 return JsonConvert.DeserializeObject<IMConversation>(json);
@@ -1608,14 +1605,14 @@ namespace K2IManageObjects
 
         public List<IMDocument> Docunments(K2IMInterface.IMConnection session)
         {
-            string url = "folders/" + Id + "/documents";
+            string url = $"folders/{Id}/documents";
 
             return JsonConvert.DeserializeObject<IMItemList<IMDocument>>(session.PerformGetCall(url)).Data;
         }
 
         public List<IMFolder> SubFolders(K2IMInterface.IMConnection session)
         {
-            string url = "folders/" + Id + "/subfolders";
+            string url = $"folders/{Id}/subfolders";
 
             return JsonConvert.DeserializeObject<IMItemList<IMFolder>>(session.PerformGetCall(url)).Data;
         }

@@ -167,7 +167,7 @@ namespace K2EmailDecrypter
         private void ExecuteBtn_Click(object sender, EventArgs e)
         {
             appTimer.Stop();
-            OutputTxt.Text += "Event triggered: " + DateTime.Now + Environment.NewLine;
+            OutputTxt.Text += $"Event triggered: {DateTime.Now}{Environment.NewLine}";
             Decrypter.Decrypt(new IMDocument() { Id = Utilities.Instance.GetNowISO8601() });
             appTimer.Start();
 
@@ -177,7 +177,7 @@ namespace K2EmailDecrypter
         private void TimerEventProcessor(Object myObject, EventArgs myEventArgs)
         {
             appTimer.Stop();
-            OutputTxt.Text += "Event triggered: " + DateTime.Now + Environment.NewLine;
+            OutputTxt.Text += $"Event triggered: {DateTime.Now}{Environment.NewLine}";
             appTimer.Start();
 
             properties.Preferences.LastRunISO8601 = Utilities.Instance.GetNowISO8601();

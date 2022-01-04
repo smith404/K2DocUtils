@@ -9,14 +9,14 @@ namespace K2EmailDecrypter
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Decrypter");
 
-        private readonly BlockingCollection<IMDBObject> queue;
+        private readonly BlockingCollection<IMDocument> queue;
 
         private readonly CancellationTokenSource receivingCts = new CancellationTokenSource();
 
         public Decrypter()
         {
             log.Debug("Starting decryter object");
-            queue = new BlockingCollection<IMDBObject>();
+            queue = new BlockingCollection<IMDocument>();
 
             log.Debug("Creating decryption thread");
             Thread thread = new Thread(Start);
@@ -33,9 +33,9 @@ namespace K2EmailDecrypter
                 while (!receivingCts.IsCancellationRequested)
                 {
                     // Block until document is added to the queue or cancellation
-                    IMDBObject item = queue.Take(receivingCts.Token);
+                    IMDocument item = queue.Take(receivingCts.Token);
 
-                    log.Info(string.Format("Removing {0} from queue", item.Id));
+                    log.Info($"Removing {item.Id} from queue");
                     Process(item);
                 }
             }
@@ -44,15 +44,18 @@ namespace K2EmailDecrypter
 
             }
         }
-        public void Decrypt(IMDBObject item)
+        public void Decrypt(IMDocument item)
         {
-            log.Info(string.Format("Adding {0} to queue", item.Id));
+            log.Info($"Adding {item.Id} to queue");
             queue.Add(item);
         }
 
-        public void Process(IMDBObject item)
+        public void Process(IMDocument item)
         {
-            log.Info(string.Format("Starting to process {0}", item.Id));
+            log.Info($"Starting to process {item.Id}");
+
+            AIPDecryptChore c = new AIPDecryptChore(item);
+            c.Test("Completed UnProtection after '0:00:07.3948731', successfully completed processing of 23 of 45 items, failed processing 0 of 11, DateTime : 2022-01-03T08:25:14.8028592+01:00");
         }
 
         // Stop the processing thread

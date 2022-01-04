@@ -3,6 +3,7 @@ using K2Utilities;
 using System;
 using System.IO;
 using System.Management.Automation;
+using System.Text.RegularExpressions;
 
 namespace K2EmailDecrypter
 {
@@ -72,10 +73,45 @@ namespace K2EmailDecrypter
             }
         }
 
-        protected override bool PostCondition()
+        public void Test(string lastLine)
         {
+            string countTemplate = @"of \d+";
+
             try
             {
+                int lastOccurance = -1;
+                while (lastLine.IndexOf("of ", lastOccurance + 1) != -1)
+                {
+                    lastOccurance = lastLine.IndexOf("of ", lastOccurance + 1);
+                    string match = Regex.Match(lastLine.Substring(lastOccurance), countTemplate).Value;
+
+                    Console.WriteLine("M: " + match);
+                }
+                CleanUp();
+            }
+            catch (Exception ex)
+            {
+                log.Warn(ex);
+            }
+        }
+
+        protected override bool PostCondition()
+        {
+            string countTemplate = @"of d+";
+            
+            try
+            {
+                string[] lines = Regex.Split(ChoreLog, "\r\n|\r|\n");
+                string lastLine = lines[lines.Length - 1];
+
+                int lastOccurance = -1;
+                while (lastLine.IndexOf("of ") != -1)
+                {
+                    lastOccurance = lastLine.IndexOf("of ");
+                    string match = Regex.Match(lastLine.Substring(lastOccurance), countTemplate).Value;
+
+                    Console.WriteLine("M: " + match);
+                }
                 CleanUp();
 
                 return true;
