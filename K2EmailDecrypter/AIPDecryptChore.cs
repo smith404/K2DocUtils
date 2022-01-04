@@ -9,7 +9,6 @@ namespace K2EmailDecrypter
 {
     class AIPDecryptChore : Chore<IMDocument>
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger("AIPDecryptChore");
         private static readonly string tempPath;
         private static readonly string logFile;
 

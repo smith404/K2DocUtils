@@ -2,6 +2,8 @@
 {
     public abstract class Chore<T>
     {
+        protected static readonly log4net.ILog log = log4net.LogManager.GetLogger("Chore");
+
         // Other managed resource this class uses.
         protected T workItem;
 
