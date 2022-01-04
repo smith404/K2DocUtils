@@ -1116,20 +1116,26 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "in_use")]
         public bool InUse { get; set; }
 
-        public bool is_checked_out { get; set; }
+        [JsonProperty(PropertyName = "is_checked_out")]
+        public bool IsCheckedOut { get; set; }
 
-        public bool is_hipaa { get; set; }
+        [JsonProperty(PropertyName = "is_hipaa")]
+        public bool IsHipaa { get; set; }
 
-        public bool is_restorable { get; set; }
+        [JsonProperty(PropertyName = "is_restorable")]
+        public bool IsRestorable { get; set; }
 
-        public string iwl { get; set; }
+        [JsonProperty(PropertyName = "iwl")]
+        public string IWL { get; set; }
 
-        public string last_user { get; set; }
+        [JsonProperty(PropertyName = "last_user")]
+        public string LastUser { get; set; }
 
         [JsonProperty(PropertyName = "operator")]
         public string Operator { get; set; }
 
-        public string operator_description { get; set; }
+        [JsonProperty(PropertyName = "operator_description")]
+        public string OperatorDescription { get; set; }
 
         [JsonProperty(PropertyName = "size")]
         public int Size { get; set; }
@@ -1140,9 +1146,11 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "version")]
         public int Version { get; set; }
 
-        public string conversation_id { get; set; }
+        [JsonProperty(PropertyName = "conversation_id")]
+        public string ConversationId { get; set; }
 
-        public string conversation_name { get; set; }
+        [JsonProperty(PropertyName = "conversation_name")]
+        public string ConversationName { get; set; }
 
         [JsonProperty(PropertyName = "subject")]
         public string Subject { get; set; }
@@ -1189,7 +1197,7 @@ namespace K2IManageObjects
         public int DocumentNumber { get; set; }
 
         [JsonProperty(PropertyName = "version")]
-        public int version { get; set; }
+        public int Version { get; set; }
 
         [JsonProperty(PropertyName = "alias")]
         public string Alias { get; set; }
@@ -1476,7 +1484,9 @@ namespace K2IManageObjects
         }
 
         [OnError]
+#pragma warning disable IDE0060 // Remove unused parameter
         internal void OnError(System.Runtime.Serialization.StreamingContext context, ErrorContext errorContext)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
             errorContext.Handled = true;
         }
@@ -1503,43 +1513,59 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "activity_date")]
         public string ActivityDate { get; set; }
 
-        public string container_saved_search_id { get; set; }
+        [JsonProperty(PropertyName = "container_saved_search_id")]
+        public string ContainerSavedSearchId { get; set; }
 
-        public string content_saved_search_id { get; set; }
+        [JsonProperty(PropertyName = "content_saved_search_id")]
+        public string ContentSavedSearchId { get; set; }
 
-        public string edit_date { get; set; }
+        [JsonProperty(PropertyName = "edit_date")]
+        public string EditDate { get; set; }
 
-        public string effective_security { get; set; }
+        [JsonProperty(PropertyName = "effective_security")]
+        public string EffectiveSecurity { get; set; }
 
-        public string email { get; set; }
+        [JsonProperty(PropertyName = "email")]
+        public string Email { get; set; }
 
-        public string folder_type { get; set; }
+        [JsonProperty(PropertyName = "folder_type")]
+        public string FolderType { get; set; }
 
-        public bool has_documents { get; set; }
+        [JsonProperty(PropertyName = "has_documents")]
+        public bool HasDocuments { get; set; }
 
-        public bool has_security { get; set; }
+        [JsonProperty(PropertyName = "has_security")]
+        public bool HasSecurity { get; set; }
 
-        public bool has_subfolders { get; set; }
+        [JsonProperty(PropertyName = "has_subfolders")]
+        public bool HasSubfolders { get; set; }
 
-        public string imanage_share_eid { get; set; }
+        [JsonProperty(PropertyName = "imanage_share_eid")]
+        public string ImanageShareEid { get; set; }
 
-        public string imanage_share_url { get; set; }
+        [JsonProperty(PropertyName = "imanage_share_url")]
+        public string ImanageShareUrl { get; set; }
 
-        public string inherited_default_security { get; set; }
+        [JsonProperty(PropertyName = "inherited_default_security")]
+        public string InheritedDefaultSecurity { get; set; }
 
-        public bool is_container_saved_search { get; set; }
+        [JsonProperty(PropertyName = "is_container_saved_search")]
+        public bool IsContainerSavedSearch { get; set; }
 
-        public bool is_content_saved_search { get; set; }
+        [JsonProperty(PropertyName = "is_content_saved_search")]
+        public bool IsContentSavedSearch { get; set; }
 
         [JsonProperty(PropertyName = "is_external")]
         public bool IsExternal { get; set; }
 
-        public bool is_external_as_normal { get; set; }
+        [JsonProperty(PropertyName = "is_external_as_normal")]
+        public bool IsExternalAsNormal { get; set; }
 
         [JsonProperty(PropertyName = "location")]
         public string Location { get; set; }
 
-        public string my_matters_shortcut_id { get; set; }
+        [JsonProperty(PropertyName = "my_matters_shortcut_id")]
+        public string MyMattersShortcutId { get; set; }
 
         [JsonProperty(PropertyName = "owner")]
         public string Owner { get; set; }
@@ -1621,13 +1647,17 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "has_subfolders")]
         public bool HasSubfolders { get; set; }
 
-        public bool is_container_saved_search { get; set; }
+        [JsonProperty(PropertyName = "is_container_saved_search")]
+        public bool IsContainerSavedSearch { get; set; }
 
-        public bool is_content_saved_search { get; set; }
+        [JsonProperty(PropertyName = "is_content_saved_search")]
+        public bool IsContentSavedSearch { get; set; }
 
-        public bool is_external_as_normal { get; set; }
+        [JsonProperty(PropertyName = "is_external_as_normal")]
+        public bool IsExternalAsNormal { get; set; }
 
-        public string last_user_description { get; set; }
+        [JsonProperty(PropertyName = "last_user_description")]
+        public string LastUserDescription { get; set; }
 
         [JsonProperty(PropertyName = "owner")]
         public string Owner { get; set; }
@@ -1686,21 +1716,29 @@ namespace K2IManageObjects
         [JsonProperty(PropertyName = "file_create_date")]
         public string FileCreateDate { get; set; }
 
-        public string file_edit_date { get; set; }
+        [JsonProperty(PropertyName = "file_edit_date")]
+        public string FileEditDate { get; set; }
 
-        public bool has_attachment { get; set; }
+        [JsonProperty(PropertyName = "has_attachment")]
+        public bool HasAttachment { get; set; }
 
-        public bool in_use { get; set; }
+        [JsonProperty(PropertyName = "in_use")]
+        public bool InUse { get; set; }
 
-        public bool is_checked_out { get; set; }
+        [JsonProperty(PropertyName = "is_checked_out")]
+        public bool IsCheckedOut { get; set; }
 
-        public bool is_hipaa { get; set; }
+        [JsonProperty(PropertyName = "is_hipaa")]
+        public bool IsHipaa { get; set; }
 
-        public bool is_restorable { get; set; }
+        [JsonProperty(PropertyName = "is_restorable")]
+        public bool IsRestorable { get; set; }
 
-        public string iwl { get; set; }
+        [JsonProperty(PropertyName = "iwl")]
+        public string IWL { get; set; }
 
-        public string last_user { get; set; }
+        [JsonProperty(PropertyName = "last_user")]
+        public string LastUser { get; set; }
 
         [JsonProperty(PropertyName = "operator")]
         public string Operator { get; set; }
