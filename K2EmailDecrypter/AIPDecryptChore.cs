@@ -6,40 +6,85 @@ using System.Management.Automation;
 
 namespace K2EmailDecrypter
 {
-    class AIPDecryptChore : Chore<IMDBObject>
+    class AIPDecryptChore : Chore<IMDocument>
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("AIPDecryptChore");
         private static readonly string tempPath;
+        private static readonly string logFile;
 
-        private const string logStem = "decryptlog";
-        private const string extension = "txt";
+        private readonly string targetFile;
+
+        private const string LogStem = "decryptlog";
+        private const string Extension = "txt";
         private const string Cmdlet = "Unprotect-RMSFile";
 
         static AIPDecryptChore()
         {
             // Get a temporary directory path
             tempPath = $"{Path.GetTempPath()}{Path.DirectorySeparatorChar}API";
+            logFile = $"{AIPDecryptChore.tempPath}{Path.DirectorySeparatorChar}{AIPDecryptChore.LogStem}.{AIPDecryptChore.Extension}";
 
             // Create the directory if it doesn't already exist
             _ = Directory.CreateDirectory(tempPath);
         }
 
-        public AIPDecryptChore(IMDBObject item) : base(item)
+        public AIPDecryptChore(IMDocument item) : base(item)
         {
+            targetFile = $"{AIPDecryptChore.tempPath}{Path.DirectorySeparatorChar}{item.Name}.{item.Extension}";
+        }
+
+        protected override bool PreCondition()
+        {
+            try
+            {
+                // Create the file
+                File.WriteAllBytes(targetFile, workItem.DocumentContent);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Warn(ex);
+                return false;
+            }
         }
 
         public override bool Execute()
         {
-            PowerShell cmd = CreateCommand();
+            try
+            {   
+                if (PreCondition())
+                {
+                    PowerShell cmd = CreateCommand();
+                    ChoreLog = File.ReadAllText($"{LogStem}.{Extension}");
 
-            CleanUp();
-
-            return true;
+                    return PostCondition();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Warn(ex);
+                return false;
+            }
         }
 
-        public override string Log()
+        protected override bool PostCondition()
         {
-            throw new NotImplementedException();
+            try
+            {
+                CleanUp();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Warn(ex);
+                return false;
+            }
         }
 
         private void CleanUp()
@@ -47,13 +92,13 @@ namespace K2EmailDecrypter
             // Remove the logfiles
             try
             {
-                File.Delete($"{logStem}.{extension}");
-                File.Delete($"{logStem}-debug.{extension}");
-                File.Delete($"{logStem}-failure.{extension}");
+                File.Delete($"{LogStem}.{Extension}");
+                File.Delete($"{LogStem}-debug.{Extension}");
+                File.Delete($"{LogStem}-failure.{Extension}");
             }
             catch (Exception ex)
             {
-                log.Error(ex);
+                log.Warn(ex);
             }
 
         }
@@ -62,9 +107,9 @@ namespace K2EmailDecrypter
         {
             return PowerShell.Create()
                 .AddCommand(Cmdlet)
-                .AddParameter("File", "file")
+                .AddParameter("File", targetFile)
                 .AddParameter("InPlace")
-                .AddParameter("LogFile", "file");
+                .AddParameter("LogFile", logFile);
         }
     }
 }
