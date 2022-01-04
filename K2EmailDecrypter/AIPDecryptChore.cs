@@ -2,17 +2,19 @@
 using K2Utilities;
 using System;
 using System.IO;
+using System.Management.Automation;
 
 namespace K2EmailDecrypter
 {
     class AIPDecryptChore : Chore<IMDBObject>
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("AIPDecryptChore");
+        private static readonly string tempPath;
 
         private const string logStem = "decryptlog";
         private const string extension = "txt";
+        private const string Cmdlet = "Unprotect-RMSFile";
 
-        private static readonly string tempPath;
         static AIPDecryptChore()
         {
             // Get a temporary directory path
@@ -28,6 +30,8 @@ namespace K2EmailDecrypter
 
         public override bool Execute()
         {
+            PowerShell cmd = CreateCommand();
+
             CleanUp();
 
             return true;
@@ -52,6 +56,15 @@ namespace K2EmailDecrypter
                 log.Error(ex);
             }
 
+        }
+
+        private PowerShell CreateCommand()
+        {
+            return PowerShell.Create()
+                .AddCommand(Cmdlet)
+                .AddParameter("File", "file")
+                .AddParameter("InPlace")
+                .AddParameter("LogFile", "file");
         }
     }
 }

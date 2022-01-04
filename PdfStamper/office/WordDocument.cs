@@ -6,6 +6,11 @@ namespace PdfStamper.office
 {
     class WordDocument
     {
+        private const string Subtitle = "Subtitle";
+        private const string Title = "Title";
+        private const string Heading1 = "Heading 1";
+
+        // Add missing obhect to simplify calling
         private object missing = System.Type.Missing;
 
         public WordDocument(string path)
@@ -40,17 +45,19 @@ namespace PdfStamper.office
                 string styleName = style.NameLocal;
                 string text = paragraph.Range.Text;
 
-                if (styleName == "Title")
+                switch (styleName)
                 {
-                    title.Add(text.ToString());
-                }
-                else if (styleName == "Subtitle")
-                {
-                    st.Add(text.ToString());
-                }
-                else if (styleName == "Heading 1")
-                {
-                    headings.Add(text.ToString() + Environment.NewLine);
+                    case Title:
+                        title.Add(text.ToString());
+                        break;
+                    case Subtitle:
+                        st.Add(text.ToString());
+                        break;
+                    case Heading1:
+                        headings.Add(text.ToString() + Environment.NewLine);
+                        break;
+                    default:
+                        break;
                 }
             }
 
