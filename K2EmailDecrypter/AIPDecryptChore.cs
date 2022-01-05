@@ -33,45 +33,6 @@ namespace K2EmailDecrypter
             targetFile = $"{AIPDecryptChore.tempPath}{Path.DirectorySeparatorChar}{item.Name}.{item.Extension}";
         }
 
-        protected override bool PreCondition()
-        {
-            try
-            {
-                // Create the file
-                File.WriteAllBytes(targetFile, workItem.DocumentContent);
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                log.Warn(ex);
-                return false;
-            }
-        }
-
-        public override bool Execute()
-        {
-            try
-            {   
-                if (PreCondition())
-                {
-                    PowerShell cmd = CreateCommand();
-                    ChoreLog = File.ReadAllText($"{LogStem}.{Extension}");
-
-                    return PostCondition();
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Warn(ex);
-                return false;
-            }
-        }
-
         public void Test(string lastLine)
         {
             string countTemplate = @"of \d+";
@@ -94,13 +55,51 @@ namespace K2EmailDecrypter
             }
         }
 
+        protected override bool PreCondition()
+        {
+            try
+            {
+                // Create the file
+                File.WriteAllBytes(targetFile, workItem.DocumentContent);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Warn(ex);
+                return false;
+            }
+        }
+
+        public override bool Process()
+        {
+            try
+            {   
+                // Create the command
+                PowerShell cmd = CreateCommand();
+
+                // Make the synchronous call
+                //cmd.Invoke();
+
+                // If we got here read the logfile
+                choreLog = File.ReadAllText($"{LogStem}.{Extension}");
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Warn(ex);
+                return false;
+            }
+        }
+
         protected override bool PostCondition()
         {
             string countTemplate = @"of d+";
             
             try
             {
-                string[] lines = Regex.Split(ChoreLog, "\r\n|\r|\n");
+                string[] lines = Regex.Split(choreLog, "\r\n|\r|\n");
                 string lastLine = lines[lines.Length - 1];
 
                 int lastOccurance = -1;
@@ -122,11 +121,12 @@ namespace K2EmailDecrypter
             }
         }
 
-        private void CleanUp()
+        protected override void CleanUp()
         {
             // Remove the logfiles
             try
             {
+                File.Delete(targetFile);
                 File.Delete($"{LogStem}.{Extension}");
                 File.Delete($"{LogStem}-debug.{Extension}");
                 File.Delete($"{LogStem}-failure.{Extension}");

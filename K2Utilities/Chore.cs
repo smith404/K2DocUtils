@@ -1,4 +1,6 @@
-﻿namespace K2Utilities
+﻿using System;
+
+namespace K2Utilities
 {
     public abstract class Chore<T>
     {
@@ -8,7 +10,8 @@
         protected T workItem;
 
         // String to hold log output
-        protected string ChoreLog;
+        protected string choreLog;
+        public string ChoreLog { get => choreLog; }
 
         // The class constructor.
         public Chore(T workItem)
@@ -18,13 +21,41 @@
 
         protected abstract bool PreCondition();
 
-        public abstract bool Execute();
+        public abstract bool Process();
 
         protected abstract bool PostCondition();
 
-        public string Log()
+        protected abstract void CleanUp();
+
+        public bool Start()
         {
-            return ChoreLog;
+            try
+            {
+                if (PreCondition())
+                {
+                    if (Process())
+                    {
+                        return PostCondition();
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Warn(ex);
+                return false;
+            }
+            finally
+            {
+                CleanUp();
+            }
         }
     }
 }
