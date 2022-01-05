@@ -20,13 +20,13 @@ namespace K2EmailDecrypter
         public string Database
         {
             get { return Utilities.Instance.ReadUserKey(RootKey, nameof(Database)); }
-            set { Utilities.Instance.WriteUserKey(RootKey, nameof(Database), value.ToString()); }
+            set { Utilities.Instance.WriteUserKey(RootKey, nameof(Database), value); }
         }
 
         public string CryptoProvider
         {
             get { return Utilities.Instance.ReadUserKey(RootKey, nameof(CryptoProvider)); }
-            set { Utilities.Instance.WriteUserKey(RootKey, nameof(CryptoProvider), value.ToString()); }
+            set { Utilities.Instance.WriteUserKey(RootKey, nameof(CryptoProvider), value); }
         }
 
         public int Delay
@@ -46,8 +46,13 @@ namespace K2EmailDecrypter
         public string LastRunISO8601
         {
             get { return Utilities.Instance.ReadUserKey(RootKey, nameof(LastRunISO8601)); }
-            set { Utilities.Instance.WriteUserKey(RootKey, nameof(LastRunISO8601), value.ToString()); }
+            set { Utilities.Instance.WriteUserKey(RootKey, nameof(LastRunISO8601), value); }
         }
 
+        public string Notifications
+        {
+            get { return Utilities.Instance.ReadUserKey(RootKey, nameof(Notifications)); }
+            set { Utilities.Instance.WriteUserKey(RootKey, nameof(Notifications), value); }
+        }
     }
 }

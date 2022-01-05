@@ -53,6 +53,9 @@ namespace K2EmailDecrypter
 
             TokenTxt.Text = preferences.IMKey;
 
+            bool notify = true;
+            bool.TryParse(preferences.Notifications, out notify);
+            NotificationsCbx.Checked = notify;
         }
 
         private void PropertiesForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -65,6 +68,7 @@ namespace K2EmailDecrypter
                 {
                     preferences.CryptoProvider = CryptoProviderCbb.SelectedItem.ToString();
                 }
+                preferences.Notifications = NotificationsCbx.Checked.ToString();
 
                 e.Cancel = true;
                 Hide();
@@ -80,11 +84,6 @@ namespace K2EmailDecrypter
         private void ViewBtn_Click(object sender, EventArgs e)
         {
             TokenTxt.UseSystemPasswordChar = !TokenTxt.UseSystemPasswordChar;
-        }
-
-        private void RefreshTrk_Scroll(object sender, EventArgs e)
-        {
-
         }
     }
 }

@@ -41,6 +41,8 @@ namespace K2EmailDecrypter
             this.TokenLbl = new System.Windows.Forms.Label();
             this.TokenTxt = new System.Windows.Forms.TextBox();
             this.ViewBtn = new System.Windows.Forms.Button();
+            this.NotificationsLbl = new System.Windows.Forms.Label();
+            this.NotificationsCbx = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.RefreshTrk)).BeginInit();
             this.SuspendLayout();
             // 
@@ -97,8 +99,7 @@ namespace K2EmailDecrypter
             this.RefreshTrk.Size = new System.Drawing.Size(247, 45);
             this.RefreshTrk.SmallChange = 30;
             this.RefreshTrk.TabIndex = 5;
-            this.RefreshTrk.Value = 60;
-            this.RefreshTrk.Scroll += new System.EventHandler(this.RefreshTrk_Scroll);
+            this.RefreshTrk.Value = 10;
             this.RefreshTrk.ValueChanged += new System.EventHandler(this.RefeshTrk_ValueChanged);
             // 
             // SecondsLbl
@@ -144,11 +145,31 @@ namespace K2EmailDecrypter
             this.ViewBtn.UseVisualStyleBackColor = true;
             this.ViewBtn.Click += new System.EventHandler(this.ViewBtn_Click);
             // 
+            // NotificationsLbl
+            // 
+            this.NotificationsLbl.AutoSize = true;
+            this.NotificationsLbl.Location = new System.Drawing.Point(41, 128);
+            this.NotificationsLbl.Name = "NotificationsLbl";
+            this.NotificationsLbl.Size = new System.Drawing.Size(95, 13);
+            this.NotificationsLbl.TabIndex = 11;
+            this.NotificationsLbl.Text = "Show Notifications";
+            // 
+            // NotificationsCbx
+            // 
+            this.NotificationsCbx.AutoSize = true;
+            this.NotificationsCbx.Location = new System.Drawing.Point(142, 128);
+            this.NotificationsCbx.Name = "NotificationsCbx";
+            this.NotificationsCbx.Size = new System.Drawing.Size(15, 14);
+            this.NotificationsCbx.TabIndex = 12;
+            this.NotificationsCbx.UseVisualStyleBackColor = true;
+            // 
             // PropertiesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 261);
+            this.Controls.Add(this.NotificationsCbx);
+            this.Controls.Add(this.NotificationsLbl);
             this.Controls.Add(this.ViewBtn);
             this.Controls.Add(this.TokenTxt);
             this.Controls.Add(this.TokenLbl);
@@ -185,5 +206,7 @@ namespace K2EmailDecrypter
         private System.Windows.Forms.Label TokenLbl;
         private System.Windows.Forms.TextBox TokenTxt;
         private System.Windows.Forms.Button ViewBtn;
+        private System.Windows.Forms.Label NotificationsLbl;
+        private System.Windows.Forms.CheckBox NotificationsCbx;
     }
 }

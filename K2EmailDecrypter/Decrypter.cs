@@ -54,7 +54,11 @@ namespace K2EmailDecrypter
         {
             log.Info($"Starting to process {item.Id}");
 
+            // Load the document
+
+            // Create the decryption job
             AIPDecryptChore c = new AIPDecryptChore(item);
+
             c.Test("Completed UnProtection after '0:00:07.3948731', successfully completed processing of 23 of 45 items, failed processing 0 of 11, DateTime : 2022-01-03T08:25:14.8028592+01:00");
         }
 

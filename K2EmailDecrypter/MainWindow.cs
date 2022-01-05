@@ -168,7 +168,7 @@ namespace K2EmailDecrypter
         {
             appTimer.Stop();
             OutputTxt.Text += $"Event triggered: {DateTime.Now}{Environment.NewLine}";
-            Decrypter.Decrypt(new IMDocument() { Id = Utilities.Instance.GetNowISO8601() });
+            FindItems();
             appTimer.Start();
 
             properties.Preferences.LastRunISO8601 = Utilities.Instance.GetNowISO8601();
@@ -178,9 +178,20 @@ namespace K2EmailDecrypter
         {
             appTimer.Stop();
             OutputTxt.Text += $"Event triggered: {DateTime.Now}{Environment.NewLine}";
+            FindItems();
             appTimer.Start();
 
             properties.Preferences.LastRunISO8601 = Utilities.Instance.GetNowISO8601();
+        }
+
+        private void FindItems()
+        {
+            Decrypter.Decrypt(new IMDocument() { Id = Utilities.Instance.GetNowISO8601() });
+
+            if (properties.Preferences.Notifications.Equals("True"))
+            {
+                AppNotifyIcon.ShowBalloonTip(2000, "Here we go", "Oops I did it again", ToolTipIcon.Info);
+            }
         }
     }
 }

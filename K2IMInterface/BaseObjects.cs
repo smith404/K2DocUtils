@@ -6,6 +6,7 @@
  * copying the Software, User agrees to abide by the terms of this Agreement.
  */
 
+using K2IMInterface;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
@@ -1398,6 +1399,13 @@ namespace K2IManageObjects
         public string Versions()
         {
             return $"/documents/{Id}/download";
+        }
+
+        public bool DoDownload(IMConnection instance)
+        {
+            DocumentContent = instance.PerformDownloadCall(Download());
+
+            return true;
         }
     }
 
