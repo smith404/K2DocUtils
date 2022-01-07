@@ -53,8 +53,7 @@ namespace K2EmailDecrypter
 
             TokenTxt.Text = preferences.IMKey;
 
-            bool notify = true;
-            bool.TryParse(preferences.Notifications, out notify);
+            bool.TryParse(preferences.Notifications, out bool notify);
             NotificationsCbx.Checked = notify;
         }
 

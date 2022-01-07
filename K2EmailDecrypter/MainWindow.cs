@@ -1,6 +1,8 @@
 ﻿using K2IManageObjects;
 using K2Utilities;
+using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 

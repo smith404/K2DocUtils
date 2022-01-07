@@ -1,5 +1,6 @@
 ﻿using K2IManageObjects;
 using K2Utilities;
+using Microsoft.Win32;
 using System;
 using System.IO;
 using System.Management.Automation;
@@ -110,6 +111,14 @@ namespace K2EmailDecrypter
 
                     Console.WriteLine("M: " + match);
                 }
+
+                Key actionKey = Utilities.Instance.ReadUserKey(Registry.CurrentUser, "Action");
+                if (actionKey != null)
+                {
+                    // Set item values based on any action key
+                    Utilities.Instance.SetObjectProperties(workItem, actionKey);
+                }
+
                 CleanUp();
 
                 return true;

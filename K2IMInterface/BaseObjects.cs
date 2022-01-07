@@ -1398,14 +1398,19 @@ namespace K2IManageObjects
 
         public string Versions()
         {
-            return $"/documents/{Id}/download";
+            return $"/documents/{Id}/versions";
         }
 
         public bool DoDownload(IMConnection instance)
         {
-            DocumentContent = instance.PerformDownloadCall(Download());
+            DocumentContent = instance.PerformDownloadCall(instance.DecorateRESTCall(Download()));
 
             return true;
+        }
+
+        public string NewVersion(IMConnection instance)
+        {
+            return instance.PerformVersionUpload(instance.DecorateRESTCall(Versions()), DocumentContent, this);
         }
     }
 

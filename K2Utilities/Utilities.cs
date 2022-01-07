@@ -88,7 +88,7 @@ namespace K2Utilities
             }
         }
 
-        public string ReadUserKey(string root, string key)
+        public string ReadUserKeyValue(string root, string key)
         {
             RegistryKey regKey = Registry.CurrentUser.OpenSubKey(root, true);
 
@@ -126,6 +126,13 @@ namespace K2Utilities
                 }
             }
             return that;
+        }
+
+        public Key ReadUserKey(RegistryKey hikeKey, string subKey)
+        {
+            subKey = $"Software\\{Application}\\{Version}\\{subKey}";
+
+            return Key.GetKeyValue(hikeKey, subKey);
         }
 
     }
