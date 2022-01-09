@@ -4,7 +4,7 @@ namespace K2Utilities
 {
     public abstract class Chore<T>
     {
-        protected static readonly log4net.ILog log = log4net.LogManager.GetLogger("Chore");
+        protected static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         // Other managed resource this class uses.
         protected T workItem;

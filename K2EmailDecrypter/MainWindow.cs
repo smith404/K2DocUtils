@@ -1,8 +1,6 @@
 ﻿using K2IManageObjects;
 using K2Utilities;
-using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -10,7 +8,7 @@ namespace K2EmailDecrypter
 {
     public partial class MainWindow : Form
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger("MainWindow");
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public static string appName = "K2 Email Decrypter";
         public static string appVersion = "0.0.1";

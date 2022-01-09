@@ -9,7 +9,9 @@
 using K2IMInterface;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Text;
 
@@ -1399,6 +1401,36 @@ namespace K2IManageObjects
         public string Versions()
         {
             return $"/documents/{Id}/versions";
+        }
+
+        public bool PersistFile(string path)
+        {
+            try
+            {
+                File.WriteAllBytes(path, DocumentContent);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                // Something went wrong
+                return false;
+            }
+        }
+
+        public bool ReadFile(string path)
+        {
+            try
+            {
+                DocumentContent = File.ReadAllBytes(path);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                // Something went wrong
+                return false;
+            }
         }
 
         public bool DoDownload(IMConnection instance)

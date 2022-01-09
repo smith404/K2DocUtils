@@ -1,4 +1,5 @@
 ﻿using K2IManageObjects;
+using K2IMInterface;
 using K2Utilities;
 using Microsoft.Win32;
 using System;
@@ -15,6 +16,7 @@ namespace K2EmailDecrypter
 
         private readonly string targetFile;
 
+        private const string SucessString = "of 1 of 1 of 1 ";
         private const string LogStem = "decryptlog";
         private const string Extension = "txt";
         private const string Cmdlet = "Unprotect-RMSFile";
@@ -40,14 +42,18 @@ namespace K2EmailDecrypter
 
             try
             {
-                int lastOccurance = -1;
-                while (lastLine.IndexOf("of ", lastOccurance + 1) != -1)
+                int lastOccurance = 0;
+                string result = "";
+                while (lastLine.IndexOf("of ", lastOccurance) != -1)
                 {
-                    lastOccurance = lastLine.IndexOf("of ", lastOccurance + 1);
+                    lastOccurance = lastLine.IndexOf("of ", lastOccurance);
                     string match = Regex.Match(lastLine.Substring(lastOccurance), countTemplate).Value;
-
-                    Console.WriteLine("M: " + match);
+                    result = $"{result}{match} ";
+                    lastOccurance += 3;
                 }
+                Console.WriteLine("---------------");
+                Console.WriteLine($"result: [{result}]");
+                Console.WriteLine("===============");
                 CleanUp();
             }
             catch (Exception ex)
@@ -61,7 +67,7 @@ namespace K2EmailDecrypter
             try
             {
                 // Create the file
-                File.WriteAllBytes(targetFile, workItem.DocumentContent);
+                workItem.PersistFile(targetFile);
 
                 return true;
             }
@@ -75,7 +81,7 @@ namespace K2EmailDecrypter
         public override bool Process()
         {
             try
-            {   
+            {
                 // Create the command
                 PowerShell cmd = CreateCommand();
 
@@ -97,36 +103,54 @@ namespace K2EmailDecrypter
         protected override bool PostCondition()
         {
             string countTemplate = @"of d+";
-            
+
             try
             {
                 string[] lines = Regex.Split(choreLog, "\r\n|\r|\n");
                 string lastLine = lines[lines.Length - 1];
 
                 int lastOccurance = -1;
-                while (lastLine.IndexOf("of ") != -1)
+                string result = "";
+                while (lastLine.IndexOf("of ", lastOccurance) != -1)
                 {
-                    lastOccurance = lastLine.IndexOf("of ");
+                    lastOccurance = lastLine.IndexOf("of ", lastOccurance);
                     string match = Regex.Match(lastLine.Substring(lastOccurance), countTemplate).Value;
-
-                    Console.WriteLine("M: " + match);
+                    result = $"{result}{match} ";
+                    lastOccurance += 3;
                 }
+                Console.WriteLine($"Result: [{result}]");
 
-                Key actionKey = Utilities.Instance.ReadUserKey(Registry.CurrentUser, "Action");
-                if (actionKey != null)
+                // Check for positive result
+                if (result.Equals(SucessString))
                 {
-                    // Set item values based on any action key
-                    Utilities.Instance.SetObjectProperties(workItem, actionKey);
+                    Key actionKey = Utilities.Instance.ReadUserKey(Registry.CurrentUser, "Action");
+                    if (actionKey != null)
+                    {
+                        // Set item values based on any action key
+                        Utilities.Instance.SetObjectProperties(workItem, actionKey);
+                    }
+
+                    // Reload the decrpyted file
+                    workItem.ReadFile(targetFile);
+
+                    // Create new version of document
+                    workItem.NewVersion(IMConnection.Instance);
+
+                    return true;
                 }
-
-                CleanUp();
-
-                return true;
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception ex)
             {
                 log.Warn(ex);
                 return false;
+            }
+            finally
+            {
+                CleanUp();
             }
         }
 
@@ -135,10 +159,14 @@ namespace K2EmailDecrypter
             // Remove the logfiles
             try
             {
+                log.Debug($"Removing the target file: {targetFile}");
                 File.Delete(targetFile);
-                File.Delete($"{LogStem}.{Extension}");
-                File.Delete($"{LogStem}-debug.{Extension}");
-                File.Delete($"{LogStem}-failure.{Extension}");
+                log.Debug($"Removing the log file: {AIPDecryptChore.tempPath}{Path.DirectorySeparatorChar}{LogStem}.{Extension}");
+                File.Delete($"{AIPDecryptChore.tempPath}{Path.DirectorySeparatorChar}{LogStem}.{Extension}");
+                log.Debug($"Removing the debug-log file: {AIPDecryptChore.tempPath}{Path.DirectorySeparatorChar}{LogStem}-debug.{Extension}");
+                File.Delete($"{AIPDecryptChore.tempPath}{Path.DirectorySeparatorChar}{LogStem}-debug.{Extension}");
+                log.Debug($"Removing the failure-log file: {AIPDecryptChore.tempPath}{Path.DirectorySeparatorChar}{LogStem}-failure.{Extension}");
+                File.Delete($"{AIPDecryptChore.tempPath}{Path.DirectorySeparatorChar}{LogStem}-failure.{Extension}");
             }
             catch (Exception ex)
             {

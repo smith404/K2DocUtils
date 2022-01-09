@@ -7,7 +7,7 @@ namespace K2EmailDecrypter
 {
     public class Decrypter
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Decrypter");
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly BlockingCollection<IMDocument> queue;
 
@@ -59,7 +59,9 @@ namespace K2EmailDecrypter
             // Create the decryption job
             AIPDecryptChore c = new AIPDecryptChore(item);
 
-            c.Test("Completed UnProtection after '0:00:07.3948731', successfully completed processing of 23 of 45 items, failed processing 0 of 11, DateTime : 2022-01-03T08:25:14.8028592+01:00");
+            Console.WriteLine("+++++++++++++++++");
+            c.Test("Completed UnProtection after '0:00:07.3948731', successfully completed processing of 1 of 1 items, failed processing 0 of 1, DateTime : 2022-01-03T08:25:14.8028592+01:00");
+            Console.WriteLine("/////////////////");
         }
 
         // Stop the processing thread
