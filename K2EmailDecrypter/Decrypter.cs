@@ -52,16 +52,19 @@ namespace K2EmailDecrypter
 
         public void Process(IMDocument item)
         {
-            log.Info($"Starting to process {item.Id}");
+            using (log4net.NDC.Push(item.Id))
+            {
+                log.Info($"Starting to process {item.Id}");
 
-            // Load the document
+                // Load the document
 
-            // Create the decryption job
-            AIPDecryptChore c = new AIPDecryptChore(item);
+                // Create the decryption job
+                AIPDecryptChore c = new AIPDecryptChore(item);
 
-            Console.WriteLine("+++++++++++++++++");
-            c.Test("Completed UnProtection after '0:00:07.3948731', successfully completed processing of 1 of 1 items, failed processing 0 of 1, DateTime : 2022-01-03T08:25:14.8028592+01:00");
-            Console.WriteLine("/////////////////");
+                Console.WriteLine("+++++++++++++++++");
+                c.Test("Completed UnProtection after '0:00:07.3948731', successfully completed processing of 1 of 1 items, failed processing 0 of 1, DateTime : 2022-01-03T08:25:14.8028592+01:00");
+                Console.WriteLine("/////////////////");
+            }
         }
 
         // Stop the processing thread

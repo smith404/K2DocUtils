@@ -1403,12 +1403,16 @@ namespace K2IManageObjects
             return $"/documents/{Id}/versions";
         }
 
-        public bool PersistFile(string path)
+        public bool PersistFile(string path, bool dirOnly = true)
         {
             try
             {
-                File.WriteAllBytes(path, DocumentContent);
+                if (dirOnly)
+                {
+                    path = $"{path}{Path.DirectorySeparatorChar}{Name}.{Extension}";
+                }
 
+                File.WriteAllBytes(path, DocumentContent);
                 return true;
             }
             catch (Exception)
@@ -1418,10 +1422,15 @@ namespace K2IManageObjects
             }
         }
 
-        public bool ReadFile(string path)
+        public bool ReadFile(string path, bool dirOnly = true)
         {
             try
             {
+                if (dirOnly)
+                {
+                    path = $"{path}{Path.DirectorySeparatorChar}{Name}.{Extension}";
+                }
+
                 DocumentContent = File.ReadAllBytes(path);
 
                 return true;

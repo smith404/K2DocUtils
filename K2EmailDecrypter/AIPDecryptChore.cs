@@ -67,7 +67,7 @@ namespace K2EmailDecrypter
             try
             {
                 // Create the file
-                workItem.PersistFile(targetFile);
+                workItem.PersistFile(targetFile, false);
 
                 return true;
             }
@@ -131,7 +131,7 @@ namespace K2EmailDecrypter
                     }
 
                     // Reload the decrpyted file
-                    workItem.ReadFile(targetFile);
+                    workItem.ReadFile(targetFile, false);
 
                     // Create new version of document
                     workItem.NewVersion(IMConnection.Instance);
