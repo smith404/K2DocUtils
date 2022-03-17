@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DecryptService.model;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,6 @@ namespace DecryptService.Controllers
     [Route("[controller]")]
     public class DecryptService : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
         private readonly ILogger<DecryptService> _logger;
 
         public DecryptService(ILogger<DecryptService> logger)
@@ -24,16 +20,16 @@ namespace DecryptService.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public FileResponse Get(string path)
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            var response = new FileResponse
             {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+                FilePath = path,
+                Sucess = true,
+                Message = ""
+            };
+
+            return response;
         }
     }
 }
