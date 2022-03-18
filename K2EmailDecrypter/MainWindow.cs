@@ -186,21 +186,21 @@ namespace K2EmailDecrypter
                     StartBtn.Enabled = false;
                     HaltBtn.Enabled = true;
 
-                    OutputTxt.Text = "Server Started";
+                    OutputTxt.AppendText("Server Started");
                 }
                 catch (Exception ex)
                 {
                     log.Warn(ex);
                     httpServer = null;
                     serverPort = 80;
-                    OutputTxt.Text = "Server Failed to Start on Specified Port \n" + ex.Message;
+                    OutputTxt.AppendText("Server Failed to Start on Specified Port \n" + ex.Message);
                 }
             }
             catch (Exception ex)
             {
                 log.Warn(ex);
                 httpServer = null;
-                OutputTxt.Text = "Server Starting Failed \n" + ex.Message;
+                OutputTxt.AppendText("Server Starting Failed \n" + ex.Message);
             }
         }
 
@@ -216,7 +216,6 @@ namespace K2EmailDecrypter
             catch (Exception ex)
             {
                 log.Warn(ex);
-                OutputTxt.Text = "Connection Failed \n" + ex.Message;
             }
         }
 
@@ -241,33 +240,15 @@ namespace K2EmailDecrypter
                         break;
                 }
 
-                // Read connection data
-                int pFrom = data.IndexOf("GET") + 5;
-                int pTo = data.IndexOf("HTTP/");
-
-                string result = data.Substring(pFrom, pTo - pFrom);
-
-                // Find GET and FIND HTTP/
-
-                // Get bit in between
-
                 OutputTxt.Invoke((MethodInvoker)delegate {
                     // Runs inside the UI Thread
-                    OutputTxt.Text += "[" + result + "]";
-                    OutputTxt.Text += "\r\n\r\n";
-                    OutputTxt.Text += data;
-                    OutputTxt.Text += "\n\n------ End of Request -------";
+                    string stuff = "\r\n\r\n";
+                    stuff += data;
+                    stuff += "\r\n\r\n------ End of Request -------\r\n\r\n";
+                    OutputTxt.AppendText(stuff);
                 });
 
-                // Send back the Response
-                String resHeader = "HTTP/1.1 200 Email Decrypt\nServer: localhost\nContent-Type: application/json\n\n";
-                String resBody = "{ \"filepath\" : \"boohoo\" } ";
-
-                String resStr = resHeader + resBody;
-
-                byte[] resData = Encoding.ASCII.GetBytes(resStr);
-
-                client.SendTo(resData, client.RemoteEndPoint);
+                client.SendTo(Decrypter.Decrypt(data), client.RemoteEndPoint);
 
                 client.Close();
             }
@@ -295,13 +276,13 @@ namespace K2EmailDecrypter
                     StartBtn.Enabled = true;
                     HaltBtn.Enabled = false;
 
-                    OutputTxt.Text = "Server Halted";
+                    OutputTxt.AppendText("Server Halted");
                 }
             }
             catch (Exception ex)
             {
                 log.Warn(ex);
-                OutputTxt.Text = "Server Halt Failed \n" + ex.Message;
+                OutputTxt.AppendText("Server Halt Failed \n" + ex.Message);
             }
         }
     }
