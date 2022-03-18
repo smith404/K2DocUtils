@@ -30,38 +30,52 @@ namespace K2EmailDecrypter
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-            this.ExecuteBtn = new System.Windows.Forms.Button();
+            this.StartBtn = new System.Windows.Forms.Button();
             this.OutputTxt = new System.Windows.Forms.TextBox();
+            this.HaltBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // ExecuteBtn
+            // StartBtn
             // 
-            this.ExecuteBtn.Location = new System.Drawing.Point(28, 21);
-            this.ExecuteBtn.Name = "ExecuteBtn";
-            this.ExecuteBtn.Size = new System.Drawing.Size(75, 28);
-            this.ExecuteBtn.TabIndex = 0;
-            this.ExecuteBtn.Text = "GO!";
-            this.ExecuteBtn.UseVisualStyleBackColor = true;
-            this.ExecuteBtn.Click += new System.EventHandler(this.ExecuteBtn_Click);
+            this.StartBtn.Location = new System.Drawing.Point(12, 12);
+            this.StartBtn.Name = "StartBtn";
+            this.StartBtn.Size = new System.Drawing.Size(75, 28);
+            this.StartBtn.TabIndex = 0;
+            this.StartBtn.Text = "Start";
+            this.StartBtn.UseVisualStyleBackColor = true;
+            this.StartBtn.Click += new System.EventHandler(this.StartBtn_Click);
             // 
             // OutputTxt
             // 
-            this.OutputTxt.Location = new System.Drawing.Point(518, 21);
+            this.OutputTxt.Location = new System.Drawing.Point(93, 12);
             this.OutputTxt.Multiline = true;
             this.OutputTxt.Name = "OutputTxt";
-            this.OutputTxt.Size = new System.Drawing.Size(235, 168);
+            this.OutputTxt.ReadOnly = true;
+            this.OutputTxt.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.OutputTxt.Size = new System.Drawing.Size(680, 200);
             this.OutputTxt.TabIndex = 1;
+            // 
+            // HaltBtn
+            // 
+            this.HaltBtn.Location = new System.Drawing.Point(12, 46);
+            this.HaltBtn.Name = "HaltBtn";
+            this.HaltBtn.Size = new System.Drawing.Size(75, 28);
+            this.HaltBtn.TabIndex = 2;
+            this.HaltBtn.Text = "Halt";
+            this.HaltBtn.UseVisualStyleBackColor = true;
+            this.HaltBtn.Click += new System.EventHandler(this.HaltBtn_Click);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 211);
+            this.Controls.Add(this.HaltBtn);
             this.Controls.Add(this.OutputTxt);
-            this.Controls.Add(this.ExecuteBtn);
+            this.Controls.Add(this.StartBtn);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
-            this.Text = "Form1";
+            this.Text = "Email Decrypter";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -69,8 +83,9 @@ namespace K2EmailDecrypter
 
         #endregion
 
-        private System.Windows.Forms.Button ExecuteBtn;
+        private System.Windows.Forms.Button StartBtn;
         private System.Windows.Forms.TextBox OutputTxt;
+        private System.Windows.Forms.Button HaltBtn;
     }
 }
 

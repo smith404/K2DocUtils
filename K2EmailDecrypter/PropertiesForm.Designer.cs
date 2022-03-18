@@ -43,6 +43,8 @@ namespace K2EmailDecrypter
             this.ViewBtn = new System.Windows.Forms.Button();
             this.NotificationsLbl = new System.Windows.Forms.Label();
             this.NotificationsCbx = new System.Windows.Forms.CheckBox();
+            this.PortTxt = new System.Windows.Forms.TextBox();
+            this.PortLbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.RefreshTrk)).BeginInit();
             this.SuspendLayout();
             // 
@@ -68,7 +70,7 @@ namespace K2EmailDecrypter
             // 
             this.CryptoProviderCbb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CryptoProviderCbb.FormattingEnabled = true;
-            this.CryptoProviderCbb.Location = new System.Drawing.Point(142, 49);
+            this.CryptoProviderCbb.Location = new System.Drawing.Point(142, 75);
             this.CryptoProviderCbb.Name = "CryptoProviderCbb";
             this.CryptoProviderCbb.Size = new System.Drawing.Size(320, 21);
             this.CryptoProviderCbb.TabIndex = 2;
@@ -76,7 +78,7 @@ namespace K2EmailDecrypter
             // CryptoProviderLbl
             // 
             this.CryptoProviderLbl.AutoSize = true;
-            this.CryptoProviderLbl.Location = new System.Drawing.Point(22, 52);
+            this.CryptoProviderLbl.Location = new System.Drawing.Point(22, 78);
             this.CryptoProviderLbl.Name = "CryptoProviderLbl";
             this.CryptoProviderLbl.Size = new System.Drawing.Size(114, 13);
             this.CryptoProviderLbl.TabIndex = 3;
@@ -85,7 +87,7 @@ namespace K2EmailDecrypter
             // RefreshLbl
             // 
             this.RefreshLbl.AutoSize = true;
-            this.RefreshLbl.Location = new System.Drawing.Point(54, 89);
+            this.RefreshLbl.Location = new System.Drawing.Point(54, 115);
             this.RefreshLbl.Name = "RefreshLbl";
             this.RefreshLbl.Size = new System.Drawing.Size(82, 13);
             this.RefreshLbl.TabIndex = 4;
@@ -94,7 +96,7 @@ namespace K2EmailDecrypter
             // RefreshTrk
             // 
             this.RefreshTrk.LargeChange = 60;
-            this.RefreshTrk.Location = new System.Drawing.Point(136, 80);
+            this.RefreshTrk.Location = new System.Drawing.Point(136, 106);
             this.RefreshTrk.Name = "RefreshTrk";
             this.RefreshTrk.Size = new System.Drawing.Size(247, 45);
             this.RefreshTrk.SmallChange = 30;
@@ -105,7 +107,7 @@ namespace K2EmailDecrypter
             // SecondsLbl
             // 
             this.SecondsLbl.AutoSize = true;
-            this.SecondsLbl.Location = new System.Drawing.Point(414, 89);
+            this.SecondsLbl.Location = new System.Drawing.Point(414, 115);
             this.SecondsLbl.Name = "SecondsLbl";
             this.SecondsLbl.Size = new System.Drawing.Size(49, 13);
             this.SecondsLbl.TabIndex = 6;
@@ -114,7 +116,7 @@ namespace K2EmailDecrypter
             // ValLbl
             // 
             this.ValLbl.AutoSize = true;
-            this.ValLbl.Location = new System.Drawing.Point(384, 89);
+            this.ValLbl.Location = new System.Drawing.Point(384, 115);
             this.ValLbl.Name = "ValLbl";
             this.ValLbl.Size = new System.Drawing.Size(0, 13);
             this.ValLbl.TabIndex = 7;
@@ -122,7 +124,7 @@ namespace K2EmailDecrypter
             // TokenLbl
             // 
             this.TokenLbl.AutoSize = true;
-            this.TokenLbl.Location = new System.Drawing.Point(98, 21);
+            this.TokenLbl.Location = new System.Drawing.Point(98, 47);
             this.TokenLbl.Name = "TokenLbl";
             this.TokenLbl.Size = new System.Drawing.Size(38, 13);
             this.TokenLbl.TabIndex = 8;
@@ -130,14 +132,14 @@ namespace K2EmailDecrypter
             // 
             // TokenTxt
             // 
-            this.TokenTxt.Location = new System.Drawing.Point(143, 18);
+            this.TokenTxt.Location = new System.Drawing.Point(143, 44);
             this.TokenTxt.Name = "TokenTxt";
             this.TokenTxt.Size = new System.Drawing.Size(290, 20);
             this.TokenTxt.TabIndex = 9;
             // 
             // ViewBtn
             // 
-            this.ViewBtn.Location = new System.Drawing.Point(439, 18);
+            this.ViewBtn.Location = new System.Drawing.Point(439, 44);
             this.ViewBtn.Name = "ViewBtn";
             this.ViewBtn.Size = new System.Drawing.Size(23, 19);
             this.ViewBtn.TabIndex = 10;
@@ -148,7 +150,7 @@ namespace K2EmailDecrypter
             // NotificationsLbl
             // 
             this.NotificationsLbl.AutoSize = true;
-            this.NotificationsLbl.Location = new System.Drawing.Point(41, 128);
+            this.NotificationsLbl.Location = new System.Drawing.Point(41, 154);
             this.NotificationsLbl.Name = "NotificationsLbl";
             this.NotificationsLbl.Size = new System.Drawing.Size(95, 13);
             this.NotificationsLbl.TabIndex = 11;
@@ -157,17 +159,35 @@ namespace K2EmailDecrypter
             // NotificationsCbx
             // 
             this.NotificationsCbx.AutoSize = true;
-            this.NotificationsCbx.Location = new System.Drawing.Point(142, 128);
+            this.NotificationsCbx.Location = new System.Drawing.Point(142, 154);
             this.NotificationsCbx.Name = "NotificationsCbx";
             this.NotificationsCbx.Size = new System.Drawing.Size(15, 14);
             this.NotificationsCbx.TabIndex = 12;
             this.NotificationsCbx.UseVisualStyleBackColor = true;
+            // 
+            // PortTxt
+            // 
+            this.PortTxt.Location = new System.Drawing.Point(142, 12);
+            this.PortTxt.Name = "PortTxt";
+            this.PortTxt.Size = new System.Drawing.Size(129, 20);
+            this.PortTxt.TabIndex = 14;
+            // 
+            // PortLbl
+            // 
+            this.PortLbl.AutoSize = true;
+            this.PortLbl.Location = new System.Drawing.Point(97, 15);
+            this.PortLbl.Name = "PortLbl";
+            this.PortLbl.Size = new System.Drawing.Size(26, 13);
+            this.PortLbl.TabIndex = 13;
+            this.PortLbl.Text = "Port";
             // 
             // PropertiesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 261);
+            this.Controls.Add(this.PortTxt);
+            this.Controls.Add(this.PortLbl);
             this.Controls.Add(this.NotificationsCbx);
             this.Controls.Add(this.NotificationsLbl);
             this.Controls.Add(this.ViewBtn);
@@ -208,5 +228,7 @@ namespace K2EmailDecrypter
         private System.Windows.Forms.Button ViewBtn;
         private System.Windows.Forms.Label NotificationsLbl;
         private System.Windows.Forms.CheckBox NotificationsCbx;
+        private System.Windows.Forms.TextBox PortTxt;
+        private System.Windows.Forms.Label PortLbl;
     }
 }

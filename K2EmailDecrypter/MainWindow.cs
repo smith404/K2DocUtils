@@ -2,6 +2,10 @@
 using K2Utilities;
 using System;
 using System.Drawing;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace K2EmailDecrypter
@@ -22,11 +26,9 @@ namespace K2EmailDecrypter
 
         private bool wasExitAction = false;
 
-        private readonly Timer appTimer;
-        public Timer AppTimer
-        {
-            get { return appTimer; }
-        }
+        private Socket httpServer = null;
+        private int serverPort = 80;
+        private Thread thread;
 
         private readonly Decrypter decrypter = new Decrypter();
         public Decrypter Decrypter
@@ -89,16 +91,12 @@ namespace K2EmailDecrypter
             FormBorderStyle = FormBorderStyle.Fixed3D;
             FormClosing += MainWindow_Close;
 
-            // Set up the timer object
-            appTimer = new Timer();
-            appTimer.Tick += new EventHandler(TimerEventProcessor);
-
             // Create the singleton properties form for the application
             properties = new PropertiesForm();
 
-            // Delay is stored in seconds so multiply by 1000 for milliseconds
-            appTimer.Interval = properties.Preferences.Delay * 1000;
-            appTimer.Start();
+            // Disable and Enable Buttons
+            StartBtn.Enabled = true;
+            HaltBtn.Enabled = false;
         }
 
         public bool MyErrorCallback(Exception ex)
@@ -124,8 +122,8 @@ namespace K2EmailDecrypter
             }
             else
             {
-                // Stop the processing thread
-                Decrypter.CancelReceivingThread();
+                // Stop the server if it was running
+                StopServer();
 
                 // Remove the icon to avoid ghosting in the notification area
                 AppNotifyIcon.Icon = null;
@@ -164,33 +162,146 @@ namespace K2EmailDecrypter
             }
         }
 
-        private void ExecuteBtn_Click(object sender, EventArgs e)
+        private void StartBtn_Click(object sender, EventArgs e)
         {
-            appTimer.Stop();
-            OutputTxt.Text += $"Event triggered: {DateTime.Now}{Environment.NewLine}";
-            FindItems();
-            appTimer.Start();
+            OutputTxt.Text = "";
 
-            properties.Preferences.LastRunISO8601 = Utilities.Instance.GetNowISO8601();
-        }
-
-        private void TimerEventProcessor(Object myObject, EventArgs myEventArgs)
-        {
-            appTimer.Stop();
-            OutputTxt.Text += $"Event triggered: {DateTime.Now}{Environment.NewLine}";
-            FindItems();
-            appTimer.Start();
-
-            properties.Preferences.LastRunISO8601 = Utilities.Instance.GetNowISO8601();
-        }
-
-        private void FindItems()
-        {
-            Decrypter.Decrypt(new IMDocument() { Id = Utilities.Instance.GetNowISO8601() });
-
-            if (properties.Preferences.Notifications.Equals("True"))
+            try
             {
-                AppNotifyIcon.ShowBalloonTip(2000, "Here we go", "Oops I did it again", ToolTipIcon.Info);
+                httpServer = new Socket(SocketType.Stream, ProtocolType.Tcp);
+
+                try
+                {
+                    serverPort = properties.Preferences.Port;
+
+                    if (serverPort > 65535 || serverPort <= 0)
+                    {
+                        serverPort = 80;
+                    }
+
+                    thread = new Thread(new ThreadStart(this.connectionThreadMethod));
+                    thread.Start();
+
+                    // Disable and Enable Buttons
+                    StartBtn.Enabled = false;
+                    HaltBtn.Enabled = true;
+
+                    OutputTxt.Text = "Server Started";
+                }
+                catch (Exception ex)
+                {
+                    log.Warn(ex);
+                    httpServer = null;
+                    serverPort = 80;
+                    OutputTxt.Text = "Server Failed to Start on Specified Port \n" + ex.Message;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Warn(ex);
+                httpServer = null;
+                OutputTxt.Text = "Server Starting Failed \n" + ex.Message;
+            }
+        }
+
+        private void connectionThreadMethod()
+        {
+            try
+            {
+                IPEndPoint endpoint = new IPEndPoint(IPAddress.Any, serverPort);
+                httpServer.Bind(endpoint);
+                httpServer.Listen(1);
+                startListeningForConnection();
+            }
+            catch (Exception ex)
+            {
+                log.Warn(ex);
+                OutputTxt.Text = "Connection Failed \n" + ex.Message;
+            }
+        }
+
+        private void startListeningForConnection()
+        {
+            while (true)
+            {
+                DateTime time = DateTime.Now;
+
+                String data = "";
+                byte[] bytes = new byte[2048];
+
+                Socket client = httpServer.Accept(); // Blocking Statement
+
+                // Wait for a connection
+                while (true)
+                {
+                    int numBytes = client.Receive(bytes);
+                    data += Encoding.ASCII.GetString(bytes, 0, numBytes);
+
+                    if (data.IndexOf("\r\n") > -1)
+                        break;
+                }
+
+                // Read connection data
+                int pFrom = data.IndexOf("GET") + 5;
+                int pTo = data.IndexOf("HTTP/");
+
+                string result = data.Substring(pFrom, pTo - pFrom);
+
+                // Find GET and FIND HTTP/
+
+                // Get bit in between
+
+                OutputTxt.Invoke((MethodInvoker)delegate {
+                    // Runs inside the UI Thread
+                    OutputTxt.Text += "[" + result + "]";
+                    OutputTxt.Text += "\r\n\r\n";
+                    OutputTxt.Text += data;
+                    OutputTxt.Text += "\n\n------ End of Request -------";
+                });
+
+                // Send back the Response
+                String resHeader = "HTTP/1.1 200 Email Decrypt\nServer: localhost\nContent-Type: application/json\n\n";
+                String resBody = "{ \"filepath\" : \"boohoo\" } ";
+
+                String resStr = resHeader + resBody;
+
+                byte[] resData = Encoding.ASCII.GetBytes(resStr);
+
+                client.SendTo(resData, client.RemoteEndPoint);
+
+                client.Close();
+            }
+        }
+
+        private void HaltBtn_Click(object sender, EventArgs e)
+        {
+            StopServer();
+        }
+
+        private void StopServer()
+        {
+            try
+            {
+                if (httpServer != null)
+                {
+                    // Close the Socket
+                    httpServer.Close();
+                    httpServer = null;
+
+                    // Kill the Thread
+                    thread.Abort();
+
+                    // Disable and Enable Buttons
+                    StartBtn.Enabled = true;
+                    HaltBtn.Enabled = false;
+
+                    OutputTxt.Text = "Server Halted";
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Warn(ex);
+                OutputTxt.Text = "Server Halt Failed \n" + ex.Message;
             }
         }
     }

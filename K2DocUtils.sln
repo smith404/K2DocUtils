@@ -18,11 +18,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "K2EmailDecrypter", "K2Email
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "K2Utilities", "K2Utilities\K2Utilities.csproj", "{D4B084DD-D88B-4633-A659-F473A68CDF7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DecryptService", "DecryptService\DecryptService.csproj", "{99ECFFD4-B867-4234-9A67-8AF3DA43C435}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D4B084DD-D88B-4633-A659-F473A68CDF7E} = {D4B084DD-D88B-4633-A659-F473A68CDF7E}
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,10 +40,6 @@ Global
 		{D4B084DD-D88B-4633-A659-F473A68CDF7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4B084DD-D88B-4633-A659-F473A68CDF7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4B084DD-D88B-4633-A659-F473A68CDF7E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{99ECFFD4-B867-4234-9A67-8AF3DA43C435}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{99ECFFD4-B867-4234-9A67-8AF3DA43C435}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{99ECFFD4-B867-4234-9A67-8AF3DA43C435}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{99ECFFD4-B867-4234-9A67-8AF3DA43C435}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

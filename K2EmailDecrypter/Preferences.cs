@@ -6,6 +6,7 @@ namespace K2EmailDecrypter
 {
     public class Preferences
     {
+        public const int DefaultPort = 80;
         public const int MinDelay = 60;
         public const int DefaultDelay = 180;
         public const int MaxDelay = 1800;
@@ -41,6 +42,20 @@ namespace K2EmailDecrypter
                 return val;
             }
             set { Utilities.Instance.WriteUserKey(RootKey, nameof(Delay), value.ToString()); }
+        }
+
+        public int Port
+        {
+            get
+            {
+                Int32.TryParse(Utilities.Instance.ReadUserKeyValue(RootKey, nameof(Port)), out int val);
+                if (val < MinDelay || val > MaxDelay)
+                {
+                    val = DefaultPort;
+                }
+                return val;
+            }
+            set { Utilities.Instance.WriteUserKey(RootKey, nameof(Port), value.ToString()); }
         }
 
         public string LastRunISO8601

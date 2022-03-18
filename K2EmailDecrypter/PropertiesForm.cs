@@ -53,6 +53,8 @@ namespace K2EmailDecrypter
 
             TokenTxt.Text = preferences.IMKey;
 
+            PortTxt.Text = preferences.Port.ToString();
+
             bool.TryParse(preferences.Notifications, out bool notify);
             NotificationsCbx.Checked = notify;
         }
@@ -61,6 +63,20 @@ namespace K2EmailDecrypter
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
+                try
+                {
+                    preferences.Port = int.Parse(PortTxt.Text.ToString());
+
+                    if (preferences.Port < 1 || preferences.Port > 65535)
+                    {
+                        preferences.Port = Preferences.DefaultPort;
+                    }
+                }
+                catch (Exception)
+                {
+                    preferences.Port = Preferences.DefaultPort;
+                }
+
                 preferences.IMKey = TokenTxt.Text;
                 preferences.Delay = RefreshTrk.Value;
                 if (CryptoProviderCbb.SelectedItem != null)
