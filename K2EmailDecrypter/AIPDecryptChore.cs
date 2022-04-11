@@ -4,7 +4,6 @@ using K2Utilities;
 using Microsoft.Win32;
 using System;
 using System.IO;
-using System.Management.Automation;
 using System.Text.RegularExpressions;
 
 namespace K2EmailDecrypter
@@ -82,15 +81,6 @@ namespace K2EmailDecrypter
         {
             try
             {
-                // Create the command
-                PowerShell cmd = CreateCommand();
-
-                // Make the synchronous call
-                //cmd.Invoke();
-
-                // If we got here read the logfile
-                choreLog = File.ReadAllText($"{LogStem}.{Extension}");
-
                 return true;
             }
             catch (Exception ex)
@@ -173,15 +163,6 @@ namespace K2EmailDecrypter
                 log.Warn(ex);
             }
 
-        }
-
-        private PowerShell CreateCommand()
-        {
-            return PowerShell.Create()
-                .AddCommand(Cmdlet)
-                .AddParameter("File", targetFile)
-                .AddParameter("InPlace")
-                .AddParameter("LogFile", logFile);
         }
     }
 }

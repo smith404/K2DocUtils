@@ -179,7 +179,7 @@ namespace K2EmailDecrypter
                         serverPort = 80;
                     }
 
-                    thread = new Thread(new ThreadStart(this.connectionThreadMethod));
+                    thread = new Thread(new ThreadStart(this.ConnectionThreadMethod));
                     thread.Start();
 
                     // Disable and Enable Buttons
@@ -204,14 +204,14 @@ namespace K2EmailDecrypter
             }
         }
 
-        private void connectionThreadMethod()
+        private void ConnectionThreadMethod()
         {
             try
             {
                 IPEndPoint endpoint = new IPEndPoint(IPAddress.Any, serverPort);
                 httpServer.Bind(endpoint);
                 httpServer.Listen(1);
-                startListeningForConnection();
+                StartListeningForConnection();
             }
             catch (Exception ex)
             {
@@ -219,7 +219,7 @@ namespace K2EmailDecrypter
             }
         }
 
-        private void startListeningForConnection()
+        private void StartListeningForConnection()
         {
             while (true)
             {
